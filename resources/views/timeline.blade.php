@@ -1,7 +1,14 @@
 @extends('layouts.lucid')
 @section('title')
-{{ $user->name }}
+  @if(Auth::user() && Auth::user()->username == $user->username)
+    Timeline - {{ $user->username }} - Lucid
+  @else
+   {{ $user->name }} (@ {{ $user->username }}) - Lucid
+  @endif
 @endsection
+@php
+$location = 'timeline';
+@endphp
 @section('sidebar')
 @parent
 @endsection

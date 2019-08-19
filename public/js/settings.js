@@ -19,8 +19,11 @@ let j = jQuery.noConflict();
     })
 
     hereLinkOnSettingsPage = document.querySelector('#onSettingsPage');
-    hereLinkOnSettingsPage.style.color="#a9a9a9";
-    hereLinkOnSettingsPage.removeAttribute('href');
+    if(hereLinkOnSettingsPage !=null){
+      hereLinkOnSettingsPage.style.color="#a9a9a9";
+      hereLinkOnSettingsPage.removeAttribute('href');
+    }
+    
 
     document.querySelector('button[name="update"]').addEventListener('click',function (event){
       event.preventDefault();
@@ -40,10 +43,14 @@ let j = jQuery.noConflict();
             data:formData,
             contentType: false,
             processData: false,
+            beforeSend:function(){
+              document.querySelector('#preloader').setAttribute('class','preloader-active');
+            },
             success : function (response) {
-               //console.log(JSON.stringify(response));
-
+              //  console.log(JSON.stringify(response));
+               document.querySelector('#preloader').removeAttribute('class');
                 if (response.success) {
+                    
                     swal({
                       text: response.success,
                       icon: "success",
@@ -79,7 +86,7 @@ let j = jQuery.noConflict();
                         }
                         href.setAttribute('href','/'+response.renamedUserContentFolderName+'/'+url)
                        })
-                       window.history.pushState(null,null, '/lucid/public/'+response.renamedUserContentFolderName+'/settings')
+                       window.history.pushState(null,null, '/'+response.renamedUserContentFolderName+'/settings')
                     }
                   
                 }
@@ -120,6 +127,9 @@ let j = jQuery.noConflict();
                     username.innerHTML = ''
                 }
               
+            },
+            error:function (){
+              document.querySelector('#preloader').removeAttribute('class');
             }
         });
 
