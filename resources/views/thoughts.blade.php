@@ -29,7 +29,7 @@ $location= 'thoughts';
 }
 </style>
 @if(Auth::user() && Auth::user()->username == $user->username)
-<p>Write a Post</p>
+<p>Write a thought</p>
 
 <form method="POST" action="{{url('/save-post')}}" autocomplete="off" enctype="multipart/form-data" class="mb-3">
   @csrf
@@ -46,7 +46,7 @@ $location= 'thoughts';
 @endif
 <!-- End Editor -->
 <br />
-<h5 class="font-weight-bold mb-5">Latest stories</h5>
+<h5 class="font-weight-bold mb-4">Latest stories</h5>
 <!-- Begin content -->
 
 
@@ -62,6 +62,75 @@ $location= 'thoughts';
 </div>
 
 @endforeach
+  @guest
+  @else
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<script>
+const j = jQuery.noConflict();
+ j(document).ready(function (){
+    const check = "{{ route('notif',['username'=>$user->username])  }}"
+    j.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
+        }
+     })
+
+function load_unseen_notification(view = '')
+{
+j.ajax({
+  url:check,
+  method:"POST",
+  data:{view:view},
+  dataType:"json",
+  })
+.then (
+  function(data) {
+  //  console.log(data);
+
+   if(data.unseen_notification > 0)
+   {
+    j('.count').html(data.unseen_notification);
+   }
+
+
+ })
+.catch(function(err) {
+    //console.log('Fetch Error :-S', err);
+    });
+  }
+  const view_notif = "{{ route('getNotif',['username'=>$user->username])  }}"
+
+  view = "";
+  j.ajax({
+    url:view_notif,
+    method:"Get",
+    data:{view:view},
+    dataType:"json",
+    })
+  .then (
+    function(data) {
+  //    console.log(data);
+  j(document).on('click', '#load', function(){
+    j('#notif').html(data.notification);
+  });
+
+     })
+
+  setInterval(function(){
+load_unseen_notification();
+}, 2000);
+
+j(document).on('click', '#notif', function(){
+ j('.count').html('');
+ load_unseen_notification('yes');
+  });
+
+
+
+})
+
+</script>
+  @endguest
 <!-- End content -->
 @endsection

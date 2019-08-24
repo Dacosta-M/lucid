@@ -290,7 +290,7 @@ $location= 'follow';
 
 @php
       if(in_array($follow['name'],$followerArray)){ @endphp
-        <a data-toggle="modal" data-target="#unfollowModal{{$follow['id']}}" href="#" class="no-decoration text-secondary font-weight-bold">Unfollow</a>
+        <a data-toggle="modal" data-target="#unfollowModal{{$follow['id']}}" href="#" class="no-decoration text-danger font-weight-bold">Unfollow</a>
         <div class="follow-me text-center pt-3">
 
         <div class="modal fade" id="unfollowModal{{$follow['id']}}" tabindex="-1" role="dialog" aria-labelledby="followModalTitle" aria-hidden="true">
@@ -372,7 +372,7 @@ $location= 'follow';
 
         @php
               if(in_array($follower['name'],$followerArray)){ @endphp
-                <a data-toggle="modal" data-target="#unfollowModalf{{$follower['id']}}" href="#" class="no-decoration text-secondary font-weight-bold">Unfollow</a>
+                <a data-toggle="modal" data-target="#unfollowModalf{{$follower['id']}}" href="#" class="no-decoration text-danger font-weight-bold">Unfollow</a>
                 <div class="follow-me text-center pt-3">
 
                 <div class="modal fade" id="unfollowModalf{{$follower['id']}}" tabindex="-1" role="dialog" aria-labelledby="followModalTitle" aria-hidden="true">
@@ -438,6 +438,72 @@ $location= 'follow';
 <input type="hidden" value="{{ $user->username }}" id="username">
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<script>
+const j = jQuery.noConflict();
+ j(document).ready(function (){
+    const check = "{{ route('notif',['username'=>$user->username])  }}"
+    j.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
+        }
+     })
+
+function load_unseen_notification(view = '')
+{
+j.ajax({
+  url:check,
+  method:"POST",
+  data:{view:view},
+  dataType:"json",
+  })
+.then (
+  function(data) {
+  //  console.log(data);
+
+   if(data.unseen_notification > 0)
+   {
+    j('.count').html(data.unseen_notification);
+   }
+
+
+ })
+.catch(function(err) {
+    //console.log('Fetch Error :-S', err);
+    });
+  }
+  const view_notif = "{{ route('getNotif',['username'=>$user->username])  }}"
+
+  view = "";
+  j.ajax({
+    url:view_notif,
+    method:"Get",
+    data:{view:view},
+    dataType:"json",
+    })
+  .then (
+    function(data) {
+  //    console.log(data);
+  j(document).on('click', '#load', function(){
+    j('#notif').html(data.notification);
+  });
+
+     })
+
+  setInterval(function(){
+load_unseen_notification();
+}, 2000);
+
+j(document).on('click', '#notif', function(){
+ j('.count').html('');
+ load_unseen_notification('yes');
+  });
+
+
+
+})
+
+</script>
 
 @endsection

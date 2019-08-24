@@ -41,7 +41,7 @@ $location= 'contact';
 <div class="container">
     @if(Auth::user() && Auth::user()->username == $user->username)
 
-    <form class="font-weight-bold mb-0 editContactForm" autocomplete="OFF" id="formFields" action="">
+    <form class="font-weight-bold mb-0 editContactForm" autocomplete="OFF" method="post" id="formFields" action="">
         <div class="form-group row">
             <div class="col-sm-12 col-md-10">
                 <label for="email" class="mb-2 mr-sm-2">Contact Email</label>
@@ -66,7 +66,7 @@ $location= 'contact';
     <p>
         @if($contact) {{ $contact->display_message  }} @endif
     </p>
-    <form class="font-weight-bold mt-4 mb-0 contact-form" autocomplete="OFF" id="formFields" action="">
+    <form class="font-weight-bold mt-4 mb-0 contact-form" autocomplete="OFF" id="formFields" method="post" action="">
         <div class="form-group row">
             <div class="col-sm-12 col-md-6">
                 <label for="name" class="mb-2 mr-sm-2">Name</label>
@@ -95,8 +95,73 @@ $location= 'contact';
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-@guest
 <script src="{{ asset('js/contact.js') }}"></script>
-@endguest
 <script src="{{ asset('js/edit-contact-details.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+const j = jQuery.noConflict();
+ j(document).ready(function (){
+    const check = "{{ route('notif',['username'=>$user->username])  }}"
+    j.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
+        }
+     })
+
+function load_unseen_notification(view = '')
+{
+j.ajax({
+  url:check,
+  method:"POST",
+  data:{view:view},
+  dataType:"json",
+  })
+.then (
+  function(data) {
+  //  console.log(data);
+
+   if(data.unseen_notification > 0)
+   {
+    j('.count').html(data.unseen_notification);
+   }
+
+
+ })
+.catch(function(err) {
+    //console.log('Fetch Error :-S', err);
+    });
+  }
+  const view_notif = "{{ route('getNotif',['username'=>$user->username])  }}"
+
+  view = "";
+  j.ajax({
+    url:view_notif,
+    method:"Get",
+    data:{view:view},
+    dataType:"json",
+    })
+  .then (
+    function(data) {
+  //    console.log(data);
+  j(document).on('click', '#load', function(){
+    j('#notif').html(data.notification);
+  });
+
+     })
+
+  setInterval(function(){
+load_unseen_notification();
+}, 2000);
+
+j(document).on('click', '#notif', function(){
+ j('.count').html('');
+ load_unseen_notification('yes');
+  });
+
+
+
+})
+
+</script>
 @endsection

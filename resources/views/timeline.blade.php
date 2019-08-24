@@ -268,13 +268,13 @@ $location = 'timeline';
           <img src="{{ $feeds['site_image']}}" class="img-fluid img-thumb" alt="user" />
           @endif
           <div class="post-content-body">
-            <a href="{{$feeds['link']}}" class="no-decoration">
+            <a href="{{URL::to('/')}}/{{$feeds['link']}}" class="no-decoration">
               <h5 class="font-weight-bold">{{$feeds['title']}}</h5>
             </a>
             <p class="">
               {{$feeds['des']}}
             </p>
-            <p class="">{{$feeds['site']}} -<small class="text-muted">{{$feeds['date']}} </small></p>
+            <p class=""><a href="{{$feeds['site']}}">{{$feeds['site']}}</a> -<small class="text-muted">{{$feeds['date']}} </small></p>
           </div>
         </div>
         @endforeach
@@ -283,4 +283,71 @@ $location = 'timeline';
   <!-- End Timeline Page -->
 
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+const j = jQuery.noConflict();
+ j(document).ready(function (){
+    const check = "{{ route('notif',['username'=>$user->username])  }}"
+    j.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
+        }
+     })
+
+function load_unseen_notification(view = '')
+{
+j.ajax({
+  url:check,
+  method:"POST",
+  data:{view:view},
+  dataType:"json",
+  })
+.then (
+  function(data) {
+  //  console.log(data);
+
+   if(data.unseen_notification > 0)
+   {
+    j('.count').html(data.unseen_notification);
+   }
+
+
+ })
+.catch(function(err) {
+    //console.log('Fetch Error :-S', err);
+    });
+  }
+  const view_notif = "{{ route('getNotif',['username'=>$user->username])  }}"
+
+  view = "";
+  j.ajax({
+    url:view_notif,
+    method:"Get",
+    data:{view:view},
+    dataType:"json",
+    })
+  .then (
+    function(data) {
+  //    console.log(data);
+  j(document).on('click', '#load', function(){
+    j('#notif').html(data.notification);
+  });
+
+     })
+
+  setInterval(function(){
+load_unseen_notification();
+}, 2000);
+
+j(document).on('click', '#notif', function(){
+ j('.count').html('');
+ load_unseen_notification('yes');
+  });
+
+
+
+})
+
+</script>
 @endsection

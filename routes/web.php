@@ -33,6 +33,10 @@ Route::get('loader', function () {
 Route::get('subscribe', function () {
     return view('subscribe');
 });
+
+
+
+
 Route::get('under-construction', 'pageController@construction')->name('under-construction');
 Route::get('microblog','HomeController@microblog');
 Route::post('save-post','HomeController@savePost');
@@ -60,11 +64,18 @@ Route::prefix('{username}')->group(function () {
     Route::post('/addrss','ExtRssController@addRss');
     Route::post('/unfollow','ExtRssController@unfollow');
     Route::post('/extrss','ExtRssController@addExtRss');
+
     Route::post('/publish','HomeController@publish');
     Route::post('/send-mail','SendEmailController@sendEmail');
     Route::get('/settings', 'HomeController@settings');
+
     Route::post('/save_settings','HomeController@saveSettings');
     Route::get('/following','pageController@following')->name("following");
     Route::get('/followers','pageController@followers')->name("followers");
     Route::post('/update-contact-details','HomeController@updateContactDetails');
+    Route::get('/delete-post/{id}','HomeController@deletePost')->name('deletePost');
+    Route::get('/comments/{post_id}','pageController@comments')->name('comment');
+    Route::post('/save-comment','HomeController@saveComment')->name('save-comment');
+    Route::post('/notif','pageController@notification')->name('notif');
+    Route::get('/notif','pageController@notification')->name('getNotif');
 });

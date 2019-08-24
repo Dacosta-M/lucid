@@ -1,4 +1,5 @@
 let j = jQuery.noConflict();
+
   var toolbarOptions = [
     ['bold', 'italic'],
     ['blockquote'],
@@ -72,7 +73,9 @@ let j = jQuery.noConflict();
           const [, fullURI, ext, uriData] = imageURI.match(/\!\[\]\((data:image\/(\w+);base64,([^)]*))\)/);
           const id = Math.random().toString(36).substr(2, 10);
           const newImgName = `img-${id}.${ext}`;
-          const username = j('meta[name="username"]').attr('content');
+          const username = j('meta[name="user_id"]').attr('content');
+
+
 
 
           // replace the image URI everywhere it occurs in the markdown
@@ -95,7 +98,7 @@ let j = jQuery.noConflict();
       formData.set('postVal', markdown);
 
 
-      
+
 
       //send the form data
 
@@ -113,7 +116,7 @@ let j = jQuery.noConflict();
             contentType: false,
             processData: false,
             success : function (res) {
-              //console.log(JSON.stringify(res));
+              console.log(JSON.stringify(res));
 
                 if (res.error == false && res.action == 'publish') {
                   window.localStorage.setItem('publish', 'success');
@@ -189,7 +192,7 @@ let j = jQuery.noConflict();
           'Fitness'
         ],
         delay:100,
-        
+
       },
       showAutocompleteOnFocus: true,
       createTokensOnBlur: true,
