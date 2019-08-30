@@ -228,6 +228,7 @@ class pageController extends Controller
               else {
                 $fcheck = "no";
               }
+              $post_id = isset($post_id) ? $post_id:'';
               $likes = DB::table('notifications')
                       ->where('post_id',$post_id)
                       ->where('notifications.action','=',"like")
