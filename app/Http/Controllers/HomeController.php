@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use DB;
 use Storage;
@@ -208,6 +209,8 @@ foreach ($get as $key => $value) {
         foreach ($initial_images as $key => $value) {
             $newKey = preg_replace('/_/', '.', $key);
             $images[$newKey] = $value;
+            // Log::debug($value);
+
         }
         $post = new \Lucid\Core\Document($username);
         $createPost = $post->createPost($title, $content, $tags, $images,$username);
