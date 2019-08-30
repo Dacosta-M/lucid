@@ -507,6 +507,7 @@ class pageController extends Controller
     $notif = DB::table('notifications')
                 ->where(['user_id' => Auth::user()->id] )
                 ->where('sender_id', "!=", Auth::user()->id)
+                ->take(5)
                 ->get();
 
                 //dd($notif);
@@ -564,6 +565,41 @@ class pageController extends Controller
               </div>
             </div>';
 }
+if ($notifs->type == 'Reaction') {
+  $notif = DB::table('notifications')
+              ->join('users','notifications.sender_id','=','users.id')
+              ->join('posts','notifications.post_id','=','posts.id')
+              ->select('notifications.*', 'posts.title', 'posts.slug', 'users.username','users.email','users.image')
+              ->where(['notifications.user_id' => Auth::user()->id, 'notifications.post_id' => $notifs->post_id ] )
+              ->where('notifications.sender_id', "!=", Auth::user()->id)
+              ->orderBy('notifications.id','DESC')
+              ->first();
+  if ($notif->action == 'Like') {
+
+
+        $output .='
+        <div class="post-content border p-3">
+          <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
+          <div class="post-content-body">
+            <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> Liked your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
+          </div>
+        </div>';
+
+      }
+      if ($notif->action == 'Love') {
+
+
+            $output .='
+            <div class="post-content border p-3">
+              <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
+              <div class="post-content-body">
+                <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> Love your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
+              </div>
+            </div>';
+
+          }
+}
+
 //dd($output);
 }
 
@@ -575,19 +611,20 @@ class pageController extends Controller
           </div>
         </div>';
     }
-
-    $notif = DB::table('notifications')
+    $count = DB::table('notifications')
                 ->where(['user_id' => Auth::user()->id, 'status' => 0 ] )
                 ->where('sender_id', "!=", Auth::user()->id)
-                ->get();
+                ->count();
 
-    $count = count($notif);
+  //  $count = count($notif);
 
+  //dd($output);
     //dd($count);
     $data = array(
        'notification' => $output,
        'unseen_notification'  => $count
     );
+
  return response()->json($data);
 
     }
