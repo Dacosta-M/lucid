@@ -265,7 +265,47 @@
     )
     // $(`a[href="${anchor}"]`).tab('show')
   </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
+  const a = jQuery.noConflict();
+  function like(action,id) {
+
+      url = "{{ secure_url($user->username.'/like')  }}";
+  //  id=id+"&act="+action;
+    a.ajax({
+      url:url,
+      type:"Get",
+      data:{id:id,act:action},
+      dataType:"json",
+      })
+    .then (
+      function(data) {
+
+          console.log(data);
+      a('#like'+id).html(data.button);
+    //  a('#count'+id).html(data.count);
+    });
+
+      }
+      function love(action,id) {
+
+        url = "{{ secure_url($user->username.'/love')  }}";
+      //  id=id+"&act="+action;
+        a.ajax({
+          url:url,
+          type:"Get",
+          data:{id:id,act:action},
+          dataType:"json",
+          })
+        .then (
+          function(data) {
+
+              console.log(data);
+          a('#love'+id).html(data.button);
+        //  a('#count'+id).html(data.count);
+        });
+
+          }
     function changeUrl(e) {
       history.pushState(null, null, `/${document.getElementById("username").value+'/'+e}`)
     }
@@ -296,7 +336,6 @@
 
     });
   </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-28315089-7"></script>
   <script>
@@ -369,6 +408,7 @@ s(document).on('click', '#notif', function(){
  s('.count').html('');
  load_unseen_notification('yes');
   });
+
 
 
 

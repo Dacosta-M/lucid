@@ -86,9 +86,9 @@ Route::prefix('{username}')->group(function () {
     Route::post('/delete-post','HomeController@deletePost')->name('deletePost');
     Route::get('/comments/{post_id}','pageController@comments')->name('comment');
     Route::post('/save-comment','HomeController@saveComment')->name('save-comment');
-    Route::post('/notif','pageController@notification')->name('notif');
     Route::get('/notif','pageController@notification');
     Route::post('/edit-post','HomeController@editPost');
-    Route::get('/replies','pageController@reply')->name('reply');
-
+    Route::get('/reply','pageController@reply');
+    Route::get('/like','ReactionsController@like');
+    Route::get('/love','ReactionsController@love');
 });
