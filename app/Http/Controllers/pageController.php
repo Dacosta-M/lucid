@@ -508,6 +508,7 @@ class pageController extends Controller
     $notif = DB::table('notifications')
                 ->where(['user_id' => Auth::user()->id] )
                 ->where('sender_id', "!=", Auth::user()->id)
+                ->orderBy('notifications.id','DESC')
                 ->take(5)
                 ->get();
 
@@ -524,8 +525,8 @@ class pageController extends Controller
                 ->select('notifications.*', 'posts.title', 'posts.slug', 'users.username','users.email','users.image')
                 ->where(['notifications.user_id' => Auth::user()->id, 'notifications.post_id' => $notifs->post_id ] )
                 ->where('notifications.sender_id', "!=", Auth::user()->id)
-                ->orderBy('notifications.id','DESC')
                 ->first();
+
 
               //  dd($notif);
     if ($notif->action == 'Commented') {
