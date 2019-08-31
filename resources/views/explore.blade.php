@@ -32,7 +32,7 @@
   <div class="container">
     <!-- Beginning of Navbar -->
     <div class="pt-2 text-right">
-      <small>Have an account? <a class="text-main font-weight-bold" href="/login">Sign in</a> or <a class="text-main font-weight-bold" href="/register">Sign Up</a></small>
+      <small>Have an account? <a class="text-secondary font-weight-bold" href="/login">Sign in</a> or <a class="text-secondary font-weight-bold" href="/register">Sign Up</a></small>
     </div>
     <!-- End of Navbar -->
     <div>
@@ -45,57 +45,37 @@
           <!-- Technology section -->
           <div class="mt-4">
             <h5 class="border-bottom pb-2 w-100 px-2">Technology</h5>
-            <div class="row">
-              <div class="col-2 text-center">
+            <div class="row no-gutters">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
             </div>
             <h5 class="mt-4 mb-3">Most popular Technology posts in Nigeria</h5>
             <div class="post-content">
-              <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
+              <div class="post-image d-none d-md-flex">
                 <img src="{{ secure_asset('img/technology.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
-                <div class="col-10">
+                <div class="">
                   <h5>
                     <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
                   </h5>
@@ -107,11 +87,11 @@
               </div>
             </div>
             <div class="post-content pb-3">
-              <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
+              <div class="post-image d-none d-md-flex">
                 <img src="{{ secure_asset('img/technology.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
-                <div class="col-10">
+                <div class="">
                   <h5>
                     <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
                   </h5>
@@ -122,64 +102,44 @@
                 </div>
               </div>
             </div>
-            <a href="" class="text-main font-weight-bold">Show more ></a>
+            <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
           </div>
           <!-- End Technology section -->
 
           <!-- Start Politics -->
           <div class="mt-5">
             <h5 class="border-bottom pb-2 w-100 px-2">Politics</h5>
-            <div class="row">
-              <div class="col-2 text-center">
+            <div class="row no-gutters">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
             </div>
             <h5 class="mt-4 mb-3">Most popular Politics posts in Nigeria</h5>
             <div class="post-content">
-              <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
+              <div class="post-image d-none d-md-flex">
                 <img src="{{ secure_asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
-                <div class="col-10">
+                <div class="">
                   <h5>
                     <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
                   </h5>
@@ -191,11 +151,11 @@
               </div>
             </div>
             <div class="post-content pb-3">
-              <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
+              <div class="post-image d-none d-md-flex">
                 <img src="{{ secure_asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
-                <div class="col-10">
+                <div class="">
                   <h5>
                     <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
                   </h5>
@@ -206,64 +166,44 @@
                 </div>
               </div>
             </div>
-            <a href="" class="text-main font-weight-bold">Show more ></a>
+            <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
           </div>
           <!-- End Politics section -->
 
           <!-- Start Health Section -->
           <div class="mt-5">
             <h5 class="border-bottom pb-2 w-100 px-2">Health</h5>
-            <div class="row">
-              <div class="col-2 text-center">
+            <div class="row no-gutters">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
+              <div class="col-4 col-md-2 text-center">
                 <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-2 text-center">
-                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
             </div>
             <h5 class="mt-4 mb-3">Most popular Health posts in Nigeria</h5>
             <div class="post-content">
-              <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
+              <div class="post-image d-none d-md-flex">
                 <img src="{{ secure_asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
-                <div class="col-10">
+                <div class="">
                   <h5>
                     <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
                   </h5>
@@ -275,11 +215,11 @@
               </div>
             </div>
             <div class="post-content pb-3">
-              <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
+              <div class="post-image d-none d-md-flex">
                 <img src="{{ secure_asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
-                <div class="col-10">
+                <div class="">
                   <h5>
                     <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
                   </h5>
@@ -290,13 +230,13 @@
                 </div>
               </div>
             </div>
-            <a href="" class="text-main font-weight-bold">Show more ></a>
+            <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
           </div>
 
           <!-- End Health section -->
         </div>
 
-        <div class="col-xs-12 col-md-4 bg-light h-100">
+        <div class="col-xs-12 col-md-4 bg-light h-100 mt-4 mb-3 mt-md-0 mb-md-0">
           <div class="form-group border-bottom mt-2 pb-3">
             <label for="country" class="font-weight-bold">
               <h5>Country</h5>
@@ -359,13 +299,13 @@
             <label for="hastags" class="font-weight-bold">
               <h5>hastags</h5>
             </label>
-            <a class="d-block">#wizkid</a>
-            <a class="d-block">#dmxchallenge</a>
-            <a class="d-block">#bbnaija</a>
-            <a class="d-block">#hotelsng</a>
-            <a class="d-block">#php</a>
-            <a class="d-block">#opay</a>
-            <a class="d-block">#gokada</a>
+            <a href="" class="d-block text-dark">#wizkid</a>
+            <a href="" class="d-block text-dark">#dmxchallenge</a>
+            <a href="" class="d-block text-dark">#bbnaija</a>
+            <a href="" class="d-block text-dark">#hotelsng</a>
+            <a href="" class="d-block text-dark">#php</a>
+            <a href="" class="d-block text-dark">#opay</a>
+            <a href="" class="d-block text-dark">#gokada</a>
           </div>
         @empty
         @endforelse
@@ -404,7 +344,7 @@
     {{-- <script>
     const j = jQuery.noConflict();
      j(document).ready(function (){
-        const check = "{{ secure_secure_secure_url('notif',['username'=>$user->username])  }}"
+        const check = "{{ secure_url('notif',['username'=>$user->username])  }}"
     j.ajaxSetup({
     headers:{
     'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
@@ -434,7 +374,7 @@
     //console.log('Fetch Error :-S', err);
     });
     }
-    const view_notif = "{{ secure_secure_secure_url('getNotif',['username'=>$user->username])  }}"
+    const view_notif = "{{ secure_url('getNotif',['username'=>$user->username])  }}"
 
     view = "";
     j.ajax({
