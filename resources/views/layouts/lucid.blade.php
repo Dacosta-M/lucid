@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta name="msvalidate.01" content="0D04E9AD3D60609FF1D1A5D5F3705A04" />
+  <meta name="google-site-verification" content="zWGhooabnrUzUwys6O7e0GEndWQGqN26crtsYinFxc0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @auth
   <meta name="username" content="{{ Auth::user()->username }}">

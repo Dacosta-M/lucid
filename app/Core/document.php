@@ -7,7 +7,6 @@ use KzykHys\FrontMatter\FrontMatter;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Str;
 use KzykHys\FrontMatter\Document as Doc;
-use Illuminate\Support\Facades\Log;
 use Auth;
 use DB;
 use Carbon\Carbon;
@@ -138,11 +137,10 @@ class Document
         if (!empty($image)) {
           $url = Auth::user()->id."/images/";
           if(is_array($image)) {
-              // Log::debug($image);
               foreach ($image as $key => $value) {
-                  $image = $value;
-                  $decoded = base64_decode($image);
-                   
+
+                  $decoded = base64_decode($image[$key]);
+
                   $img_path = 'public/'.Auth::user()->id."/images/".$key;
                 $image = Storage::disk('local')->put( $img_path, $decoded);
 
@@ -180,10 +178,11 @@ class Document
             $url = Auth::user()->id."/images/";
             if(is_array($image)) {
                 foreach ($image as $key => $value) {
-                    $image= $value;
-                    $decoded = base64_decode($image);
+
+                    $decoded = base64_decode($image[$key]);
+
                     $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                    $image = Storage::disk('local')->put( $img_path, $decoded);
+                  $image = Storage::disk('local')->put( $img_path, $decoded);
 
                 }
             }
@@ -306,15 +305,21 @@ class Document
                 array_push($posts, $content);
             }
             $this->array_sort_by_column($posts,'created_at');
-
+//dd($posts );
             foreach ($posts as $key => $value) {
               $title = strip_tags($value['title']);
               $slug = Str::slug($title);
               $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
-              if(DB::table('posts')->where(['title' => $title])->exists() ==1){
-                $updatePosts = DB::table('posts')->update([
+
+              if(DB::table('posts')->where(['title' => $title, 'user_id' => Auth::user()->id])->exists() ==1){
+
+              //  dd($value['body']);
+                $updatePosts = DB::table('posts')
+                ->where(['title' => $title, 'user_id' => Auth::user()->id])
+                ->update([
                   'content'=> $value['body']
-                ]);
+               ]);
+          //      dd("here");
               }else {
               $insertPosts = DB::table('posts')->insert([
                 'user_id'=>Auth::user()->id,
@@ -324,18 +329,25 @@ class Document
                 'image'=> $value['image'],
                 'slug'=>$slug
               ]);
+
+
+          //    dd('not here');
 }
 
             };
-          Storage::deleteDirectory($this->user.'/content/'.$postTypeSubDir.'/');
-          //  storage_path('app/'.$this->user.'/content/'.$postTypeSubDir.'/')
+      //    Storage::deleteDirectory($this->user.'/content/'.$postTypeSubDir.'/');
+            storage_path('app/'.$this->user.'/content/'.$postTypeSubDir.'/')
       //      dd($insertPosts);
             return true;
         } else {
             return [];
         }
 
-        }else{
+      }elseif (file_exists(storage_path('app/'.$this->user.'/content/posts/'))) {
+      dd("here");
+      }
+
+        else{
             return [];
         }
 
@@ -386,32 +398,31 @@ class Document
 
 public function Feeds()
 {
-            $user = Auth::user();
-            $data= DB::table('following')->where('my_id', $user['id'])->get();
-            //$data=[];
-            $urlArray = json_decode($data, true);
+  $user = Auth::user();
+  $data= DB::table('following')->where('my_id', $user['id'])->get();
+  //$data=[];
+  $urlArray = json_decode($data, true);
 
-            $feed = [];
-          foreach ($urlArray as $id) {
-            $user= DB::table('users')->where('id', $id['follower_id'])->first('name');
+  $feed = [];
+foreach ($urlArray as $id) {
+  $user= DB::table('users')->where('id', $id['follower_id'])->first('name');
 
-            $feeds = DB::table('extfeeds')
-            ->join('users','extfeeds.site','=','users.name')
-            ->join('posts','extfeeds.title','=','posts.title')
-            ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
-            ->where('site', $user->name)->get();
-          //  dd($feeds );
-              $feeds = json_decode($feeds, true);
-            array_push($feed, $feeds);
+  $feeds = DB::table('extfeeds')
+  ->join('users','extfeeds.site','=','users.name')
+  ->select('extfeeds.*','users.username','users.email','users.image')
+  ->where('site', $user->name)->get();
+//  dd($feeds );
+    $feeds = json_decode($feeds, true);
+  array_push($feed, $feeds);
 }
-          $ex =[];
-          for ($i=0; $i < count($feed) ; $i++) {
-            for ($j=0; $j <count($feed[$i]) ; $j++) {
-               $rv=$feed[$i][$j];
-            //   krsort($rv);
-              array_push($ex, $rv);
-              //dd($ex);
-            }
+  $ex =[];
+  for ($i=0; $i < count($feed) ; $i++) {
+    for ($j=0; $j <count($feed[$i]) ; $j++) {
+       $rv=$feed[$i][$j];
+    //   krsort($rv);
+      array_push($ex, $rv);
+      //dd($ex);
+    }
   }
   //dd($ex);
   usort($ex, $this->build_sorter('id'));
