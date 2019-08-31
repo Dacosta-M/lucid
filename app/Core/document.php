@@ -138,11 +138,10 @@ class Document
           $url = Auth::user()->id."/images/";
           if(is_array($image)) {
               foreach ($image as $key => $value) {
-
-                  $decoded = base64_decode($image[$key]);
-
+                  $image = $value;
+                  $decoded = base64_decode($image);
                   $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                $image = Storage::disk('local')->put( $img_path, $decoded);
+                  $image = Storage::disk('local')->put( $img_path, $decoded);
 
               }
           }
@@ -178,8 +177,8 @@ class Document
             $url = Auth::user()->id."/images/";
             if(is_array($image)) {
                 foreach ($image as $key => $value) {
-
-                    $decoded = base64_decode($image[$key]);
+                    $image = $value;
+                    $decoded = base64_decode($image);
 
                     $img_path = 'public/'.Auth::user()->id."/images/".$key;
                   $image = Storage::disk('local')->put( $img_path, $decoded);
