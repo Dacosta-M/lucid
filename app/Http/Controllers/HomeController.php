@@ -82,10 +82,10 @@ foreach ($get as $key => $value) {
 }
     public function fix()
     {
-      echo "Initiating Fix";
-     $fix = new \Lucid\Core\Subscribe(Auth::user()->username);
+      $dir = storage_path('app/markessien/');
 
-      //$fix = $fix->fix();
+      return Storage::disk()->files($dir);
+
     }
     public function timeline($username)
     {
@@ -506,6 +506,7 @@ print_r($updateFeeds);
       }
 
     }
+
 
     public function editPost(Request $request, $username) {
 

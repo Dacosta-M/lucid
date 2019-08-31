@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta name="msvalidate.01" content="0D04E9AD3D60609FF1D1A5D5F3705A04" />
+  <meta name="google-site-verification" content="zWGhooabnrUzUwys6O7e0GEndWQGqN26crtsYinFxc0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @auth
   <meta name="username" content="{{ Auth::user()->username }}">
@@ -82,7 +83,7 @@
       <!-- Beginning of Sidebar -->
       <div class="col-10 col-sm-4 pb-0 mb-0 pt-2 d-none d-lg-block" id="sidebar">
         <a class="d-lg-none" id="sidebarDismiss"><i class="icon ion-md-close-circle" style="font-size: 1.8em"></i></a>
-        <a href="/{{ $user->username}}" class="changeHref"><img id="user-avatar" src="{{$user->image}}" class="img-fluid" /></a>
+        <a href="/{{ $user->username}}" class="changeHref"><img id="user-avatar" src="{{$user->image}}" class="img-fluid mt-3" /></a>
         <a href="/{{ $user->username}}" class="no-decoration changeHref">
           <h3 id="user-name" class="pt-2">{{ $user->name}}</h3>
         </a>
@@ -141,7 +142,7 @@
             @endif
           </div>
           <div class="mt-3">
-            <a href="https://lucid.blog"> <small class="text-muted"><img src="{{ secure_asset('img/logo.jpg') }}" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" /> Powered by Lucid</small></a>
+            <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="{{ secure_asset('img/logo.jpg') }}" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" /> <p class="mb-0 ml-1">Powered by Lucid</p></small></a>
           </div>
         </div>
       </div>
@@ -226,13 +227,13 @@
             <a class="nav-link dropdown-toggle pt-1 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="{{ secure_asset('img/lucid-logo.png') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
               @guest
               <a class="dropdown-item" href="{{ secure_url('/login') }}">{{ __('Login') }}</a>
               @else
-              <a class="dropdown-item changeHref" href="/{{ Auth::user()->username}}">Home</a>
-              <a href="/{{ $user->username}}/settings" class="dropdown-item changeHref">Settings</a>
-              <a class="dropdown-item changeHref" href="/{{ $user->username}}/logout">
+              <a class="dropdown-item changeHref border-bottom note" href="/{{ Auth::user()->username}}">Home</a>
+              <a href="/{{ $user->username}}/settings" class="dropdown-item note changeHref border-bottom">Settings</a>
+              <a class="dropdown-item note changeHref" href="/{{ $user->username}}/logout">
                 {{ __('Logout') }}
               </a>
 
@@ -282,7 +283,7 @@
     .then (
       function(data) {
 
-          console.log(data);
+        //  console.log(data);
       a('#like'+id).html(data.button);
     //  a('#count'+id).html(data.count);
     });
@@ -301,7 +302,7 @@
         .then (
           function(data) {
 
-              console.log(data);
+            //  console.log(data);
           a('#love'+id).html(data.button);
         //  a('#count'+id).html(data.count);
         });
