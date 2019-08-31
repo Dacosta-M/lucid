@@ -24,8 +24,10 @@ Route::get('login', function () {
 Route::get('register', function () {
     return view('auth/register');
 });
-Route::get('explore', function () {
-    return view('explore');
+
+Route::prefix('explore')->group(function (){
+    Route::get('/','pageController@explorePage');
+    Route::get('/interest/{interest}','pageController@interest')->name('interest');
 });
 Route::get('loader', function () {
     return view('preloader');
@@ -61,7 +63,7 @@ Route::prefix('{username}')->group(function () {
 
 
     Route::get('/contact', 'pageController@contact');
-    Route::get('/post/{postTitle}','pageController@singlePostPage');
+    Route::get('/post/{postTitle}','pageController@singlePostPage')->name('post');
     Route::get('/post-data/{id}','pageController@getPostData');
     Route::get('/','pageController@homePage');
     Route::get('/home','pageController@homePage');
