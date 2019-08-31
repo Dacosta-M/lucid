@@ -307,7 +307,6 @@
             <a href="" class="d-block text-dark">#opay</a>
             <a href="" class="d-block text-dark">#gokada</a>
           </div>
-        @empty
           
         </div>
       </div>
