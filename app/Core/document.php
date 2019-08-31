@@ -335,8 +335,8 @@ class Document
 }
 
             };
-      //    Storage::deleteDirectory($this->user.'/content/'.$postTypeSubDir.'/');
-            storage_path('app/'.$this->user.'/content/'.$postTypeSubDir.'/')
+          Storage::deleteDirectory($this->user.'/content/'.$postTypeSubDir.'/');
+          //  storage_path('app/'.$this->user.'/content/'.$postTypeSubDir.'/')
       //      dd($insertPosts);
             return true;
         } else {
