@@ -395,21 +395,33 @@ class Document
         return strnatcmp($a[$key], $b[$key]);
     };
 }
+public function FeedFixer()
+{
+   $feeds= DB::table('extfeeds')->get('title');
+   foreach ($feeds as $key => $value) {
+  //dd($value->title);
+     if (DB::table('posts')->Where('title', '=', $value->title)->exists() !== 1) {
+      return extfeeds::Where(['title' => $value->title])->delete();
+     }
+   }
 
+}
 public function Feeds()
 {
   $user = Auth::user();
+  $this->FeedFixer();
   $data= DB::table('following')->where('my_id', $user['id'])->get();
   //$data=[];
   $urlArray = json_decode($data, true);
 
   $feed = [];
 foreach ($urlArray as $id) {
-  $user= DB::table('users')->where('id', $id['follower_id'])->first('name');
+  $user= DB::table('users')->where(['id' => $id['follower_id'], 'id' => Auth::user()->id ])->first('name');
 
   $feeds = DB::table('extfeeds')
   ->join('users','extfeeds.site','=','users.name')
-  ->select('extfeeds.*','users.username','users.email','users.image')
+  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
+  ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
   ->where('site', $user->name)->get();
 //  dd($feeds );
     $feeds = json_decode($feeds, true);

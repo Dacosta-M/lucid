@@ -53,24 +53,13 @@ class pageController extends Controller
                   $count = "";
                 }
 
-                $likes = DB::table('notifications')
-                      ->join('posts','notifications.post_id','=','posts.id')
-                      ->select('notifications.*', 'posts.id')
-                      ->where('notifications.action','=',"like")
-                      ->get();
 
-                $loves = DB::table('notifications')
-                      ->join('posts','notifications.post_id','=','posts.id')
-                      ->select('notifications.*', 'posts.id')
-                      ->where('notifications.action','=',"Love")
-                      ->get();
   //dd($likes);
                 return view('timeline', [
                   'posts' => $post,
                   'fcheck' => $fcheck,
                   'user'=>$user,
                   'fcount'=>$fcount,
-                  'loves' => $loves,
                   'count' => $count]);
 
         }else {
