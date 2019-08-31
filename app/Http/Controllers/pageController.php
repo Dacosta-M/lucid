@@ -462,6 +462,7 @@ class pageController extends Controller
                 ->select('notifications.*','users.username','users.email','users.image')
                 ->where('notifications.post_id',$post_id)
                 ->where('notifications.parent_comment_id','=',null)
+                ->where('notifications.action','Commented')
                 ->orderBy('notifications.id','DESC')
                 ->get();
     $carbon =  new Carbon;
@@ -471,6 +472,7 @@ class pageController extends Controller
             ->select('notifications.*','users.username','users.email','users.image')
             ->where('notifications.post_id',$post_id)
             ->where('notifications.parent_comment_id','!=',null)
+            ->where('notifications.action','Commented')
             ->orderBy('notifications.id','DESC')
             ->get();
           //  dd(  $replies);
