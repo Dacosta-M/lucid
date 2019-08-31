@@ -531,7 +531,7 @@ class pageController extends Controller
     if ($notif->action == 'Commented') {
       //  foreach ($notif as $notifs) {
             $output .='
-            <div class="post-content border p-3">
+            <div class="post-content border p-3 d-flex align-items-center">
               <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
               <div class="post-content-body">
                 <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> commented on your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
