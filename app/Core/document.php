@@ -406,17 +406,25 @@ public function FeedFixer()
    }
 
 }
-public function Feeds()
+public function MyFeeds()
 {
   $user = Auth::user();
-  $this->FeedFixer();
-  $data= DB::table('following')->where('my_id', $user['id'])->get();
+//  $this->FeedFixer();
+  $data= DB::table('following')->where('my_id', $user['id'])->get('follower_id');
   //$data=[];
   $urlArray = json_decode($data, true);
 
+    $urlArray2 = array(
+        array('follower_id' => $user['id'])
+      //  array('title' => 'Stratechery by Ben Thompson',  'url' => 'http://stratechery.com/feed/' , 'desc' => 'On the business, strategy, and impact of technology.', 'link' => '', 'image' => "https://stratechery.com/wp-content/uploads/2018/03/cropped-android-chrome-512x512-1-32x32.png", 'time' => ' Fri, 12 Jul 2019 16:06:22 +0000')
+    );
+   $result = array_merge($urlArray, $urlArray2);
+
+  //
+//dd($result);
   $feed = [];
-foreach ($urlArray as $id) {
-  $user= DB::table('users')->where(['id' => $id['follower_id'], 'id' => Auth::user()->id ])->first('name');
+foreach ($result as $id) {
+  $user= DB::table('users')->where(['id' => $id['follower_id'] ])->first('name');
 
   $feeds = DB::table('extfeeds')
   ->join('users','extfeeds.site','=','users.name')
@@ -448,7 +456,56 @@ return $ex;
 
 
 }
+public function Feeds()
+{
+  $user = Auth::user();
+//  $this->FeedFixer();
+  $data= DB::table('following')->where('my_id', $user['id'])->get('follower_id');
+  //$data=[];
+  $urlArray = json_decode($data, true);
 
+  //  $urlArray2 = array(
+    //    array('follower_id' => $user['id'])
+      //  array('title' => 'Stratechery by Ben Thompson',  'url' => 'http://stratechery.com/feed/' , 'desc' => 'On the business, strategy, and impact of technology.', 'link' => '', 'image' => "https://stratechery.com/wp-content/uploads/2018/03/cropped-android-chrome-512x512-1-32x32.png", 'time' => ' Fri, 12 Jul 2019 16:06:22 +0000')
+    //);
+   //$result = array_merge($urlArray, $urlArray2);
+
+  //
+//dd($result);
+  $feed = [];
+foreach ($urlArray  as $id) {
+  $user= DB::table('users')->where(['id' => $id['follower_id'] ])->first('name');
+
+  $feeds = DB::table('extfeeds')
+  ->join('users','extfeeds.site','=','users.name')
+  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
+  ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
+  ->where('site', $user->name)->get();
+//  dd($feeds );
+    $feeds = json_decode($feeds, true);
+  array_push($feed, $feeds);
+}
+  $ex =[];
+  for ($i=0; $i < count($feed) ; $i++) {
+    for ($j=0; $j <count($feed[$i]) ; $j++) {
+       $rv=$feed[$i][$j];
+    //   krsort($rv);
+      array_push($ex, $rv);
+      //dd($ex);
+    }
+  }
+  //dd($ex);
+  usort($ex, $this->build_sorter('id'));
+
+    //arsort($ex);
+  krsort($ex);
+  //dd($ex);
+  //$feed = json_decode($feed, true);
+
+return $ex;
+
+
+}
 
 public function checker()
 {
