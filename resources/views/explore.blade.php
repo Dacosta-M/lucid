@@ -63,62 +63,17 @@
       <!-- Category Page -->
       <div class="tab-pane show active" role="tabpanel" id="category">
         <div class="row p-3 m-0">
+        @forelse($interests as $interest)
           <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/politics.png') }}" class="w-100" alt="politics" />
+          <a href="{{ route('interest',['interest'=>$interest->interest])  }}" style="color:#000;text-decoration:none;"><img src="{{ secure_asset('img/'.$interest->cover_img) }}" class="w-100" alt="politics" /></a>
             <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Politics</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
+              <p class="font-weight-bold px-2 pt-2"><a href="{{ route('interest',['interest'=>$interest->interest])  }}" style="color:#000;text-decoration:none;">{{ $interest->interest }}</a></p>
+              <a href="{{ route('interest',['interest'=>$interest->interest])  }}" style="color:#000;text-decoration:none;"><i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i></a>
             </div>
           </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/sports.png') }}" class="w-100" alt="sports" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Sports</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/health.png') }}" class="w-100" alt="health" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Health</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/technology.png') }}" class="w-100" alt="technology" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Technology</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/music.png') }}" class="w-100" alt="music" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Music</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/lifestyle.png') }}" class="w-100" alt="music" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Lifestyle</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/movies.png') }}" class="w-100" alt="movies" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Movies</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
-          <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ secure_asset('img/fitness.png') }}" class="w-100" alt="fitness" />
-            <div class="border d-flex justify-content-between">
-              <p class="font-weight-bold px-2 pt-2">Fitness</p>
-              <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
-            </div>
-          </div>
+        @empty
+        @endforelse
+          
         </div>
       </div>
       <!-- End Category Page -->
