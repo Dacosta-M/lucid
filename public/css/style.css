@@ -91,10 +91,16 @@ body {
     text-transform: uppercase;
 }
 
-.sidebar-nav ul li a:hover, .on-hover {
+.sidebar-nav ul li a:hover {
     color: #ffffff;
     background: var(--main-color);
     border-radius: 5px;
+}
+
+.on-hover:hover {
+    color: #ffffff;
+    background: var(--main-color);
+    width: max-content;
 }
 .active-nav {
     border-bottom: solid 3px var(--main-color);
