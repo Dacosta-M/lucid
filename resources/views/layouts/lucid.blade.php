@@ -283,7 +283,7 @@
     .then (
       function(data) {
 
-          console.log(data);
+        //  console.log(data);
       a('#like'+id).html(data.button);
     //  a('#count'+id).html(data.count);
     });
@@ -302,7 +302,7 @@
         .then (
           function(data) {
 
-              console.log(data);
+            //  console.log(data);
           a('#love'+id).html(data.button);
         //  a('#count'+id).html(data.count);
         });
