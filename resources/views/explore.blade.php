@@ -308,7 +308,6 @@
             <a href="" class="d-block text-dark">#gokada</a>
           </div>
         @empty
-        @endforelse
           
         </div>
       </div>
