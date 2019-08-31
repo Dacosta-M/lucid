@@ -227,13 +227,13 @@
             <a class="nav-link dropdown-toggle pt-1 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="{{ asset('img/lucid-logo.png') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
               @guest
               <a class="dropdown-item" href="{{ secure_url('/login') }}">{{ __('Login') }}</a>
               @else
-              <a class="dropdown-item changeHref" href="/{{ Auth::user()->username}}">Home</a>
-              <a href="/{{ $user->username}}/settings" class="dropdown-item changeHref">Settings</a>
-              <a class="dropdown-item changeHref" href="/{{ $user->username}}/logout">
+              <a class="dropdown-item changeHref border-bottom note" href="/{{ Auth::user()->username}}">Home</a>
+              <a href="/{{ $user->username}}/settings" class="dropdown-item note changeHref border-bottom">Settings</a>
+              <a class="dropdown-item note changeHref" href="/{{ $user->username}}/logout">
                 {{ __('Logout') }}
               </a>
 
