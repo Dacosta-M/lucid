@@ -3,9 +3,33 @@
 @if(Auth::user() && Auth::user()->username == $user->username)
 Timeline - {{ $user->username }} - Lucid
 @else
-{{ $user->name }} (@ {{ $user->username }}) - Lucid
+{{ $user->name }} ({{ '@'.$user->username }}) - Lucid
 @endif
 @endsection
+
+
+@section('img')
+@if($user->image)
+{{$user->image}}
+@else
+{{ secure_asset('img/logo.png') }}
+@endif
+@endsection
+
+@section('desc')
+{{ \Illuminate\Support\Str::limit($user->short_bio, 300) }}
+@endsection
+
+@section('tags')
+
+@endsection
+
+@section('url')
+{{ secure_url('/').'/'.$user->name }}
+@endsection
+
+
+
 @php
 $location = 'timeline';
 @endphp
@@ -261,7 +285,7 @@ $location = 'timeline';
     <!-- Begin content -->
     <div class="page-tab ml-4 mb-3">
       <ul class="nav nav-tabs navbar-light" id="follow-tabs" role="tablist">
-        <li class="nav-item">
+        <li class="nav-item" onclick="feeds()">
             <a href="#timeline" class="nav-link tab-link active" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
               <h6 class="mb-0">Timeline</h6>
             </a>
@@ -278,266 +302,46 @@ $location = 'timeline';
         </li>
       </ul>
     </div>
-    <div class="tab-content">
-        <!-- timeline page -->
-        <div class="tab-pane show" role="tabpanel" id="timeline">
-        <div class="row mt-5">
-          <div class="col-md-12">
-            <?php $last = count($posts);
-            ?>
-            @foreach($posts as $feeds)
-            <div class="post-content">
-              <!--           @if (empty($feeds['site_image']))
-                  <img src="{{ secure_asset('img/logo.jpg') }}" class="img-fluid img-thumb" alt="user" />
-                  @else
-                  <img src="{{ $feeds['site_image']}}" class="img-fluid img-thumb" alt="user" />
-                  @endif -->
 
-              <img src="{{$feeds['site_image']}}" class="timeline-img" alt="{{$feeds['site']}}" />
-              <div class="post-content-body mb-0">
-                <span class="text-muted">{{$feeds['tags']}}</span>
-                <a href="{{secure_url('/')}}/{{$feeds['link']}}" class="no-decoration">
-                  <h5 class="font-weight-bold on-hover">{{$feeds['title']}}</h5>
-                </a>
-                <p class="mb-1">
-                  {{$feeds['des']}}
-                </p>
-                <div class="row">
-                  <span class="col-6 col-sm-6 col-md-8">
-                    <small>
-                    <a href="{{secure_url('/')}}/{{$feeds['username']}}" class="text-muted">{{$feeds['site']}}</a>
-                    <span class="font-weight-bold">.</span>
-                    <span class="text-muted">{{$feeds['date']}}</span>
-                    </small>
-                  </span>
-                  <span class="col-6 col-sm-6 col-md-4">
-                    @php
-                    $lcount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Like"])->count();
-                    $likes = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Like"])->first();
-                  //  dd($likes);
-                    @endphp
-                    @if(!empty($likes))
-                    <span id="like{{$feeds['id']}}">
-                    <button type='button' title='unlike this Post' onclick='like(0,{{$feeds["id"]}})' class='btn'><i class='icon ion-md-thumbs-up text-warning' style='font-size: 1.2em;'></i>
-                    <sub id="lcount{{$feeds['id']}}">{{ $lcount }}</sub>
-                    </button></span>
-                    @else
-                    <span id="like{{$feeds['id']}}">
-                      <button type="button" title="like this Post" onclick='like(1,{{ $feeds["id"] }})' class="btn">
-                        <i class="icon ion-md-thumbs-up" style="font-size: 1.2em;"></i>
-                        <sub id="lcount{{$feeds['id']}}">{{ $lcount }}</sub>
-                      </button>
-                    </span>
-                    @endif
+<div id='feeds'>  <div class="" style="text-align: -webkit-center">
+ <div class="spinner" style="    position: inherit;"></div></div></div>
+<script>
+   
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+  console.log(xmlhttp.responseText);
+                document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET","{{ $user->username }}/feeds",true);
+        xmlhttp.send();
 
-                    @php
-                    $count = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Love"])->count();
-                    $love = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Love"])->first();
 
-                    @endphp
-                    @if(!empty($love))
-                    <span id="love{{$feeds['id']}}">
-                    <button type='button' title='unlove this Post' onclick='love(0,{{$feeds["id"]}})' class='btn'>
-                      <i class="icon ion-md-heart text-danger" style="font-size: 1.2em;"></i>
-                    <sub id="count{{$feeds['id']}}">{{ $count }}</sub>
-                    </button></span>
-                    @else
-                    <span id="love{{$feeds['id']}}">
-                      <button type="button" title="love this Post" onclick='love(1,{{ $feeds["id"] }})' class="btn">
-                        <i class="icon ion-md-heart" style="font-size: 1.2em;"></i>
-                        <sub id="count{{$feeds['id']}}">{{ $count }}</sub>
-                      </button>
-                    </span>
-                    @endif
-                    @php
-                    $ccount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Commented"])->count();
-                    @endphp
-                    <a href="{{secure_url('/')}}/{{$feeds['link']}}#comment">
-                      <button type="button"  class="btn">
-                      <i class="icon ion-md-text text-primary" style="font-size: 1.2em;"></i>
-                      <sub id="count{{$feeds['id']}}">{{ $ccount }}</sub>
-                    </button>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
+function feeds() {
+  if (window.XMLHttpRequest) {
+              // code for IE7+, Firefox, Chrome, Opera, Safari
+              xmlhttp = new XMLHttpRequest();
+          } else {
+              // code for IE6, IE5
+              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                  document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+              }
+          };
+          xmlhttp.open("GET","{{ $user->username }}/feeds",true);
+          xmlhttp.send();
+     
+}
 
-            @endforeach
-          </div>
-        </div>
-        </div>
-         <!-- End timeline Page -->
-      <!-- Category Page -->
-      <div class="tab-pane show" role="tabpanel" id="timeline">
-        <div class="row mt-5">
-          <div class="col-md-12">
-            <?php $last = count($posts);
-            ?>
-            @foreach($posts as $feeds)
-            <div class="post-content">
-              <img src="{{$feeds['site_image']}}" class="timeline-img" alt="{{$feeds['site']}}" />
-              <div class="post-content-body mb-0">
-                <span class="text-muted">{{$feeds['tags']}}</span>
-                <a href="{{secure_url('/')}}/{{$feeds['link']}}" class="no-decoration">
-                  <h5 class="font-weight-bold on-hover">{{$feeds['title']}}</h5>
-                </a>
-                <p class="mb-1">
-                  {{$feeds['des']}}
-                </p>
-                <div class="row">
-                  <span class="col-6 col-sm-6 col-md-8">
-                    <small>
-                    <a href="{{secure_url('/')}}/{{$feeds['username']}}" class="text-muted">{{$feeds['site']}}</a>
-                    <span class="font-weight-bold">.</span>
-                    <span class="text-muted">{{$feeds['date']}}</span>
-                    </small>
-                  </span>
-                  <span class="col-6 col-sm-6 col-md-4">
-                    @php
-                    $lcount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Like"])->count();
-                    $likes = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Like"])->first();
-                  //  dd($likes);
-                    @endphp
-                    @if(!empty($likes))
-                    <span id="like{{$feeds['id']}}">
-                    <button type='button' title='unlike this Post' onclick='like(0,{{$feeds["id"]}})' class='btn'><i class='icon ion-md-thumbs-up text-warning' style='font-size: 1.2em;'></i>
-                    <sub id="lcount{{$feeds['id']}}">{{ $lcount }}</sub>
-                    </button></span>
-                    @else
-                    <span id="like{{$feeds['id']}}">
-                      <button type="button" title="like this Post" onclick='like(1,{{ $feeds["id"] }})' class="btn">
-                        <i class="icon ion-md-thumbs-up" style="font-size: 1.2em;"></i>
-                        <sub id="lcount{{$feeds['id']}}">{{ $lcount }}</sub>
-                      </button>
-                    </span>
-                    @endif
-
-                    @php
-                    $count = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Love"])->count();
-                    $love = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Love"])->first();
-
-                    @endphp
-                    @if(!empty($love))
-                    <span id="love{{$feeds['id']}}">
-                    <button type='button' title='unlove this Post' onclick='love(0,{{$feeds["id"]}})' class='btn'>
-                      <i class="icon ion-md-heart text-danger" style="font-size: 1.2em;"></i>
-                    <sub id="count{{$feeds['id']}}">{{ $count }}</sub>
-                    </button></span>
-                    @else
-                    <span id="love{{$feeds['id']}}">
-                      <button type="button" title="love this Post" onclick='love(1,{{ $feeds["id"] }})' class="btn">
-                        <i class="icon ion-md-heart" style="font-size: 1.2em;"></i>
-                        <sub id="count{{$feeds['id']}}">{{ $count }}</sub>
-                      </button>
-                    </span>
-                    @endif
-                    @php
-                    $ccount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Commented"])->count();
-                    @endphp
-                    <a href="{{secure_url('/')}}/{{$feeds['link']}}#comment">
-                      <button type="button"  class="btn">
-                      <i class="icon ion-md-text text-primary" style="font-size: 1.2em;"></i>
-                      <sub id="count{{$feeds['id']}}">{{ $ccount }}</sub>
-                    </button>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            @endforeach
-          </div>
-        </div>
-        </div>
-      <!-- End Category Page -->
-
-      <!-- Posts Page -->
-      <div class="tab-pane show" role="tabpanel" id="timeline">
-        <div class="row mt-5">
-          <div class="col-md-12">
-            <?php $last = count($posts);
-            ?>
-            @foreach($posts as $feeds)
-            <div class="post-content">
-              <img src="{{$feeds['site_image']}}" class="timeline-img" alt="{{$feeds['site']}}" />
-              <div class="post-content-body mb-0">
-                <span class="text-muted">{{$feeds['tags']}}</span>
-                <a href="{{secure_url('/')}}/{{$feeds['link']}}" class="no-decoration">
-                  <h5 class="font-weight-bold on-hover">{{$feeds['title']}}</h5>
-                </a>
-                <p class="mb-1">
-                  {{$feeds['des']}}
-                </p>
-                <div class="row">
-                  <span class="col-6 col-sm-6 col-md-8">
-                    <small>
-                    <a href="{{secure_url('/')}}/{{$feeds['username']}}" class="text-muted">{{$feeds['site']}}</a>
-                    <span class="font-weight-bold">.</span>
-                    <span class="text-muted">{{$feeds['date']}}</span>
-                    </small>
-                  </span>
-                  <span class="col-6 col-sm-6 col-md-4">
-                    @php
-                    $lcount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Like"])->count();
-                    $likes = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Like"])->first();
-                  //  dd($likes);
-                    @endphp
-                    @if(!empty($likes))
-                    <span id="like{{$feeds['id']}}">
-                    <button type='button' title='unlike this Post' onclick='like(0,{{$feeds["id"]}})' class='btn'><i class='icon ion-md-thumbs-up text-warning' style='font-size: 1.2em;'></i>
-                    <sub id="lcount{{$feeds['id']}}">{{ $lcount }}</sub>
-                    </button></span>
-                    @else
-                    <span id="like{{$feeds['id']}}">
-                      <button type="button" title="like this Post" onclick='like(1,{{ $feeds["id"] }})' class="btn">
-                        <i class="icon ion-md-thumbs-up" style="font-size: 1.2em;"></i>
-                        <sub id="lcount{{$feeds['id']}}">{{ $lcount }}</sub>
-                      </button>
-                    </span>
-                    @endif
-
-                    @php
-                    $count = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Love"])->count();
-                    $love = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Love"])->first();
-
-                    @endphp
-                    @if(!empty($love))
-                    <span id="love{{$feeds['id']}}">
-                    <button type='button' title='unlove this Post' onclick='love(0,{{$feeds["id"]}})' class='btn'>
-                      <i class="icon ion-md-heart text-danger" style="font-size: 1.2em;"></i>
-                    <sub id="count{{$feeds['id']}}">{{ $count }}</sub>
-                    </button></span>
-                    @else
-                    <span id="love{{$feeds['id']}}">
-                      <button type="button" title="love this Post" onclick='love(1,{{ $feeds["id"] }})' class="btn">
-                        <i class="icon ion-md-heart" style="font-size: 1.2em;"></i>
-                        <sub id="count{{$feeds['id']}}">{{ $count }}</sub>
-                      </button>
-                    </span>
-                    @endif
-                    @php
-                    $ccount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Commented"])->count();
-                    @endphp
-                    <a href="{{secure_url('/')}}/{{$feeds['link']}}#comment">
-                      <button type="button"  class="btn">
-                      <i class="icon ion-md-text text-primary" style="font-size: 1.2em;"></i>
-                      <sub id="count{{$feeds['id']}}">{{ $ccount }}</sub>
-                    </button>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            @endforeach
-          </div>
-        </div>
-        </div>
-      <!-- End Posts page -->
-    </div>
-<!-- End Timeline Page -->
-
-</html>
+</script>
 
 @endsection

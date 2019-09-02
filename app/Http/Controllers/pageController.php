@@ -5,11 +5,14 @@ namespace Lucid\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Str;
 use Validator;
 use Parsedown;
 use URL;
+use Str;
 use Lucid\Notification;
 use Carbon\Carbon;
+
 class pageController extends Controller
 {
     public function user($username) {
@@ -20,6 +23,34 @@ class pageController extends Controller
         }
         return $user_exists[0];
     }
+
+public function Feeds($username)
+{
+
+  if(!$this->user($username)) {
+      return abort(404);
+  }
+  $user = $this->user($username);
+  if(Auth::user() && Auth::user()->username == $username){
+          $user = Auth::user();
+          $username = $user->username;
+
+          $feeds = new \Lucid\Core\Document($username);
+
+          $feeds = $feeds->MyFeeds();
+        //  dd($feeds);
+
+  return view('feeds', ['posts' => $feeds]);
+
+  }else {
+
+
+      $app = new \Lucid\Core\Document($username);
+      $feeds =$app->Feeds();
+
+    return view('feeds', ['posts' => $feeds]);
+}
+}
 
     public function homePage($username)
     {
@@ -53,24 +84,12 @@ class pageController extends Controller
                   $count = "";
                 }
 
-                $likes = DB::table('notifications')
-                      ->join('posts','notifications.post_id','=','posts.id')
-                      ->select('notifications.*', 'posts.id')
-                      ->where('notifications.action','=',"like")
-                      ->get();
 
-                $loves = DB::table('notifications')
-                      ->join('posts','notifications.post_id','=','posts.id')
-                      ->select('notifications.*', 'posts.id')
-                      ->where('notifications.action','=',"Love")
-                      ->get();
   //dd($likes);
                 return view('timeline', [
-                  'posts' => $post,
                   'fcheck' => $fcheck,
                   'user'=>$user,
                   'fcount'=>$fcount,
-                  'loves' => $loves,
                   'count' => $count]);
 
         }else {
@@ -673,7 +692,7 @@ if ($notifs->type == 'Reaction') {
       return view('filtered-posts')->with(['posts'=>$allPost]);
 
       }
-      
+
     }elseif($method =="Popular"){
 
       $posts = DB::table('posts')
@@ -707,11 +726,11 @@ if ($notifs->type == 'Reaction') {
           $content['id'] = $post->id;
           $content['username'] = $post->username;
           $content['user_img'] = $post->image;
-  
+
           array_push($allPost,$content);
         }
         return view('filtered-posts')->with(['posts'=>$allPost]);
-  
+
         }
     }
   }
@@ -758,7 +777,7 @@ if ($notifs->type == 'Reaction') {
           $content['user_img'] = $post->image;
 
           array_push($interestPosts,$content);
-         
+
        }
     }
     return view('interest-posts')->with(['posts'=>$interestPosts,'interest'=>strtoupper($interest)]);

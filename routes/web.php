@@ -61,37 +61,42 @@ Route::post('login', 'LoginController@do')->name('login');
 
 Route::prefix('{username}')->group(function () {
 
-
+    //get Request
     Route::get('/contact', 'pageController@contact');
     Route::get('/post/{postTitle}','pageController@singlePostPage')->name('post');
     Route::get('/post-data/{id}','pageController@getPostData');
     Route::get('/','pageController@homePage');
     Route::get('/home','pageController@homePage');
     Route::get('/thoughts','pageController@thoughts');
-    Route::post('/save-post','HomeController@savePost');
     Route::get('/logout', "Auth\LoginController@logout");
     Route::get('/posts','pageController@posts');
-
     Route::get('/subscribe','HomeController@subscribe');
-    Route::post('/addrss','ExtRssController@addRss');
-    Route::post('/unfollow','ExtRssController@unfollow');
-    Route::post('/extrss','ExtRssController@addExtRss');
-
-    Route::post('/publish','HomeController@publish');
-    Route::post('/send-mail','SendEmailController@sendEmail');
     Route::get('/settings', 'HomeController@settings');
-
-    Route::post('/save_settings','HomeController@saveSettings');
-    Route::get('/following','pageController@following')->name("following");
     Route::get('/followers','pageController@followers')->name("followers");
-    Route::post('/update-contact-details','HomeController@updateContactDetails');
-    Route::post('/delete-post','HomeController@deletePost')->name('deletePost');
+    Route::get('/following','pageController@following')->name("following");
     Route::get('/comments/{post_id}','pageController@comments')->name('comment');
-    Route::post('/save-comment','HomeController@saveComment')->name('save-comment');
     Route::get('/notif','pageController@notification');
-    Route::post('/notif','pageController@notification');
-    Route::post('/edit-post','HomeController@editPost');
     Route::get('/reply','pageController@reply');
     Route::get('/like','ReactionsController@like');
     Route::get('/love','ReactionsController@love');
+    Route::get('/feeds','pageController@Feeds');
+
+
+
+
+    //post Request
+    Route::post('/save-post','HomeController@savePost');
+    Route::post('/addrss','ExtRssController@addRss');
+    Route::post('/unfollow','ExtRssController@unfollow');
+    Route::post('/extrss','ExtRssController@addExtRss');
+    Route::post('/publish','HomeController@publish');
+    Route::post('/send-mail','SendEmailController@sendEmail');
+    Route::post('/save_settings','HomeController@saveSettings');
+    Route::post('/update-contact-details','HomeController@updateContactDetails');
+    Route::post('/delete-post','HomeController@deletePost')->name('deletePost');
+    Route::post('/save-comment','HomeController@saveComment')->name('save-comment');
+    Route::post('/notif','pageController@notification');
+    Route::post('/edit-post','HomeController@editPost');
+
+
 });

@@ -12,8 +12,40 @@
   <meta name="username" content="{{ Auth::user()->username }}">
   <meta name="user_id" content="{{ Auth::user()->id }}">
   @endauth
-  <!-- <title>{{ config('app.name', 'Lucid') }}</title> -->
+  <meta content="@yield('img')" property='og:image'/>
+  <meta content="@yield('desc')" name='og:description'/>
+  <meta content='@yield("tags")' name='keywords'/>
+
+<!-- twiter card -->
+  <meta content='summary_large_image' name='twitter:card'/>
+  <meta content="@yield('img')" name='twitter:image'/>
+  <meta content='{{ secure_url('/') }}' name='twitter:domain'/>
+  <meta content='@yield("title")' name='twitter:title'/>
+  <meta content='@yield("desc")' name='twitter:description'/>
+  <meta content='' name='twitter:site'/>
+  <meta content='' name='twitter:creator'/>
+
+  <!-- Metadata Facebook -->
+  <meta content='Lucid' property='og:site_name'/>
+  <meta content='@yield("url")' property="og:url" />
+  <meta content='@yield("title")' property='og:title'/>
+  <meta content='article' property='og:type'/>
+  <meta content='' property='fb:admins'/>
+  <meta content='517404062134205' property='fb:app_id'/>
+
+
+
+  <!-- Social Media Profile Meta Tag -->
+  <meta content='Nigeria' name='geo.placename'/>
+  <meta content='{{ $user->name }}' name='Author'/>
+  <meta content='general' name='rating'/>
+  <meta content='id' name='geo.country'/>
+  <meta content='en_US' property='og:locale'/>
+  <meta content='en_GB' property='og:locale:alternate'/>
+  <meta content='id_ID' property='og:locale:alternate'/>
   <title>@yield('title')</title>
+
+
   <link rel="short icon" type="image/png" sizes="16x16" href="{{ secure_asset('img/luci-logo.png') }}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet" />
@@ -70,6 +102,28 @@
       }
     }
   </style>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{api-version}'
+    });
+
+    FB.AppEvents.logPageView();
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 </head>
 
 <body id="preloader">

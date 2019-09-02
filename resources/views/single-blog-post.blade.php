@@ -1,14 +1,30 @@
 @extends('layouts.lucid')
-@section('title')
+
 @if(Auth::user() && Auth::user()->username == $user->username)
-{{ $post['title'] }} - {{ $user->username }} - Lucid
+@section('title'){{ $post['title'] }} - {{ $user->username }} - Lucid @endsection
 @else
-{{ $post['title'] }} - {{ $user->name }} (@ {{ $user->username }})
+@section('title'){{ $post['title'] }} - {{ $user->name }} ({{ '@'.$user->username }}) @endsection
 @endif
+
+
+@if($post['image'])
+@section('img'){{ $post['image'] }} @endsection
+@else
+@section('img'){{ secure_asset('img/logo.png') }} @endsection
+@endif
+
+@section('desc'){{ \Illuminate\Support\Str::limit($post['body'], 300) }} @endsection
+
+@section('tags'){{ $post['tags'] }} @endsection
+
+@section('url'){{ secure_url('/').'/'.$user->name.'/post/'.$post['slug'] }} @endsection
+
+
 @php
 $location= 'singlePost';
 @endphp
-@endsection
+
+
 @section('sidebar')
 @parent
 
@@ -43,7 +59,7 @@ $location= 'singlePost';
             Published on {{ $post['date'] }}
         </cite>
         <h3 class="post-title mb-1">
-            {{ $post['title'] }}
+            {{ \Illuminate\Support\Str::title($post['title']) }}
         </h3>
 
         <div class="blog-content">

@@ -67,7 +67,7 @@
                   <p>2k Followers</p>
                 </small>
               </div>
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
             </div>
             <h5 class="mt-4 mb-3">Most popular Technology posts in Nigeria</h5>
             <div class="post-content">
@@ -131,7 +131,7 @@
                   <p>2k Followers</p>
                 </small>
               </div>
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
             </div>
             <h5 class="mt-4 mb-3">Most popular Politics posts in Nigeria</h5>
             <div class="post-content">
@@ -195,7 +195,7 @@
                   <p>2k Followers</p>
                 </small>
               </div>
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
             </div>
             <h5 class="mt-4 mb-3">Most popular Health posts in Nigeria</h5>
             <div class="post-content">
@@ -307,7 +307,7 @@
             <a href="" class="d-block text-dark">#opay</a>
             <a href="" class="d-block text-dark">#gokada</a>
           </div>
-          
+
         </div>
       </div>
       <!-- End Posts page -->
