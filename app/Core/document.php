@@ -1103,6 +1103,7 @@ $user = Auth::user();
         $content['date'] = $createdAt->format('M jS, Y h:i A');
         $content['slug'] = $post->slug;
         $content['id'] = $post->id;
+        $content['image'] = $post->image;
         return $content;
 
       }
