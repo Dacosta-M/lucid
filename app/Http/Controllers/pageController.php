@@ -65,13 +65,15 @@ class pageController extends Controller
                       ->where('notifications.action','=',"Love")
                       ->get();
   //dd($likes);
+                $tabs = DB::table('interests')->get();
                 return view('timeline', [
                   'posts' => $post,
                   'fcheck' => $fcheck,
                   'user'=>$user,
                   'fcount'=>$fcount,
                   'loves' => $loves,
-                  'count' => $count]);
+                  'count' => $count,
+                  'tabs'=>$tabs]);
 
         }else {
 
@@ -763,4 +765,20 @@ if ($notifs->type == 'Reaction') {
     }
     return view('interest-posts')->with(['posts'=>$interestPosts,'interest'=>strtoupper($interest)]);
   }
+
+  public function postCategories($category) {
+    $categories = explode(',',$category);
+    $posts = DB::table('posts')
+             ->join('users','posts.user_id','=','users.id')
+             ->select('posts.*','users.image','users.username')
+             ->where('tags','!=',NULL)->orderBy('id','DESC')->get();
+    foreach($categories as $category) {
+      foreach ($posts as $post) {
+        
+      }
+    }
+    return view('category')->with(['categories'=>$categories]);
+  }
+
+
 }
