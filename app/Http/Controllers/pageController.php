@@ -91,13 +91,7 @@ public function Feeds($username)
                   'fcheck' => $fcheck,
                   'user'=>$user,
                   'fcount'=>$fcount,
-<<<<<<< HEAD
-                  'loves' => $loves,
-                  'count' => $count,
-                  'tabs'=>$tabs]);
-=======
                   'count' => $count]);
->>>>>>> f8a1aeb110e137de5579d22a5a2c82dde42adfd8
 
         }else {
 
@@ -795,14 +789,15 @@ if ($notifs->type == 'Reaction') {
     $posts = DB::table('posts')
              ->join('users','posts.user_id','=','users.id')
              ->select('posts.*','users.image','users.username')
+             
              ->where('tags','!=',NULL)->orderBy('id','DESC')->get();
-    foreach($categories as $category) {
-      foreach ($posts as $post) {
-        
-      }
-    }
-    return view('category')->with(['categories'=>$categories]);
-  }
 
+    $users = DB::table('posts')
+            ->join('users','posts.user_id','=','users.id')
+            ->select('posts.*','users.image','users.username')
+            ->where('tags','!=',NULL)->orderBy('id','DESC')->get();
+
+    return view('category')->with(['categories'=>array_reverse($categories),'posts'=>$posts,'pageController'=>new pageController,'users'=>$users]);
+  }
 
 }

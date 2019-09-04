@@ -8,7 +8,7 @@
         @foreach($posts as $feeds)
         <div class="post-content">
           <!--           @if (empty($feeds['site_image']))
-              <img src="{{ secure_asset('img/logo.jpg') }}" class="img-fluid img-thumb" alt="user" />
+              <img src="{{ asset('img/logo.jpg') }}" class="img-fluid img-thumb" alt="user" />
               @else
               <img src="{{ $feeds['site_image']}}" class="img-fluid img-thumb" alt="user" />
               @endif -->

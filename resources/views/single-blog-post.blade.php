@@ -10,7 +10,7 @@
 @if($post['image'])
 @section('img'){{ $post['image'] }} @endsection
 @else
-@section('img'){{ secure_asset('img/logo.png') }} @endsection
+@section('img'){{ asset('img/logo.png') }} @endsection
 @endif
 
 @section('desc'){{ \Illuminate\Support\Str::limit($post['body'], 300) }} @endsection
@@ -53,7 +53,7 @@ $location= 'singlePost';
 <div class="post-content">
     <div class="post-content-body m-0">
         <p class="post-date">
-            <a href="{{secure_url('/')}}/{{$user->username}}/home" class="text-secondary"> Home </a> /
+            <a href="{{url('/')}}/{{$user->username}}/home" class="text-secondary"> Home </a> /
             <a href="../home" class="text-secondary"> Blog </a> / <span class="text-muted">{{ $post['title'] }}</span></p>
         <cite class="post-body">
             Published on {{ $post['date'] }}
@@ -123,7 +123,7 @@ const j = jQuery.noConflict();
  j(document).ready(function (){
    function getComment() {
 
-    const route = "{{ secure_url($user->username.'/comments',['post_id'=>$post['id']])  }}"
+    const route = "{{ url($user->username.'/comments',['post_id'=>$post['id']])  }}"
     j.ajaxSetup({
         headers:{
             'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
@@ -152,7 +152,7 @@ const j = jQuery.noConflict();
             e.preventDefault();
 
             const formData = new FormData(commentForm);
-            const saveComment = "{{ secure_url($user->username.'/save-comment')  }}";
+            const saveComment = "{{ url($user->username.'/save-comment')  }}";
             if(formData.get('body') == "") {
                 j('.text-danger').show();
             }else{

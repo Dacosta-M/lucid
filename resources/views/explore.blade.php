@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
   <link href="https://unpkg.com/ionicons@4.5.9-1/dist/css/ionicons.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet" />
-  <link rel="short icon" type="image/png" sizes="16x16" href="{{ secure_asset('img/luci-logo.png') }}">
-  <link href="{{ secure_asset('css/style.css') }}" rel="stylesheet">
-  <link href="{{ secure_asset('css/main-style.css') }}" rel="stylesheet">
-  <link href="{{ secure_asset('css/tabletcss.css') }}" rel="stylesheet">
+  <link rel="short icon" type="image/png" sizes="16x16" href="{{ asset('img/luci-logo.png') }}">
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/main-style.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/tabletcss.css') }}" rel="stylesheet">
   <title>Explore</title>
 
   <style>
@@ -39,203 +39,9 @@
       <h4 class="ml-4 mb-3 pl-1">Explore Lucid</h4>
       <!-- Begin content -->
       <!-- Posts Page -->
-
       <div class="row mx-3">
-        <div class="col-xs-12 col-md-8">
-          <!-- Technology section -->
-          <div class="mt-4">
-            <h5 class="border-bottom pb-2 w-100 px-2">Technology</h5>
-            <div class="row no-gutters">
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
-            </div>
-            <h5 class="mt-4 mb-3">Most popular Technology posts in Nigeria</h5>
-            <div class="post-content">
-              <div class="post-image d-none d-md-flex">
-                <img src="{{ secure_asset('img/technology.png') }}" class="img-fluid post-img" alt="image" />
-              </div>
-              <div class="post-content-body row">
-                <div class="">
-                  <h5>
-                    <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
-                  </h5>
-                  <p class="post-body">
-                    Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
-                  </p>
-                  <small>Angel Roberts</small>
-                </div>
-              </div>
-            </div>
-            <div class="post-content pb-3">
-              <div class="post-image d-none d-md-flex">
-                <img src="{{ secure_asset('img/technology.png') }}" class="img-fluid post-img" alt="image" />
-              </div>
-              <div class="post-content-body row">
-                <div class="">
-                  <h5>
-                    <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
-                  </h5>
-                  <p class="post-body">
-                    Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
-                  </p>
-                  <small>Angel Roberts</small>
-                </div>
-              </div>
-            </div>
-            <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
-          </div>
-          <!-- End Technology section -->
-
-          <!-- Start Politics -->
-          <div class="mt-5">
-            <h5 class="border-bottom pb-2 w-100 px-2">Politics</h5>
-            <div class="row no-gutters">
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
-            </div>
-            <h5 class="mt-4 mb-3">Most popular Politics posts in Nigeria</h5>
-            <div class="post-content">
-              <div class="post-image d-none d-md-flex">
-                <img src="{{ secure_asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
-              </div>
-              <div class="post-content-body row">
-                <div class="">
-                  <h5>
-                    <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
-                  </h5>
-                  <p class="post-body">
-                    Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
-                  </p>
-                  <small>Angel Roberts</small>
-                </div>
-              </div>
-            </div>
-            <div class="post-content pb-3">
-              <div class="post-image d-none d-md-flex">
-                <img src="{{ secure_asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
-              </div>
-              <div class="post-content-body row">
-                <div class="">
-                  <h5>
-                    <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
-                  </h5>
-                  <p class="post-body">
-                    Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
-                  </p>
-                  <small>Angel Roberts</small>
-                </div>
-              </div>
-            </div>
-            <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
-          </div>
-          <!-- End Politics section -->
-
-          <!-- Start Health Section -->
-          <div class="mt-5">
-            <h5 class="border-bottom pb-2 w-100 px-2">Health</h5>
-            <div class="row no-gutters">
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <div class="col-4 col-md-2 text-center">
-                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-                <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-                <small>
-                  <p>2k Followers</p>
-                </small>
-              </div>
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
-            </div>
-            <h5 class="mt-4 mb-3">Most popular Health posts in Nigeria</h5>
-            <div class="post-content">
-              <div class="post-image d-none d-md-flex">
-                <img src="{{ secure_asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
-              </div>
-              <div class="post-content-body row">
-                <div class="">
-                  <h5>
-                    <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
-                  </h5>
-                  <p class="post-body">
-                    Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
-                  </p>
-                  <small>Angel Roberts</small>
-                </div>
-              </div>
-            </div>
-            <div class="post-content pb-3">
-              <div class="post-image d-none d-md-flex">
-                <img src="{{ secure_asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
-              </div>
-              <div class="post-content-body row">
-                <div class="">
-                  <h5>
-                    <a class="no-decoration text-dark" href="">What Is Rust Doing Behind the Curtains?</a>
-                  </h5>
-                  <p class="post-body">
-                    Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
-                  </p>
-                  <small>Angel Roberts</small>
-                </div>
-              </div>
-            </div>
-            <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
-          </div>
-
-          <!-- End Health section -->
-        </div>
-
+        <div class="col-xs-12 col-md-8" id="categories_view">
+      </div>
         <div class="col-xs-12 col-md-4 bg-light h-100 mt-4 mb-3 mt-md-0 mb-md-0">
           <div class="form-group border-bottom mt-2 pb-3">
             <label for="country" class="font-weight-bold">
@@ -259,44 +65,10 @@
                 {{ $interest->interest }}
               </label>
             </div>
+            
             @empty
             @endforelse
-            <!-- <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="sports">
-              <label class="form-check-label" for="sports">
-                Sports
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="health">
-              <label class="form-check-label" for="health">
-                Health
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="technology">
-              <label class="form-check-label" for="technology">
-                Technology
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="music">
-              <label class="form-check-label" for="mucis">
-                Music
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="lifestyle">
-              <label class="form-check-label" for="lifestyle">
-                Lifestyle
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="fitnesss">
-              <label class="form-check-label" for="fitness">
-                Fitness
-              </label>
-            </div> -->
+            
           </div>
           <div class="form-group my-3">
             <label for="hastags" class="font-weight-bold">
@@ -354,16 +126,54 @@
           },
 
         });
+        const checkBox = document.getElementsByClassName('form-check-input');
+        checkBox[0].setAttribute('checked','');
+        checkBox[1].setAttribute('checked','');
+        checkBox[3].setAttribute('checked','');
+
+        let AllCheckedBoxes = document.querySelectorAll('.form-check-input:checked');
+        let AllCheckedBoxesArray = Array.from(AllCheckedBoxes).map(el=>el.value);
+        
+        
+        j.ajax({
+          type: "GET",
+          url: "/category/"+ AllCheckedBoxesArray,
+          success: function(data) {
+             j("#categories_view").html(data);
+          },
+        });
+
       })
     </script>
     <script>
-      let checkboxes = document.querySelectorAll('input[name="checkbox"]');
-      checkboxes.forEach(checkbox=>{
+     j(document).ready(function(){
 
+      let checkboxes = document.querySelectorAll('input[name="checkbox"]');
+      
+      const checked = document.querySelectorAll('.form-check-input:checked');
+      let checkedBoxesArray=Array.from(checked).map(el=>el.value);
+      checkboxes.forEach(checkbox=>{
          checkbox.addEventListener('change',function(){
          let checkedboxes = document.querySelectorAll('.form-check-input:checked');
-         let checkedBoxesArray = Array.from(checkedboxes).map(el=>el.value);
+          
+       if (this.checked) {    
+          checkedBoxesArray.push(this.value);
+        }else if (this.checked == false){
+           checkedBoxesArray  = Array.from(checkedboxes).map(el=>el.value);
+        }
+        
+         console.log(checkedBoxesArray)
+        if(checkedBoxesArray.length == 1) {
+            checkedboxes[0].setAttribute('disabled','');
+         }else if (checkedBoxesArray.length > 1){
+            checkedboxes.forEach(disabledCheckBox=>{
+              disabledCheckBox.removeAttribute('disabled');
+            })
+         }
 
+        
+
+         
          j.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
@@ -379,6 +189,9 @@
           
       });
     })
+
+     })
+      
       
     </script>
 </body>
