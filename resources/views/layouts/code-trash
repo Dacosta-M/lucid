@@ -86,7 +86,7 @@
 
 
     @if (empty($feeds->site_image))
-  <img src="{{ asset('img/logo.jpg') }}" class="img-fluid img-thumb" alt="user" />
+  <img src="{{ secure_asset('img/logo.jpg') }}" class="img-fluid img-thumb" alt="user" />
   @else
   <img src="{{ $feeds->site_image}}" class="img-fluid img-thumb" alt="user" />
   @endif
@@ -479,49 +479,49 @@ function deletePost(id){
 
 
   <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/sports.png') }}" class="w-100" alt="sports" />
+            <img src="{{ secure_asset('img/sports.png') }}" class="w-100" alt="sports" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Sports</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
             </div>
           </div> -->
           <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/health.png') }}" class="w-100" alt="health" />
+            <img src="{{ secure_asset('img/health.png') }}" class="w-100" alt="health" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Health</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
             </div>
           </div> -->
           <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/technology.png') }}" class="w-100" alt="technology" />
+            <img src="{{ secure_asset('img/technology.png') }}" class="w-100" alt="technology" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Technology</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
             </div>
           </div> -->
           <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/music.png') }}" class="w-100" alt="music" />
+            <img src="{{ secure_asset('img/music.png') }}" class="w-100" alt="music" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Music</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
             </div>
           </div> -->
           <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/lifestyle.png') }}" class="w-100" alt="music" />
+            <img src="{{ secure_asset('img/lifestyle.png') }}" class="w-100" alt="music" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Lifestyle</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
             </div>
           </div> -->
           <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/movies.png') }}" class="w-100" alt="movies" />
+            <img src="{{ secure_asset('img/movies.png') }}" class="w-100" alt="movies" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Movies</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
             </div>
           </div> -->
           <!-- <div class="col-xs-6 col-md-4 mb-3">
-            <img src="{{ asset('img/fitness.png') }}" class="w-100" alt="fitness" />
+            <img src="{{ secure_asset('img/fitness.png') }}" class="w-100" alt="fitness" />
             <div class="border d-flex justify-content-between">
               <p class="font-weight-bold px-2 pt-2">Fitness</p>
               <i class="icon ion-md-arrow-dropright px-3" style="font-size: 1.8em"></i>
@@ -623,21 +623,21 @@ function deletePost(id){
             <h5 class="border-bottom pb-2 w-100 px-2">Health</h5>
             <div class="row no-gutters">
               <div class="col-4 col-md-2 text-center">
-                <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
               <div class="col-4 col-md-2 text-center">
-                <img src="{{ asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
               <div class="col-4 col-md-2 text-center">
-                <img src="{{ asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
+                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
@@ -648,7 +648,7 @@ function deletePost(id){
             <h5 class="mt-4 mb-3">Most popular Health posts in Nigeria</h5>
             <div class="post-content">
               <div class="post-image d-none d-md-flex">
-                <img src="{{ asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
+                <img src="{{ secure_asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
                 <div class="">
@@ -664,7 +664,7 @@ function deletePost(id){
             </div>
             <div class="post-content pb-3">
               <div class="post-image d-none d-md-flex">
-                <img src="{{ asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
+                <img src="{{ secure_asset('img/health.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
                 <div class="">
@@ -689,21 +689,21 @@ function deletePost(id){
             <h5 class="border-bottom pb-2 w-100 px-2">Politics</h5>
             <div class="row no-gutters">
               <div class="col-4 col-md-2 text-center">
-                <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+                <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
               <div class="col-4 col-md-2 text-center">
-                <img src="{{ asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+                <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
                 </small>
               </div>
               <div class="col-4 col-md-2 text-center">
-                <img src="{{ asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
+                <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
                 <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
                 <small>
                   <p>2k Followers</p>
@@ -714,7 +714,7 @@ function deletePost(id){
             <h5 class="mt-4 mb-3">Most popular Politics posts in Nigeria</h5>
             <div class="post-content">
               <div class="post-image d-none d-md-flex">
-                <img src="{{ asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
+                <img src="{{ secure_asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
                 <div class="">
@@ -730,7 +730,7 @@ function deletePost(id){
             </div>
             <div class="post-content pb-3">
               <div class="post-image d-none d-md-flex">
-                <img src="{{ asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
+                <img src="{{ secure_asset('img/politics.png') }}" class="img-fluid post-img" alt="image" />
               </div>
               <div class="post-content-body row">
                 <div class="">
