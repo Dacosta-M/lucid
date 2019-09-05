@@ -86,6 +86,7 @@ public function Feeds($username)
 
 
   //dd($likes);
+                $tabs = DB::table('interests')->get();
                 return view('timeline', [
                   'fcheck' => $fcheck,
                   'user'=>$user,
@@ -126,7 +127,7 @@ public function Feeds($username)
             //  $follower = $app->subscription();
                //dd($follower);
 
-               $userposts=$app->getPosts($username);
+               $userposts=$app->getPublishedPosts($username);
 
               return view('home', ['userposts' => $userposts,'user'=>$user,'fcheck' => $fcheck,'fcount'=>$fcount, 'count' => $count]);
 
@@ -782,4 +783,21 @@ if ($notifs->type == 'Reaction') {
     }
     return view('interest-posts')->with(['posts'=>$interestPosts,'interest'=>strtoupper($interest)]);
   }
+
+  public function postCategories($category) {
+    $categories = explode(',',$category);
+    $posts = DB::table('posts')
+             ->join('users','posts.user_id','=','users.id')
+             ->select('posts.*','users.image','users.username')
+             
+             ->where('tags','!=',NULL)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
+
+    $users = DB::table('posts')
+            ->join('users','posts.user_id','=','users.id')
+            ->select('posts.*','users.image','users.username')
+            ->where('tags','!=',NULL)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
+
+    return view('category')->with(['categories'=>array_reverse($categories),'posts'=>$posts,'pageController'=>new pageController,'users'=>$users]);
+  }
+
 }

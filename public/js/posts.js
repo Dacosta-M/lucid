@@ -31,7 +31,7 @@ let j = jQuery.noConflict();
   form.onsubmit = newPostSubmitHandler;
 
   // handle saving draft
-  document.querySelector('input[value="Save Draft"]').addEventListener('click', newPostSubmitHandler);
+  document.querySelector('input[value="Draft"]').addEventListener('click', newPostSubmitHandler);
 
   function newPostSubmitHandler(event) {
     event.preventDefault();
@@ -98,7 +98,7 @@ let j = jQuery.noConflict();
 
       formData.set('postVal', markdown);
 
-
+      formData.set('action',newPostIsBeingCreated ? 'publish' : 'draft')
 
 
       //send the form data
@@ -126,7 +126,7 @@ let j = jQuery.noConflict();
                   window.localStorage.setItem('publish', 'success');
                   window.location = '/'+j('meta[name="username"]').attr('content')+'/posts';
 
-                } else if (res.error == false && res.action == 'savedToDrafts') {
+                } else if (res.error == false && res.action == 'draft') {
                   window.localStorage.setItem('savedToDrafts', 'success');
                   window.location = '/'+j('meta[name="username"]').attr('content')+'/posts';
                 }

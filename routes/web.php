@@ -51,8 +51,8 @@ Route::get('microblog','HomeController@microblog');
 Route::post('save-post','HomeController@savePost');
 Route::post('save-subscription','pageController@saveSubscriptionEmail');
 
+Route::get('/category/{category}','pageController@postCategories');
 Route::get('/filter/{method}','pageController@filterPost');
-
 
 
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
@@ -97,6 +97,8 @@ Route::prefix('{username}')->group(function () {
     Route::post('/save-comment','HomeController@saveComment')->name('save-comment');
     Route::post('/notif','pageController@notification');
     Route::post('/edit-post','HomeController@editPost');
+
+    Route::get('/update-post-status/{post_id}/{action}','HomeController@updatePostStatus');
 
 
 });

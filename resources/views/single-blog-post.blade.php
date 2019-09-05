@@ -17,7 +17,7 @@
 
 @section('tags'){{ $post['tags'] }} @endsection
 
-@section('url'){{ secure_url('/').'/'.$user->name.'/post/'.$post['slug'] }} @endsection
+@section('secure_url'){{ secure_url('/').'/'.$user->name.'/post/'.$post['slug'] }} @endsection
 
 
 @php
