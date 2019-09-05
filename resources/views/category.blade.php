@@ -76,7 +76,7 @@
                       echo $pageController->trim_words($postContent, 200);
                      @endphp
                     </p>
-                    <small>Angel Roberts</small>
+                    <small class="mb-5">{{ $post->username }}</small>
                   </div>
                 </div>
               </div>
