@@ -294,7 +294,7 @@
               @guest
               <a class="dropdown-item" href="{{ secure_url('/login') }}">{{ __('Login') }}</a>
               @else
-              <a class="dropdown-item changeHref border-bottom note" href="/{{ Auth::user()->username}}">Home</a>
+ <!--              <a class="dropdown-item changeHref border-bottom note" href="/{{ Auth::user()->username}}">Home</a> -->
               <a href="/{{ $user->username}}/settings" class="dropdown-item note changeHref border-bottom">Settings</a>
               <a class="dropdown-item note changeHref" href="/{{ $user->username}}/logout">
                 {{ __('Logout') }}
