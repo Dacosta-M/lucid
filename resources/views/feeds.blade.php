@@ -23,14 +23,14 @@
               {{$feeds['des']}}
             </p>
             <div class="row">
-              <span class="col-6 col-sm-6 col-md-8">
+              <span class="col-12 col-sm-6 col-md-8">
                 <small>
                 <a href="{{secure_url('/')}}/{{$feeds['username']}}" class="text-muted">{{$feeds['site']}}</a>
                 <span class="font-weight-bold">.</span>
                 <span class="text-muted">{{$feeds['date']}}</span>
                 </small>
               </span>
-              <span class="col-6 col-sm-6 col-md-4">
+              <span class="col-12 col-sm-6 col-md-4">
                 @php
                 $lcount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Like"])->count();
                 $likes = \Lucid\Notification::where(['post_id' => $feeds['id'], 'sender_id' => Auth::user()->id,'action' => "Like"])->first();
