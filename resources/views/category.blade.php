@@ -20,7 +20,7 @@
             $i++;
             @endphp
               <div class="col-4 col-md-2 text-center">
-                <img src="{{  $user['image'] }}" class="img-fluid" style="border-radius:50%;object-fit:cover;" alt="user" width="55" height="56"/>
+                <img src="{{  $user['image'] }}" class="" style="border-radius:50%;object-fit:cover;" alt="user" width="55" height="56"/>
                
                 <small><a href="{{ $user['username'] }}" class="d-block mb-0 text-main font-weight-bold">{{ $user['username'] }}</a></small>
                
@@ -63,7 +63,7 @@
               <div class="post-content">
               @if($first_img !=="")
                 <div class="post-image d-none d-md-flex">
-                  <img src="@php echo   $first_img @endphp" class="img-fluid post-img" alt="image" />
+                  <img src="@php echo   $first_img @endphp" class="post-img" alt="image" />
                 </div>
               @endif
                 <div class="post-content-body row">
