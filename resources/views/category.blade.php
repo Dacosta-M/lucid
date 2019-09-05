@@ -3,7 +3,7 @@
 <div class="mt-4">
             <h5 class="border-bottom pb-2 w-100 px-2" style="text-transform:capitalize;">{{ $category }}</h5>
             <div class="row no-gutters">
-            @php 
+            @php
             $userArray = [];
             foreach($users as $user){
               $tags = explode(',',$user->tags);
@@ -14,36 +14,36 @@
               }}
               $i = 0;
             @endphp
-            
+
             @foreach(array_unique($userArray,SORT_REGULAR) as $user)
-            @php 
+            @php
             $i++;
             @endphp
               <div class="col-4 col-md-2 text-center">
                 <img src="{{  $user['image'] }}" class="" style="border-radius:50%;object-fit:cover;" alt="user" width="55" height="56"/>
-               
+
                 <small><a href="{{ $user['username'] }}" class="d-block mb-0 text-main font-weight-bold">{{ $user['username'] }}</a></small>
-               
+
                 <small>
-                  <p>2k Followers</p>
+                  <!--<p>2k Followers</p>-->
                 </small>
               </div>
-            @php 
+            @php
               if($i == 4){
                 break;
               }
-              
+
             @endphp
             @endforeach
-              
-              
-              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a> 
+
+
+              <a href="" class="mx-4 my-3"><i class="icon ion-md-arrow-dropright-circle text-secondary" style="font-size: 30px;"></i></a>
             </div>
             <h5 class="mt-4 mb-3" style="text-transform:capitalize;">Most popular {{ $category }} posts</h5>
-            @php 
+            @php
             $k = 0;
             foreach($posts as $post) {
-              
+
               $tags = explode(',',$post->tags);
               $tags = array_filter(array_map('trim',$tags));
               $tags = array_filter(array_map('strtolower',$tags));
@@ -72,7 +72,7 @@
                       <a class="no-decoration text-dark" href="{{ route('post',['username'=>$post->username,'postTitle'=>$post->slug]) }}">@php echo $post->title; @endphp</a>
                     </h5>
                     <p class="post-body">
-                     @php 
+                     @php
                       echo $pageController->trim_words($postContent, 200);
                      @endphp
                     </p>
@@ -84,7 +84,7 @@
                 if($k == 3){
                   break;
                 }
-              } 
+              }
             }
             @endphp
             <a href="" class="text-secondary font-weight-bold pb-3">Show more ></a>
