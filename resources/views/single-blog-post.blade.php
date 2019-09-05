@@ -17,7 +17,7 @@
 
 @section('tags'){{ $post['tags'] }} @endsection
 
-@section('secure_url'){{ secure_url('/').'/'.$user->name.'/post/'.$post['slug'] }} @endsection
+@section('url'){!! URL::current() !!} @endsection
 
 
 @php
@@ -74,7 +74,7 @@ $location= 'singlePost';
     </div>
 
     <div class="mt-2 mr-3">
-        <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Flucid.blog&layout=button&size=small&appId=173297093603387&width=59&height=20" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://www.facebook.com/plugins/share_button.php?href={!! URL::current() !!}&layout=button&size=small&appId=173297093603387&width=59&height=20" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
     </div>
 
     <div class="mt-1 mr-3">

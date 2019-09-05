@@ -520,7 +520,7 @@ $location= 'post';
        }
      })
     }
-  
+
 
   j(document).ready(function(){
     const postDelete=localStorage.getItem('delete');

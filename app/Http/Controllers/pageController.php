@@ -534,7 +534,7 @@ public function Feeds($username)
                 ->take(5)
                 ->get();
 
-                //dd($notif);
+          //      dd($notif);
     $output = '';
   if (count($notif) > 0) {
 
@@ -590,15 +590,16 @@ public function Feeds($username)
             </div>';
 }
 if ($notifs->type == 'Reaction') {
+
+  if ($notifs->action == 'Like') {
   $notif = DB::table('notifications')
               ->join('users','notifications.sender_id','=','users.id')
               ->join('posts','notifications.post_id','=','posts.id')
               ->select('notifications.*', 'posts.title', 'posts.slug', 'users.username','users.email','users.image')
-              ->where(['notifications.user_id' => Auth::user()->id, 'notifications.post_id' => $notifs->post_id ] )
+              ->where(['notifications.user_id' => Auth::user()->id, 'notifications.post_id' => $notifs->post_id, 'notifications.action' =>"Like" ] )
               ->where('notifications.sender_id', "!=", Auth::user()->id)
               ->orderBy('notifications.id','DESC')
               ->first();
-  if ($notif->action == 'Like') {
 
 
         $output .='
@@ -610,9 +611,15 @@ if ($notifs->type == 'Reaction') {
         </div>';
 
       }
-      if ($notif->action == 'Love') {
-
-
+      if ($notifs->action == 'Love') {
+        $notif = DB::table('notifications')
+                    ->join('users','notifications.sender_id','=','users.id')
+                    ->join('posts','notifications.post_id','=','posts.id')
+                    ->select('notifications.*', 'posts.title', 'posts.slug', 'users.username','users.email','users.image')
+                    ->where(['notifications.user_id' => Auth::user()->id, 'notifications.post_id' => $notifs->post_id, 'notifications.action' =>"Love" ] )
+                    ->where('notifications.sender_id', "!=", Auth::user()->id)
+                    ->orderBy('notifications.id','DESC')
+                    ->first();
             $output .='
             <div class="post-content border p-3">
               <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
@@ -789,7 +796,7 @@ if ($notifs->type == 'Reaction') {
     $posts = DB::table('posts')
              ->join('users','posts.user_id','=','users.id')
              ->select('posts.*','users.image','users.username')
-             
+
              ->where('tags','!=',NULL)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
 
     $users = DB::table('posts')
