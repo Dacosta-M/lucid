@@ -132,7 +132,7 @@ const j = jQuery.noConflict();
      setTimeout(() => {
      j.ajax({
          type:'GET',
-         secure_url:route,
+         url:route,
          contentType:false,
          processData:false,
          success:function (data){
@@ -159,7 +159,7 @@ const j = jQuery.noConflict();
                 j('.text-danger').hide();
                 j.ajax({
                     type:"POST",
-                    secure_url:saveComment,
+                    url:saveComment,
                     dataType:'json',
                     data:formData,
                     contentType:false,

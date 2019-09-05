@@ -132,7 +132,7 @@ class Document
         return $result;
     }
     */
-    public function createPost($title,$content, $tags, $image,$username){
+    public function createPost($title,$content, $tags, $image,$username, $action){
 
         if (!empty($image)) {
           $url = Auth::user()->id."/images/";
@@ -158,14 +158,13 @@ class Document
         'content'=>$content,
         'tags'=>$tags,
         'image'=> $image,
-        'slug'=> $slug
+        'slug'=> $slug,
+        'action'=>$action
       ]);
 
-      if ($insertPosts) {
-        $result = array("error" => false, "action"=>"publish", "message" => "Post published successfully");
-        return true;
+    if ($insertPosts) {
+        return $action;
     } else {
-        $result = array("error" => true, "action"=>"publish", "message" => "Fail while publishing, please try again");
         return false;
     }
 
@@ -1135,6 +1134,42 @@ $user = Auth::user();
 
     }
 
+    public function getPublishedPosts(){
+
+      $user =   DB::table('users')->where('username', $this->user)->first();
+
+          $posts = DB::table('posts')->where('user_id',$user->id)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
+          if(!empty($posts)){
+
+            $allPost = [];
+          foreach($posts as $post){
+            $parsedown  = new Parsedown();
+            $postContent = $parsedown->text($post->content);
+            preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $postContent, $matches);
+            $first_img = "";
+            if (isset($matches[1])) {
+                // there are images
+                $first_img = $matches[1];
+                // strip all images from the text
+                $postContent = preg_replace("/<img[^>]+\>/i", " ", $postContent);
+            }
+            $createdAt = Carbon::parse($post->created_at);
+            $content['title'] = $post->title;
+            $content['body']  = $this->trim_words($postContent, 200);
+            $content['tags']  = $post->tags;
+            $content['slug']  = $post->slug;
+            $content['image'] = $first_img;
+            $content['date']  =  $createdAt->format('M jS, Y h:i A');;
+            $content['id'] = $post->id;
+            
+            array_push($allPost,$content);
+          }
+          return $allPost;
+
+          }
+
+    }
+
         public function getPosts(){
         //  $user =  $this->user($username);
           $user =   DB::table('users')->where('username', $this->user)->first();
@@ -1162,6 +1197,7 @@ $user = Auth::user();
             $content['image'] = $first_img;
             $content['date']  =  $createdAt->format('M jS, Y h:i A');;
             $content['id'] = $post->id;
+            $content['status'] = $post->action;
             array_push($allPost,$content);
           }
           return $allPost;

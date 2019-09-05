@@ -199,6 +199,7 @@ foreach ($get as $key => $value) {
         $title = isset($request->title) ? $request->title : '';
         $content = $request->postVal;
         $tags = $request->tags;
+        $action = $request->action;
 
 
           $initial_images = array_filter($request->all(), function ($key) {
@@ -213,13 +214,15 @@ foreach ($get as $key => $value) {
 
         }
         $post = new \Lucid\Core\Document($username);
-        $createPost = $post->createPost($title, $content, $tags, $images,$username);
+        $createPostAction = $post->createPost($title, $content, $tags, $images,$username,$action);
 
       //  dd(  $createPost);
-        if($createPost){
+        if($createPostAction == "publish" ){
           return response()->json(["error" => false, "action"=>"publish", "message" => "Post published successfully"],200);
-        }else{
-          return response()->json(["error" => true, "action"=>"publish", "message" => "Fail while publishing, please try again"]);
+        }else if ($createPostAction == "draft") {
+          return response()->json(["error" => false, "action"=>"draft", "message" => "Post published successfully"],200);
+        }else if($createPostAction == false){
+          return response()->json(["error" => true, "action"=>"publish", "message" => "Failed while processing your request, please try again"]);
         }
     }
 
@@ -514,6 +517,7 @@ print_r($updateFeeds);
         $content = $request->postVal;
         $tags = $request->tags;
         $post_id = $request->post_id;
+        $action = $request->action;
 
 
           $initial_images = array_filter($request->all(), function ($key) {
@@ -526,13 +530,25 @@ print_r($updateFeeds);
             $images[$newKey] = $value;
         }
         $post = new \Lucid\Core\Document($username);
-        $updatePost = $post->saveUpdatedPost($title, $content, $tags, $images,$username,$post_id);
+        $updatePost = $post->saveUpdatedPost($title, $content, $tags, $images,$username,$post_id,$action);
 
         if($updatePost){
           return response()->json(["error" => false, "action"=>"update", "message" => "Post Updated successfully"],200);
         }else{
           return response()->json(["error" => true, "action"=>"error", "message" => "Fail while publishing, please try again"]);
         }
+    }
+
+    public function updatePostStatus($username,$post_id,$action){
+      $update = DB::table('posts')->where('id',$post_id)->update([
+        'action'=>$action,
+      ]);
+
+      if($update) {
+        return response()->json(['success'=>true],200);
+      }else{
+        return response()->json(['success'=>false],200);
+      }
     }
 
 }

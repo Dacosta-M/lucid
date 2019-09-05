@@ -98,5 +98,7 @@ Route::prefix('{username}')->group(function () {
     Route::post('/notif','pageController@notification');
     Route::post('/edit-post','HomeController@editPost');
 
+    Route::get('/update-post-status/{post_id}/{action}','HomeController@updatePostStatus');
+
 
 });

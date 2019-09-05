@@ -58,16 +58,50 @@
             <label for="categories" class="font-weight-bold">
               <h5>Categories</h5>
             </label>
-            @forelse($interests as $interest)
+           
             <div class="form-check">
-              <input class="form-check-input" name="checkbox" type="checkbox" value="{{ $interest->interest }}" id="{{ $interest->interest }}">
-              <label class="form-check-label" for="{{ $interest->interest }}" style="text-transform:capitalize;">
-                {{ $interest->interest }}
+              <input class="form-check-input" name="checkbox" type="checkbox" value="politics" id="politics">
+              <label class="form-check-label" for="politics" style="text-transform:capitalize;">
+                Politics
               </label>
             </div>
-            
-            @empty
-            @endforelse
+
+            <div class="form-check">
+              <input class="form-check-input" name="checkbox" type="checkbox" value="sports" id="sports">
+              <label class="form-check-label" for="sports">
+                Sports
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name="checkbox" type="checkbox" value="health" id="health">
+              <label class="form-check-label" for="health">
+                Health
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name="checkbox" type="checkbox" value="technology" id="technology">
+              <label class="form-check-label" for="technology">
+                Technology
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name="checkbox" type="checkbox" value="music" id="music">
+              <label class="form-check-label" for="music">
+                Music
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name="checkbox" type="checkbox" value="lifestyle" id="lifestyle">
+              <label class="form-check-label" for="lifestyle">
+                Lifestyle
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name="checkbox" type="checkbox" value="fitness" id="fitnesss">
+              <label class="form-check-label" for="fitness">
+                Fitness
+              </label>
+            </div>
             
           </div>
           <div class="form-group my-3">
