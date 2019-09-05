@@ -17,7 +17,7 @@
           <div class="post-content-body mb-0">
             <span class="text-muted">{{$feeds['tags']}}</span>
             <a href="{{secure_url('/')}}/{{$feeds['username'].$feeds['link']}}" class="no-decoration">
-              <h5 class="font-weight-bold ">{{\Illuminate\Support\Str::title($feeds['title'])}}</h5>
+              <h5 class="font-weight-bold on-hover">{{\Illuminate\Support\Str::title($feeds['title'])}}</h5>
             </a>
             <p class="mb-1">
               {{$feeds['des']}}
