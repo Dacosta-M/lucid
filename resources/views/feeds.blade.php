@@ -16,8 +16,8 @@
           <img src="{{$feeds['site_image']}}" class="timeline-img" alt="{{$feeds['site']}}" />
           <div class="post-content-body mb-0">
             <span class="text-muted">{{$feeds['tags']}}</span>
-            <a href="{{secure_url('/')}}/{{$feeds['link']}}" class="no-decoration">
-              <h5 class="font-weight-bold on-hover">{{\Illuminate\Support\Str::title($feeds['title'])}}</h5>
+            <a href="{{secure_url('/')}}/{{$feeds['username'].$feeds['link']}}" class="no-decoration">
+              <h5 class="font-weight-bold ">{{\Illuminate\Support\Str::title($feeds['title'])}}</h5>
             </a>
             <p class="mb-1">
               {{$feeds['des']}}
@@ -72,7 +72,7 @@
                 @php
                 $ccount = \Lucid\Notification::where(['post_id' => $feeds['id'],'action' => "Commented"])->count();
                 @endphp
-                <a href="{{secure_url('/')}}/{{$feeds['link']}}#comment">
+                <a href="{{secure_url('/')}}/{{$feeds['username'].$feeds['link']}}#comment">
                   <button type="button"  class="btn">
                   <i class="icon ion-md-text text-primary" style="font-size: 1.2em;"></i>
                   <sub id="count{{$feeds['id']}}">{{ $ccount }}</sub>
