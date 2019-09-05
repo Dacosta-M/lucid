@@ -199,7 +199,7 @@ class Document
           'des'=>$content,
           'tags'=>$tags,
           'image'=> $image,
-          'link'=> $slug
+          'link'=> '/post/'.$slug
 
         ]);
         $updatePosts = DB::table('posts')->where('id',$post_id)->update([
@@ -624,14 +624,14 @@ public function checker()
                   foreach ($feed as $key => $value) {
 
                   //  dd($this->user."/post/" . strtolower(strip_tags($value['slug' ])));
-                  if (extfeeds::Where('link', $this->user."/post/" . strtolower(strip_tags($value['slug' ])))->Where('site', "=", $user->name)->doesntExist()== 1) {
+                  if (extfeeds::Where('link', "/post/" . strtolower(strip_tags($value['slug' ])))->Where('site', "=", $user->name)->doesntExist()== 1) {
                     $feedId  = DB::table('extfeeds')->insert([
                         'user_id'          =>$user->id,
                         'site'             => $user->name,
                         'site_image'       => $user->image,
                         'title'            => strip_tags($value['title']),
                         'des'             =>  strip_tags($value['body']),
-                        'link'             => $this->user."/post/" . $value['slug' ],
+                        'link'             => "/post/" . $value['slug' ],
                         'date'    => $value['date'],
                         'image'   => $value['image'],
                       ]);

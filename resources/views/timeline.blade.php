@@ -316,11 +316,11 @@ $location = 'timeline';
         }
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-  console.log(xmlhttp.responseText);
+  //console.log(xmlhttp.responseText);
                 document.getElementById("feeds").innerHTML = xmlhttp.responseText;
             }
         };
-        xmlhttp.open("GET","{{ $user->username }}/feeds",true);
+        xmlhttp.open("GET","/{{ $user->username }}/feeds",true);
         xmlhttp.send();
 
 
@@ -337,7 +337,7 @@ function feeds() {
                   document.getElementById("feeds").innerHTML = xmlhttp.responseText;
               }
           };
-          xmlhttp.open("GET","{{ $user->username }}/feeds",true);
+          xmlhttp.open("GET","/{{ $user->username }}/feeds",true);
           xmlhttp.send();
      
 }

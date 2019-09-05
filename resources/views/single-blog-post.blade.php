@@ -74,7 +74,7 @@ $location= 'singlePost';
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <h6 class="font-weight-bold">Comments: </h6>
-  <div class="comments">
+  <div id="comment" class="comments">
 
     <div class="" style="text-align: -webkit-center">
      <div class="spinner" style="    position: inherit;"></div></div>
