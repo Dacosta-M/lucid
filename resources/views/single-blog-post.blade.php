@@ -140,7 +140,7 @@ $location= 'singlePost';
     j(document).ready(function() {
         function getComment() {
 
-            const route = "{{ secure_url($user->username.'/comments',['post_id'=>$post['id']])  }}"
+            const route = "{{ secure_url(‘/‘.$user->username.'/comments',['post_id'=>$post['id']])  }}"
             j.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
@@ -169,7 +169,7 @@ $location= 'singlePost';
                 e.preventDefault();
 
                 const formData = new FormData(commentForm);
-                const saveComment = "{{ secure_url($user->username.'/save-comment')  }}";
+                const saveComment = "{{ secure_url(‘/‘.$user->username.'/save-comment')  }}";
                 if (formData.get('body') == "") {
                     j('.text-danger').show();
                 } else {
