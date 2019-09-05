@@ -12,37 +12,37 @@
   <meta name="username" content="{{ Auth::user()->username }}">
   <meta name="user_id" content="{{ Auth::user()->id }}">
   @endauth
-  <meta content="@yield('img')" property='og:image'/>
-  <meta content="@yield('desc')" name='og:description'/>
-  <meta content='@yield("tags")' name='keywords'/>
+  <meta content="@yield('img')" property='og:image' />
+  <meta content="@yield('desc')" name='og:description' />
+  <meta content='@yield("tags")' name='keywords' />
 
-<!-- twiter card -->
-  <meta content='summary_large_image' name='twitter:card'/>
-  <meta content="@yield('img')" name='twitter:image'/>
-  <meta content='{{ secure_url('/') }}' name='twitter:domain'/>
-  <meta content='@yield("title")' name='twitter:title'/>
-  <meta content='@yield("desc")' name='twitter:description'/>
-  <meta content='' name='twitter:site'/>
-  <meta content='' name='twitter:creator'/>
+  <!-- twiter card -->
+  <meta content='summary_large_image' name='twitter:card' />
+  <meta content="@yield('img')" name='twitter:image' />
+  <meta content='{{ secure_url('/') }}' name='twitter:domain' />
+  <meta content='@yield("title")' name='twitter:title' />
+  <meta content='@yield("desc")' name='twitter:description' />
+  <meta content='' name='twitter:site' />
+  <meta content='' name='twitter:creator' />
 
   <!-- Metadata Facebook -->
-  <meta content='Lucid' property='og:site_name'/>
+  <meta content='Lucid' property='og:site_name' />
   <meta content='@yield("url")' property="og:url" />
-  <meta content='@yield("title")' property='og:title'/>
-  <meta content='article' property='og:type'/>
-  <meta content='' property='fb:admins'/>
-  <meta content='517404062134205' property='fb:app_id'/>
+  <meta content='@yield("title")' property='og:title' />
+  <meta content='article' property='og:type' />
+  <meta content='' property='fb:admins' />
+  <meta content='517404062134205' property='fb:app_id' />
 
 
 
   <!-- Social Media Profile Meta Tag -->
-  <meta content='Nigeria' name='geo.placename'/>
-  <meta content='{{ $user->name }}' name='Author'/>
-  <meta content='general' name='rating'/>
-  <meta content='id' name='geo.country'/>
-  <meta content='en_US' property='og:locale'/>
-  <meta content='en_GB' property='og:locale:alternate'/>
-  <meta content='id_ID' property='og:locale:alternate'/>
+  <meta content='Nigeria' name='geo.placename' />
+  <meta content='{{ $user->name }}' name='Author' />
+  <meta content='general' name='rating' />
+  <meta content='id' name='geo.country' />
+  <meta content='en_US' property='og:locale' />
+  <meta content='en_GB' property='og:locale:alternate' />
+  <meta content='id_ID' property='og:locale:alternate' />
   <title>@yield('title')</title>
 
 
@@ -103,27 +103,30 @@
     }
   </style>
 
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '{your-app-id}',
-      cookie     : true,
-      xfbml      : true,
-      version    : '{api-version}'
-    });
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '{your-app-id}',
+        cookie: true,
+        xfbml: true,
+        version: '{api-version}'
+      });
 
-    FB.AppEvents.logPageView();
+      FB.AppEvents.logPageView();
 
-  };
+    };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
 </head>
 
 <body id="preloader">
@@ -183,20 +186,22 @@
         <div class="user-stats text-center mt-3 pb-0">
           <div class="d-inline-block">
             @if (empty($count))
-            <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">0  <small class="text-muted d-block">Following</small></a>
+            <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">0 <small class="text-muted d-block">Following</small></a>
             @else
             <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">{{$count}} <small class="text-muted d-block">Following</small></a>
             @endif
           </div>
           <div class="d-inline-block">
             @if (empty($fcount))
-            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0  <small class="text-muted">Followers</small></a>
+            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0 <small class="text-muted">Followers</small></a>
             @else
             <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
             @endif
           </div>
           <div class="mt-3">
-            <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="{{ secure_asset('img/logo.jpg') }}" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" /> <p class="mb-0 ml-1">Powered by Lucid</p></small></a>
+            <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="{{ secure_asset('img/logo.jpg') }}" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" />
+                <p class="mb-0 ml-1">Powered by Lucid</p>
+              </small></a>
           </div>
         </div>
       </div>
@@ -262,7 +267,11 @@
           <a class="d-lg-none" id="sidebarToggle"><i class="icon ion-md-list" style="font-size: 1.8em"></i></a>
           @guest
           @else
-        <div class="dropdown">
+          <div class="dropdown">
+            @guest
+            @else
+            <a href="/{{ Auth::user()->username}}" class="mr-1 pr-4 text-main"><i class="icon ion-md-home cursor-pointer" style="font-size: 1.8em;"></i></a>
+            @endguest
             <a class="mr-5 pr-4 notification text-main" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-md-notifications cursor-pointer" style="font-size: 1.8em;"></i>
               <span class="badge badge-danger count"></span>
               <span class="sr-only">unread notifications</span></a>
@@ -270,13 +279,13 @@
               <h6 class="font-weight-bold mx-2">Notifications</h6>
               <div id="notif">
 
-                  <div class="spinner" style=" padding: 20px;  width: 2vw;
+                <div class="spinner" style=" padding: 20px;  width: 2vw;
     height: 2vw;"></div>
-                </div>
+              </div>
               <a href="{{ secure_url('under-construction') }}" class="font-weight-bold mx-2 mt-3">View all</a>
             </div>
           </div>
-            @endguest
+          @endguest
           <div class="dropdown" id="lucid-dropdown">
             <a class="nav-link dropdown-toggle pt-1 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="{{ secure_asset('img/lucid-logo.png') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
@@ -323,45 +332,54 @@
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
-  const a = jQuery.noConflict();
-  function like(action,id) {
+    const a = jQuery.noConflict();
+
+    function like(action, id) {
 
       url = "{{ secure_url($user->username.'/like')  }}";
-  //  id=id+"&act="+action;
-    a.ajax({
-      url:url,
-      type:"Get",
-      data:{id:id,act:action},
-      dataType:"json",
-      })
-    .then (
-      function(data) {
-
-        //  console.log(data);
-      a('#like'+id).html(data.button);
-    //  a('#count'+id).html(data.count);
-    });
-
-      }
-      function love(action,id) {
-
-        url = "{{ secure_url($user->username.'/love')  }}";
       //  id=id+"&act="+action;
-        a.ajax({
-          url:url,
-          type:"Get",
-          data:{id:id,act:action},
-          dataType:"json",
-          })
-        .then (
+      a.ajax({
+          url: url,
+          type: "Get",
+          data: {
+            id: id,
+            act: action
+          },
+          dataType: "json",
+        })
+        .then(
           function(data) {
 
             //  console.log(data);
-          a('#love'+id).html(data.button);
-        //  a('#count'+id).html(data.count);
-        });
+            a('#like' + id).html(data.button);
+            //  a('#count'+id).html(data.count);
+          });
 
-          }
+    }
+
+    function love(action, id) {
+
+      url = "{{ secure_url($user->username.'/love')  }}";
+      //  id=id+"&act="+action;
+      a.ajax({
+          url: url,
+          type: "Get",
+          data: {
+            id: id,
+            act: action
+          },
+          dataType: "json",
+        })
+        .then(
+          function(data) {
+
+            //  console.log(data);
+            a('#love' + id).html(data.button);
+            //  a('#count'+id).html(data.count);
+          });
+
+    }
+
     function changeUrl(e) {
       history.pushState(null, null, `/${document.getElementById("username").value+'/'+e}`)
     }
@@ -405,72 +423,73 @@
   </script>
   @guest
   @else
-<script>
-const s = jQuery.noConflict();
- s(document).ready(function (){
-    const check = "{{ secure_url($user->username.'/notif')  }}"
+  <script>
+    const s = jQuery.noConflict();
+    s(document).ready(function() {
+      const check = "{{ secure_url($user->username.'/notif')  }}"
 
-function load_unseen_notification(view = '')
-{
-  s.ajaxSetup({
-    headers:{
-      'X-CSRF-TOKEN': s('meta[name="csrf-token"]').attr('content')
-    }
-  })
-s.ajax({
-  url:check,
-  method:"POST",
-  data:{view:view},
-  dataType:"json",
-  })
-.then (
-  function(data) {
-  //  console.log(data);
+      function load_unseen_notification(view = '') {
+        s.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': s('meta[name="csrf-token"]').attr('content')
+          }
+        })
+        s.ajax({
+            url: check,
+            method: "POST",
+            data: {
+              view: view
+            },
+            dataType: "json",
+          })
+          .then(
+            function(data) {
+              //  console.log(data);
 
-   if(data.unseen_notification > 0)
-   {
-    s('.count').html(data.unseen_notification);
-   }
+              if (data.unseen_notification > 0) {
+                s('.count').html(data.unseen_notification);
+              }
 
 
- })
-.catch(function(err) {
-    //console.log('Fetch Error :-S', err);
-    });
-  }
-  const view_notif = "{{ secure_url($user->username.'/notif')  }}"
+            })
+          .catch(function(err) {
+            //console.log('Fetch Error :-S', err);
+          });
+      }
+      const view_notif = "{{ secure_url($user->username.'/notif')  }}"
 
-  s(document).on('click', '#load', function(){
-  view = "";
-  s.ajax({
-    url:view_notif,
-    method:"Get",
-    data:{view:view},
-    dataType:"json",
+      s(document).on('click', '#load', function() {
+        view = "";
+        s.ajax({
+            url: view_notif,
+            method: "Get",
+            data: {
+              view: view
+            },
+            dataType: "json",
+          })
+          .then(
+            function(data) {
+
+              //    console.log(data);
+              s('#notif').html(data.notification);
+            });
+      });
+
+      //  setInterval(function(){
+      load_unseen_notification();
+      //}, 2000);
+
+      s(document).on('click', '#notif', function() {
+        s('.count').html('');
+        load_unseen_notification('yes');
+      });
+
+
+
+
     })
-  .then (
-    function(data) {
-
-    //    console.log(data);
-    s('#notif').html(data.notification);
-  });
-});
-
-//  setInterval(function(){
-load_unseen_notification();
-//}, 2000);
-
-s(document).on('click', '#notif', function(){
- s('.count').html('');
- load_unseen_notification('yes');
-  });
-
-
-
-
-})
-
-</script>
+  </script>
   @endguest
 </body>
 
