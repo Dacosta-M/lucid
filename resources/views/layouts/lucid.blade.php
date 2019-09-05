@@ -183,16 +183,16 @@
         <div class="user-stats text-center mt-3 pb-0">
           <div class="d-inline-block">
             @if (empty($count))
-            <a href="/{{$user->username}}/following" class="pr-2 changeHref">0 <br /> <small class="text-muted">Following</small></a>
+            <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">0  <small class="text-muted d-block">Following</small></a>
             @else
-            <a href="/{{$user->username}}/following" class="pr-2 changeHref">{{$count}} <br /> <small class="text-muted">Following</small></a>
+            <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">{{$count}} <small class="text-muted d-block">Following</small></a>
             @endif
           </div>
           <div class="d-inline-block">
             @if (empty($fcount))
-            <a href="/{{$user->username}}/followers" class="changeHref">0 <br /> <small class="text-muted">Followers</small></a>
+            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0  <small class="text-muted">Followers</small></a>
             @else
-            <a href="/{{$user->username}}/followers" class="changeHref">{{$fcount}} <br /> <small class="text-muted">Followers</small></a>
+            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
             @endif
           </div>
           <div class="mt-3">
