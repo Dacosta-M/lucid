@@ -12,8 +12,13 @@
               if(in_array(strtolower($category), $tags)) {
                 $userArray[] = array('username'=>$user->username,'image'=>$user->image);
               }}
+              $i = 0;
             @endphp
+            
             @foreach(array_unique($userArray,SORT_REGULAR) as $user)
+            @php 
+            $i++;
+            @endphp
               <div class="col-4 col-md-2 text-center">
                 <img src="{{  $user['image'] }}" class="img-fluid" style="border-radius:50%;object-fit:cover;" alt="user" width="55" height="56"/>
                
@@ -23,6 +28,12 @@
                   <p>2k Followers</p>
                 </small>
               </div>
+            @php 
+              if($i == 4){
+                break;
+              }
+              
+            @endphp
             @endforeach
               
               
@@ -30,11 +41,14 @@
             </div>
             <h5 class="mt-4 mb-3" style="text-transform:capitalize;">Most popular {{ $category }} posts</h5>
             @php 
+            $k = 0;
             foreach($posts as $post) {
+              
               $tags = explode(',',$post->tags);
               $tags = array_filter(array_map('trim',$tags));
               $tags = array_filter(array_map('strtolower',$tags));
               if(in_array(strtolower($category), $tags)) {
+                $k++;
                 $parsedown  = new Parsedown();
                 $postContent = $parsedown->text($post->content);
                 preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $postContent, $matches);
@@ -67,6 +81,9 @@
                 </div>
               </div>
              @php
+                if($k == 3){
+                  break;
+                }
               } 
             }
             @endphp
