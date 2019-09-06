@@ -12,8 +12,10 @@
 @else
 @section('img'){{ secure_asset('img/logo.png') }} @endsection
 @endif
-
-@section('desc'){{ \Illuminate\Support\Str::limit($post['body'], 300) }} @endsection
+@php
+$postdes = strip_tags($post['body']);
+@endphp
+@section('desc'){{ \Illuminate\Support\Str::limit($postdes, 300) }} @endsection
 
 @section('tags'){{ $post['tags'] }} @endsection
 
