@@ -96,11 +96,8 @@ body {
     background: var(--main-color);
     border-radius: 5px;
 }
-
 .on-hover:hover {
-    color: #ffffff;
-    background: var(--main-color);
-    width: max-content;
+    opacity: 0.6;
 }
 .active-nav {
     border-bottom: solid 3px var(--main-color);

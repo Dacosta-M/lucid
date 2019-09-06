@@ -58,7 +58,7 @@
             <label for="categories" class="font-weight-bold">
               <h5>Categories</h5>
             </label>
-           
+
             <div class="form-check">
               <input class="form-check-input" name="checkbox" type="checkbox" value="politics" id="politics">
               <label class="form-check-label" for="politics" style="text-transform:capitalize;">
@@ -102,7 +102,7 @@
                 Fitness
               </label>
             </div>
-            
+
           </div>
           <div class="form-group my-3">
             <label for="hastags" class="font-weight-bold">
@@ -126,7 +126,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    
+
     <script>
       const j = jQuery.noConflict();
 
@@ -167,8 +167,8 @@
 
         let AllCheckedBoxes = document.querySelectorAll('.form-check-input:checked');
         let AllCheckedBoxesArray = Array.from(AllCheckedBoxes).map(el=>el.value);
-        
-        
+
+
         j.ajax({
           type: "GET",
           url: "/category/"+ AllCheckedBoxesArray,
@@ -183,19 +183,19 @@
      j(document).ready(function(){
 
       let checkboxes = document.querySelectorAll('input[name="checkbox"]');
-      
+
       const checked = document.querySelectorAll('.form-check-input:checked');
       let checkedBoxesArray=Array.from(checked).map(el=>el.value);
       checkboxes.forEach(checkbox=>{
          checkbox.addEventListener('change',function(){
          let checkedboxes = document.querySelectorAll('.form-check-input:checked');
-          
-       if (this.checked) {    
+
+       if (this.checked) {
           checkedBoxesArray.push(this.value);
         }else if (this.checked == false){
            checkedBoxesArray  = Array.from(checkedboxes).map(el=>el.value);
         }
-        
+
          console.log(checkedBoxesArray)
         if(checkedBoxesArray.length == 1) {
             checkedboxes[0].setAttribute('disabled','');
@@ -205,9 +205,9 @@
             })
          }
 
-        
 
-         
+
+
          j.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
@@ -220,13 +220,13 @@
              j("#categories_view").html(data);
           },
         });
-          
+
       });
     })
 
      })
-      
-      
+
+
     </script>
 </body>
 
