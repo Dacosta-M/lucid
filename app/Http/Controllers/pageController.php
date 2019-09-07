@@ -848,7 +848,7 @@ $content ='';
     <news:language>en</news:language>
     </news:publication>
     <news:publication_date>'.$value->created_at.'</news:publication_date>
-    <news:title>'.\Illuminate\Support\Str::title(\Illuminate\Support\Str::replaceFirst('&quot;', '"',$value->title)).'</news:title>
+    <news:title>'.$value->title.'</news:title>
     </news:news></url>';
   };
   $content .='</urlset>' ;
