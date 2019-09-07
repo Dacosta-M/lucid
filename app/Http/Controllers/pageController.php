@@ -844,11 +844,11 @@ $content ='';
     <loc>'.url('/').'/'.$user->username.'/'.$value->slug.'</loc>
     <news:news>
     <news:publication>
-    <news:name>'.\Illuminate\Support\Str::title($user->name).'&apos;s Blog</news:name>
+    <news:name>'.\Illuminate\Support\Str::title($this->clean($user->name)).'&apos;s Blog</news:name>
     <news:language>en</news:language>
     </news:publication>
     <news:publication_date>'.$value->created_at.'</news:publication_date>
-    <news:title>'.\Illuminate\Support\Str::title($value->title).'</news:title>
+    <news:title>'.\Illuminate\Support\Str::title(\Illuminate\Support\Str::replaceFirst('&quot;', '"',$value->title)).'</news:title>
     </news:news></url>';
   };
   $content .='</urlset>' ;
