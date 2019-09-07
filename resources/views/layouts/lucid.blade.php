@@ -442,7 +442,7 @@
   <script>
     const s = jQuery.noConflict();
     s(document).ready(function() {
-      const check = "@if($isLocal) {{ url($user->username.'/notif')  }} @else {{ secure_url($user->username.'/notif')  }} @endif"
+      const check = "@if($isLocal){{ url($user->username.'/notif')  }}@else{{ secure_url($user->username.'/notif')  }}@endif"
 
       function load_unseen_notification(view = '') {
         s.ajaxSetup({
@@ -472,7 +472,7 @@
             //console.log('Fetch Error :-S', err);
           });
       }
-      const view_notif = "@if($isLocal) {{ url($user->username.'/notif')  }} @else {{ secure_url($user->username.'/notif')  }} @endif"
+      const view_notif = "@if($isLocal){{ url($user->username.'/notif')  }}@else{{ secure_url($user->username.'/notif')  }}@endif"
 
       s(document).on('click', '#load', function() {
         view = "";
