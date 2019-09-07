@@ -4,6 +4,9 @@ namespace Lucid\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        //URL::forceScheme('https');
+        $isLocal = App::environment('local') ? true : false;
+        View::share('isLocal', $isLocal);
     }
 
     /**

@@ -5,6 +5,7 @@ use Parsedown;
 use Mni\FrontYAML\Parser;
 use KzykHys\FrontMatter\FrontMatter;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Str;
 use KzykHys\FrontMatter\Document as Doc;
 use Auth;
 use DB;
@@ -131,17 +132,16 @@ class Document
         return $result;
     }
     */
-    public function createPost($title,$content, $tags, $image,$username){
+    public function createPost($title,$content, $tags, $image,$username, $action){
 
         if (!empty($image)) {
           $url = Auth::user()->id."/images/";
           if(is_array($image)) {
               foreach ($image as $key => $value) {
-
-                  $decoded = base64_decode($image[$key]);
-
+                  $image = $value;
+                  $decoded = base64_decode($image);
                   $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                $image = Storage::disk('local')->put( $img_path, $decoded);
+                  $image = Storage::disk('local')->put( $img_path, $decoded);
 
               }
           }
@@ -149,9 +149,8 @@ class Document
         $image = null;
       }
 
-      $slug = str_replace(' ', '-', $title);
 
-      $slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
+      $slug = Str::slug($title);
       $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
       $insertPosts = DB::table('posts')->insert([
         'user_id'=>Auth::user()->id,
@@ -159,14 +158,13 @@ class Document
         'content'=>$content,
         'tags'=>$tags,
         'image'=> $image,
-        'slug'=>strtolower($slug)
+        'slug'=> $slug,
+        'action'=>$action
       ]);
 
-      if ($insertPosts) {
-        $result = array("error" => false, "action"=>"publish", "message" => "Post published successfully");
-        return true;
+    if ($insertPosts) {
+        return $action;
     } else {
-        $result = array("error" => true, "action"=>"publish", "message" => "Fail while publishing, please try again");
         return false;
     }
 
@@ -178,36 +176,47 @@ class Document
             $url = Auth::user()->id."/images/";
             if(is_array($image)) {
                 foreach ($image as $key => $value) {
-  
-                    $decoded = base64_decode($image[$key]);
-  
+                    $image = $value;
+                    $decoded = base64_decode($image);
+
                     $img_path = 'public/'.Auth::user()->id."/images/".$key;
                   $image = Storage::disk('local')->put( $img_path, $decoded);
-  
+
                 }
             }
         }else {
           $image = null;
         }
-  
-        $slug = str_replace(' ', '-', $title);
-  
-        $slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
+
+        $slug = Str::slug($title);
         $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
+        //$slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
+        $oldpost = DB::table('posts')->where('id',$post_id)->first('title');
+      //  dd($oldpost->title);
+        $updateFeeds = DB::table('extfeeds')->where('title',$oldpost->title)
+        ->update([
+          'title'=>$title,
+          'des'=>$content,
+          'tags'=>$tags,
+          'image'=> $image,
+          'link'=> '/post/'.$slug
+
+        ]);
         $updatePosts = DB::table('posts')->where('id',$post_id)->update([
           'user_id'=>Auth::user()->id,
           'title'=>$title,
           'content'=>$content,
           'tags'=>$tags,
           'image'=> $image,
-          'slug'=>strtolower($slug)
+          'slug'=> $slug
         ]);
-  
+
+        //dd($updateFeeds);
         if ($updatePosts) {
-          
+
           return true;
       } else {
-         
+
           return false;
       }
 
@@ -273,7 +282,7 @@ class Document
                 $time = $parsedown->text($yaml['timestamp']);
                 $url = $parsedown->text($yaml['post_dir']);
                 $content['title'] = $title;
-                $content['body'] = $this->trim_words($bd, 200);
+                $content['body'] = $bd;
                 $content['url'] = $url;
                 $content['timestamp'] = $time;
                 $content['tags'] = $tags;
@@ -294,22 +303,34 @@ class Document
                 array_push($posts, $content);
             }
             $this->array_sort_by_column($posts,'created_at');
-
+//dd($posts );
             foreach ($posts as $key => $value) {
               $title = strip_tags($value['title']);
-              $slug = str_replace(' ', '-', $title);
-              $slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
+              $slug = Str::slug($title);
               $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
 
+              if(DB::table('posts')->where(['title' => $title, 'user_id' => Auth::user()->id])->exists() ==1){
+
+              //  dd($value['body']);
+                $updatePosts = DB::table('posts')
+                ->where(['title' => $title, 'user_id' => Auth::user()->id])
+                ->update([
+                  'content'=> $value['body']
+               ]);
+          //      dd("here");
+              }else {
               $insertPosts = DB::table('posts')->insert([
                 'user_id'=>Auth::user()->id,
                 'title'=>  $title,
                 'content'=> $value['body'],
                 'tags'=>$value['tags'],
                 'image'=> $value['image'],
-                'slug'=>strtolower($slug)
+                'slug'=>$slug
               ]);
 
+
+          //    dd('not here');
+}
 
             };
           Storage::deleteDirectory($this->user.'/content/'.$postTypeSubDir.'/');
@@ -320,7 +341,11 @@ class Document
             return [];
         }
 
-        }else{
+      }elseif (file_exists(storage_path('app/'.$this->user.'/content/posts/'))) {
+      dd("here");
+      }
+
+        else{
             return [];
         }
 
@@ -368,18 +393,42 @@ class Document
         return strnatcmp($a[$key], $b[$key]);
     };
 }
+public function FeedFixer()
+{
+   $feeds= DB::table('extfeeds')->get('title');
+   foreach ($feeds as $key => $value) {
+  //dd($value->title);
+     if (DB::table('posts')->Where('title', '=', $value->title)->exists() !== 1) {
+      return extfeeds::Where(['title' => $value->title])->delete();
+     }
+   }
 
-public function Feeds()
+}
+public function MyFeeds()
 {
   $user = Auth::user();
-  $data= DB::table('following')->where('my_id', $user['id'])->get();
+//  $this->FeedFixer();
+  $data= DB::table('following')->where('my_id', $user['id'])->get('follower_id');
   //$data=[];
   $urlArray = json_decode($data, true);
 
+    $urlArray2 = array(
+        array('follower_id' => $user['id'])
+      //  array('title' => 'Stratechery by Ben Thompson',  'url' => 'http://stratechery.com/feed/' , 'desc' => 'On the business, strategy, and impact of technology.', 'link' => '', 'image' => "https://stratechery.com/wp-content/uploads/2018/03/cropped-android-chrome-512x512-1-32x32.png", 'time' => ' Fri, 12 Jul 2019 16:06:22 +0000')
+    );
+   $result = array_merge($urlArray, $urlArray2);
+
+  //
+//dd($result);
   $feed = [];
-foreach ($urlArray as $id) {
-  $user= DB::table('users')->where('id', $id['follower_id'])->first('name');
-  $feeds = DB::table('extfeeds')->where('site', $user->name)->get();
+foreach ($result as $id) {
+  $user= DB::table('users')->where(['id' => $id['follower_id'] ])->first('name');
+
+  $feeds = DB::table('extfeeds')
+  ->join('users','extfeeds.site','=','users.name')
+  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
+  ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
+  ->where('site', $user->name)->get();
 //  dd($feeds );
     $feeds = json_decode($feeds, true);
   array_push($feed, $feeds);
@@ -405,7 +454,56 @@ return $ex;
 
 
 }
+public function Feeds()
+{
+  $user = Auth::user();
+//  $this->FeedFixer();
+  $data= DB::table('following')->where('my_id', $user['id'])->get('follower_id');
+  //$data=[];
+  $urlArray = json_decode($data, true);
 
+  //  $urlArray2 = array(
+    //    array('follower_id' => $user['id'])
+      //  array('title' => 'Stratechery by Ben Thompson',  'url' => 'http://stratechery.com/feed/' , 'desc' => 'On the business, strategy, and impact of technology.', 'link' => '', 'image' => "https://stratechery.com/wp-content/uploads/2018/03/cropped-android-chrome-512x512-1-32x32.png", 'time' => ' Fri, 12 Jul 2019 16:06:22 +0000')
+    //);
+   //$result = array_merge($urlArray, $urlArray2);
+
+  //
+//dd($result);
+  $feed = [];
+foreach ($urlArray  as $id) {
+  $user= DB::table('users')->where(['id' => $id['follower_id'] ])->first('name');
+
+  $feeds = DB::table('extfeeds')
+  ->join('users','extfeeds.site','=','users.name')
+  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
+  ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
+  ->where('site', $user->name)->get();
+//  dd($feeds );
+    $feeds = json_decode($feeds, true);
+  array_push($feed, $feeds);
+}
+  $ex =[];
+  for ($i=0; $i < count($feed) ; $i++) {
+    for ($j=0; $j <count($feed[$i]) ; $j++) {
+       $rv=$feed[$i][$j];
+    //   krsort($rv);
+      array_push($ex, $rv);
+      //dd($ex);
+    }
+  }
+  //dd($ex);
+  usort($ex, $this->build_sorter('id'));
+
+    //arsort($ex);
+  krsort($ex);
+  //dd($ex);
+  //$feed = json_decode($feed, true);
+
+return $ex;
+
+
+}
 
 public function checker()
 {
@@ -526,14 +624,14 @@ public function checker()
                   foreach ($feed as $key => $value) {
 
                   //  dd($this->user."/post/" . strtolower(strip_tags($value['slug' ])));
-                  if (extfeeds::Where('link', $this->user."/post/" . strtolower(strip_tags($value['slug' ])))->Where('site', "=", $user->name)->doesntExist()== 1) {
+                  if (extfeeds::Where('link', "/post/" . strtolower(strip_tags($value['slug' ])))->Where('site', "=", $user->name)->doesntExist()== 1) {
                     $feedId  = DB::table('extfeeds')->insert([
                         'user_id'          =>$user->id,
                         'site'             => $user->name,
                         'site_image'       => $user->image,
                         'title'            => strip_tags($value['title']),
                         'des'             =>  strip_tags($value['body']),
-                        'link'             => $this->user."/post/" . strtolower(strip_tags($value['slug' ])),
+                        'link'             => "/post/" . $value['slug' ],
                         'date'    => $value['date'],
                         'image'   => $value['image'],
                       ]);
@@ -991,8 +1089,9 @@ $user = Auth::user();
     public function getPost($username,$postSlug){
     //  $user = $this->user($username);
       $user =   DB::table('users')->where('username', $username)->first();
-
+    //   echo $postSlug;
       $post = DB::table('posts')->where(['slug'=>$postSlug,'user_id'=>$user->id])->first();
+    //   dd($post);
       if(!empty($post)) {
 
         $parsedown  = new Parsedown();
@@ -1001,8 +1100,9 @@ $user = Auth::user();
         $content['title'] =$post->title;
         $content['body'] = $parsedown->text($post->content);
         $content['date'] = $createdAt->format('M jS, Y h:i A');
-        $content['slug'] = $this->clean($post->slug);
+        $content['slug'] = $post->slug;
         $content['id'] = $post->id;
+        $content['image'] = $post->image;
         return $content;
 
       }
@@ -1034,6 +1134,43 @@ $user = Auth::user();
 
     }
 
+    public function getPublishedPosts(){
+
+      $user =   DB::table('users')->where('username', $this->user)->first();
+      $matchThese = [['user_id',$user->id],['action','publish']];
+      $orthis = [['user_id',$user->id],['action',NULL]];
+          $posts = DB::table('posts')->where($matchThese)->orWhere($orthis)->orderBy('id','DESC')->get();
+          if(!empty($posts)){
+
+            $allPost = [];
+          foreach($posts as $post){
+            $parsedown  = new Parsedown();
+            $postContent = $parsedown->text($post->content);
+            preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $postContent, $matches);
+            $first_img = "";
+            if (isset($matches[1])) {
+                // there are images
+                $first_img = $matches[1];
+                // strip all images from the text
+                $postContent = preg_replace("/<img[^>]+\>/i", " ", $postContent);
+            }
+            $createdAt = Carbon::parse($post->created_at);
+            $content['title'] = $post->title;
+            $content['body']  = $this->trim_words($postContent, 200);
+            $content['tags']  = $post->tags;
+            $content['slug']  = $post->slug;
+            $content['image'] = $first_img;
+            $content['date']  =  $createdAt->format('M jS, Y h:i A');;
+            $content['id'] = $post->id;
+
+            array_push($allPost,$content);
+          }
+          return $allPost;
+
+          }
+
+    }
+
         public function getPosts(){
         //  $user =  $this->user($username);
           $user =   DB::table('users')->where('username', $this->user)->first();
@@ -1057,10 +1194,11 @@ $user = Auth::user();
             $content['title'] = $post->title;
             $content['body']  = $this->trim_words($postContent, 200);
             $content['tags']  = $post->tags;
-            $content['slug']  = $this->clean($post->slug);
+            $content['slug']  = $post->slug;
             $content['image'] = $first_img;
             $content['date']  =  $createdAt->format('M jS, Y h:i A');;
             $content['id'] = $post->id;
+            $content['status'] = $post->action;
             array_push($allPost,$content);
           }
           return $allPost;

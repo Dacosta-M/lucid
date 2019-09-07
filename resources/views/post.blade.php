@@ -250,8 +250,11 @@ $location= 'post';
 
   .tokenfield {
     padding: 7px;
-    
+
   }
+  .ui-front {
+    z-index: 9999999 !important;
+}
   .tokenfield .token{
     border: none;
   }
@@ -306,9 +309,9 @@ $location= 'post';
       </div>
       <div class="col-12 mt-3">
         <div class="row form-row flex-row-reverse">
-          <!-- <div class="col-3 col-sm-3 col-md-2">
-            <input type="button" class="form-control btn-sm btn btn-primary save-draft" value="Save Draft" />
-          </div> -->
+          <div class="col-3 col-sm-3 col-md-2">
+            <input type="submit" class="form-control btn-sm btn btn-primary save-draft" value="Draft" />
+          </div>
           <div class="col-3 col-sm-3 col-md-2">
             <input type="submit" class="form-control btn-sm btn btn-primary publish-post publishBtn" value="Publish">
             <input type="hidden" class="form-control btn-sm btn btn-primary publish-post" value="Save Draft">
@@ -342,6 +345,9 @@ $location= 'post';
     <h3 class="post-title">
       <a class="no-decoration text-dark" href="post/{{$post['slug']}}">{!! $post['title'] !!}</a>
     </h3>
+    @if($post['status'] == 'draft')
+    <i>{{ $post['status'] }}</i>
+    @endif
     <p class="post-body">
       @php
       echo strip_tags($post['body'])
@@ -352,6 +358,11 @@ $location= 'post';
       <a title="edit this post" href="" class="mr-4 text-dark" data-toggle="modal" data-target="#editModal" onclick="editPost(
         '{{ $post['slug'] }}')"><i class="icon ion-md-create" style="font-size: 1.5em"></i></a>
       <a title="delete this post" href="javascript:void(0)" class="text-dark"  onclick="deletePost({{ $post['id'] }})" data-toggle="modal" data-target="#deleteModal"><i class="icon ion-md-trash" style="font-size: 1.5em"></i></a>
+      @if($post['status'] == 'draft')
+      <a title="" href="javascript:void(0)" class="text-dark"  onclick="updatePostStatus({{ $post['id'] }},'publish')" ><i class="icon ion-md-eye" style="font-size: 1.5em"></i></a>
+      @else
+      <a title="" href="javascript:void(0)" class="text-dark"  onclick="updatePostStatus({{ $post['id'] }},'draft')"><i class="icon ion-md-eye-off" style="font-size: 1.5em"></i></a>
+      @endif
     </div>
   </div>
 
@@ -460,13 +471,18 @@ $location= 'post';
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js"></script>
+@if($isLocal)
 <script src="{{ asset('js/posts.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/edit-post.js') }}" type="text/javascript"></script>
+@else
+<script src="{{ secure_asset('js/posts.js') }}" type="text/javascript"></script>
+<script src="{{ secure_asset('js/edit-post.js') }}" type="text/javascript"></script>
+@endif
 <script>
   function deletePost(post_id) {
     j('#deleteBtn').on('click',function(e){
      e.preventDefault();
-      
+
      const formData = new FormData(document.querySelector('.delete-form'));
      formData.set('post_id',post_id);
      j.ajax({
@@ -493,6 +509,23 @@ $location= 'post';
      })
     })
   }
+
+
+  function updatePostStatus(post_id,action) {
+     j.ajax({
+       type:"GET",
+       url:"update-post-status/"+post_id+'/'+action,
+       success:function (data) {
+         if(data.success == true){
+            window.location = "/{{ $user->username }}/posts"
+         }
+       },
+       error:function (error){
+        console.log(error)
+       }
+     })
+    }
+
 
   j(document).ready(function(){
     const postDelete=localStorage.getItem('delete');
