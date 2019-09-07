@@ -2,7 +2,7 @@
 @section('title') {{ $user->name }} - Lucid @endsection
 
 
-@section('img')@if($user->image){{ secure_url('/').$user->image}} @else {{ secure_asset('img/logo.png')}} @endif @endsection
+@section('img')@if($user->image){{ secure_url('/').$user->image}} @else {{ secure_asset('img/logo.svg')}} @endif @endsection
 
 @section('desc'){{ \Illuminate\Support\Str::limit($user->short_bio, 300) }} @endsection
 
@@ -47,7 +47,7 @@ $location= 'home';
 @else
 <div class="post-content">
   <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
-    <img src="{{secure_url('/')}}/storage/{{$feeds['image']}}" class="img-fluid post-img" alt="Looking For Where To Spend Christmas in the comform of your home" />
+    <img src="@if($isLocal) {{ url('/')}} @else {{secure_url('/')}}@endif/storage/{{$feeds['image']}}" class="img-fluid post-img" alt="Looking For Where To Spend Christmas in the comform of your home" />
   </div>
   <a class="no-decoration" href="{{$feeds['link']}}">
     <div class="post-content-body">
