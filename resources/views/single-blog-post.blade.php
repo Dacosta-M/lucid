@@ -88,14 +88,77 @@ $location= 'singlePost';
         </div>
     </div>
     <div>
-            <span id="">
-                <button type='button' title='like this Post' onclick='' class='btn'><i class='fas fa-thumbs-up text-secondary' style='font-size: 1.2em;'></i>
-                    <sub id="">1</sub>
-                </button></span>
-            <span id="">
-                <button type='button' title='like this Post' onclick='' class='btn'><i class='fas fa-heart text-secondary' style='font-size: 1.2em;'></i>
-                    <sub id="">1</sub>
-                </button></span>
+      @auth
+      @php
+      $lcount = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Like"])->count();
+      $likes = \Lucid\Notification::where(['post_id' => $post['id'], 'sender_id' => Auth::user()->id,'action' => "Like"])->first();
+    //  dd($likes);
+      @endphp
+      @if(!empty($likes))
+      <span id="like{{$post['id']}}">
+      <button type='button' title='unlike this Post' onclick='like(0,{{$post["id"]}})' class='btn'><i class='fas fa-thumbs-up text-secondary' style='font-size: 1.2em;'></i>
+      <sub id="lcount{{$post['id']}}">{{ $lcount }}</sub>
+      </button></span>
+      @else
+      <span id="like{{$post['id']}}">
+        <button type="button" title="like this Post" onclick='like(1,{{ $post["id"] }})' class="btn">
+          <i class='fas fa-thumbs-up' style='font-size: 1.2em;'></i>
+          <sub id="lcount{{$post['id']}}">{{ $lcount }}</sub>
+        </button>
+      </span>
+      @endif
+
+      @php
+      $count = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Love"])->count();
+      $love = \Lucid\Notification::where(['post_id' => $post['id'], 'sender_id' => Auth::user()->id,'action' => "Love"])->first();
+
+      @endphp
+      @if(!empty($love))
+      <span id="love{{$post['id']}}">
+      <button type='button' title='unlove this Post' onclick='love(0,{{$post["id"]}})' class='btn'>
+        <i class='fas fa-heart text-secondary' style="font-size: 1.2em;"></i>
+      <sub id="count{{$post['id']}}">{{ $count }}</sub>
+      </button></span>
+      @else
+      <span id="love{{$post['id']}}">
+        <button type="button" title="love this Post" onclick='love(1,{{ $post["id"] }})' class="btn">
+          <i class='fas fa-heart'style="font-size: 1.2em;"></i>
+          <sub id="count{{$post['id']}}">{{ $count }}</sub>
+        </button>
+      </span>
+      @endif
+      @php
+      $ccount = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Commented"])->count();
+      @endphp
+        <button type="button"  class="btn">
+        <i class="fas fa-comments text-secondary" style="font-size: 1.2em;"></i>
+        <sub id="count{{$post['id']}}">{{ $ccount }}</sub>
+      </button>
+
+@endauth
+@guest
+@php
+$lcount = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Like"])->count();
+$count = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Love"])->count();
+$ccount = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Commented"])->count();
+@endphp
+<span id="like{{$post['id']}}">
+  <button type="button" title="like this Post" id="loginpopup"class="btn">
+    <i class='fas fa-thumbs-up' style='font-size: 1.2em;'></i>
+    <sub id="lcount{{$post['id']}}">{{ $lcount }}</sub>
+  </button>
+</span>
+<span id="love{{$post['id']}}">
+  <button type="button" title="love this Post" id="loginpopup" class="btn">
+    <i class='fas fa-heart'style="font-size: 1.2em;"></i>
+    <sub id="count{{$post['id']}}">{{ $count }}</sub>
+  </button>
+</span>
+<button type="button"  class="btn">
+<i class="fas fa-comments text-secondary" style="font-size: 1.2em;"></i>
+<sub id="count{{$post['id']}}">{{ $ccount }}</sub>
+</button>
+@endguest
         </div>
 </div>
 <hr style="padding-bottom:20px">
@@ -213,7 +276,7 @@ $location= 'singlePost';
 
         j('#loginpopup').on('click', function() {
             swal({
-                text: 'Opps! Login to comment on this post',
+                text: 'Opps! Login to interact with this post',
                 icon: "info",
                 button: {
                     text: "Login",

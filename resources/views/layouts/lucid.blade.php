@@ -46,7 +46,7 @@
   <title>@yield('title')</title>
 
 
-  
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
@@ -352,7 +352,7 @@
 
     function like(action, id) {
 
-      url = "@if($isLocal) {{ url($user->username.'/like')  }} @else {{ secure_url($user->username.'/like')  }} @endif";
+      url = "@if($isLocal){{ url($user->username.'/like')}}@else{{ secure_url($user->username.'/like')}}@endif";
       //  id=id+"&act="+action;
       a.ajax({
           url: url,
@@ -375,7 +375,7 @@
 
     function love(action, id) {
 
-      url = "@if($isLocal) {{ url($user->username.'/love')  }} @else {{ secure_url($user->username.'/love')  }} @endif";
+      url = "@if($isLocal){{ url($user->username.'/love')  }}@else{{ secure_url($user->username.'/love')  }}@endif";
       //  id=id+"&act="+action;
       a.ajax({
           url: url,
