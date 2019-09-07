@@ -10,7 +10,7 @@
 @if($post['image'])
 @section('img'){{ $post['image'] }} @endsection
 @else
-@section('img'){{ secure_asset('img/logo.svg') }} @endsection
+@section('img'){{ secure_asset('img/lucid-logo.svg') }} @endsection
 @endif
 @php
 $postdes = strip_tags($post['body']);

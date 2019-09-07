@@ -207,7 +207,7 @@
             @endif
           </div>
           <div class="mt-3">
-            <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="@if($isLocal) {{ asset('img/logo.svg') }} @else {{ secure_asset('img/logo.jpg') }} @endif" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" />
+            <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="@if($isLocal) {{ asset('img/lucid-logo.svg') }} @else {{ secure_asset('img/lucid-logo.svg') }} @endif" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" />
                 <p class="mb-0 ml-1">Powered by Lucid</p>
               </small></a>
           </div>

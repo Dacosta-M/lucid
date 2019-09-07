@@ -21,7 +21,6 @@
   <meta name="description"
     content="Welcome to the most private content sharing platform We built Lucid on the premise that ownership and privacy is about respect and that it is your right.">
   <meta name="robots" content="index, nofollow">
-  <link rel="canonical" href="https://getlucid.app/" />
   <!-- Twitter Card data -->
   <meta name="twitter:card"
     value="Welcome to the most private content sharing platform We built Lucid on the premise that ownership and privacy is about respect and that it is your right.">
@@ -50,7 +49,7 @@
 <header class="header">
     <nav class="navbar sticky-top navbar-expand-lg">
         <div class="container">
-        <a href="/" class="navbar-brand"><img alt="Lucid" src="@if($isLocal) {{ asset('img/logo.svg') }} @else {{ secure_asset('img/logo.svg') }}@endif" class="img-fluid" /></a>
+        <a href="/" class="navbar-brand"><img alt="Lucid" src="@if($isLocal) {{ asset('img/lucid-logo.svg') }} @else {{ secure_asset('img/lucid-logo.svg') }}@endif" class="img-fluid" /></a>
         <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler navbar-toggler-right collapsed">
@@ -91,7 +90,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
-        <img src="@if($isLocal) {{ asset('img/logo.svg') }} @else {{ secure_asset('img/logo.svg') }} @endif" alt="Lucid" class="img-fluid pb-3" />
+        <img src="@if($isLocal) {{ asset('img/lucid-logo.svg') }} @else {{ secure_asset('img/lucid-logo.svg') }} @endif" alt="Lucid" class="img-fluid pb-3" />
       </div>
       <div class="col-lg-12 text-center">
         <p>&copy; 2019 Lucid. All rights reserved.</p>
