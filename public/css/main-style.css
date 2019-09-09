@@ -433,5 +433,8 @@ ul.footer-links li a {
     line-height: 1;
 }
 .timeline-rss-btn {
-    border-radius: 20px !important;
+    border-radius: 4px !important;
+}
+.no-border-radius {
+    border-radius: 0 !important;
 }

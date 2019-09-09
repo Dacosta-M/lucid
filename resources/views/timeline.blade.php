@@ -306,7 +306,7 @@ $location = 'timeline';
   <h5 class="font-weight-bold mb-5">Manage Your Timeline on the Page</h5>
 
   <!-- Main Timeline Start -->
-  <div>
+  <div class="mb-5">
     <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#mainTimeline">
       <p class="mb-0">Main Timeline</p>
       <i class="fas fa-chevron-up"></i>
@@ -315,35 +315,35 @@ $location = 'timeline';
       <div>
         <div class="row">
           <div class="col-2 text-center">
-            <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
             <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
             <small>
               <p>2k Followers</p>
             </small>
           </div>
           <div class="col-2 text-center">
-            <img src="{{ asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
             <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
             <small>
               <p>2k Followers</p>
             </small>
           </div>
           <div class="col-2 text-center">
-            <img src="{{ asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
+            <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
             <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
             <small>
               <p>2k Followers</p>
             </small>
           </div>
           <div class="col-2 text-center">
-            <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
             <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
             <small>
               <p>2k Followers</p>
             </small>
           </div>
           <div class="col-2 text-center">
-            <img src="{{ asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
             <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
             <small>
               <p>2k Followers</p>
@@ -353,28 +353,237 @@ $location = 'timeline';
             <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
           </div>
         </div>
-        <div class="container mt-3">
-          <div class="d-flex">
-            <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-3'>
+        <div class="container mt-5 mt-sm-3">
+          <div class="post-content">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-2 ml-sm-3'>
               <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
               <span>
                 <small>Food for thoughts</small>
-                <button class="btn btn-secondary timeline-rss-btn"><small>RSS</small></button>
+                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
               </span>
             </div>
-            <a href="" class="text-muted ml-5">Edit</a>
-            <a href="" class="text-danger ml-3">Remove</a>
+            <div class="ml-4 ml-sm-5 pt-sm-3">
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
+            </div>
           </div>
+
+          <div class="post-content">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-2 ml-sm-3'>
+              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
+              <span>
+                <small>Food for thoughts</small>
+                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
+              </span>
+            </div>
+            <div class="ml-4 ml-sm-5 pt-sm-3">
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
+            </div>
+          </div>
+          <form class="form-inline">
+            <div class="form-group mb-2">
+              <label for="addUser" class="sr-only">Email</label>
+              <input type="text" class="form-control no-border-radius" id="addUser" placeholder="Add RSS Feed or Twitter User" size="30">
+            </div>
+            <button type="submit" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
   <!-- Main Timeline Ends -->
 
-  <div>
+  <!-- Technology Timeline Start -->
+  <div class="mb-5">
+    <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#technologyTimeline">
+      <p class="mb-0">Technology Timeline</p>
+      <div>
+        <i class="fas fa-trash text-danger mr-2"></i>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div id="technologyTimeline" class="collapse in pt-3">
+      <div>
+        <div class="row">
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-12 col-sm-2 align-self-center">
+            <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
+          </div>
+        </div>
+        <div class="container mt-5 mt-sm-3">
+          <div class="post-content">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-2 ml-sm-3'>
+              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
+              <span>
+                <small>Food for thoughts</small>
+                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
+              </span>
+            </div>
+            <div class="ml-4 ml-sm-5 pt-sm-3">
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
+            </div>
+          </div>
 
+          <div class="post-content">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-2 ml-sm-3'>
+              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
+              <span>
+                <small>Food for thoughts</small>
+                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
+              </span>
+            </div>
+            <div class="ml-4 ml-sm-5 pt-sm-3">
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
+            </div>
+          </div>
+          <form class="form-inline">
+            <div class="form-group mb-2">
+              <label for="addUser" class="sr-only">Email</label>
+              <input type="text" class="form-control no-border-radius" id="addUser" placeholder="Add RSS Feed or Twitter User" size="30">
+            </div>
+            <button type="submit" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
+  <!-- Technology Timeline Ends -->
+
+  <!-- Entertainment Timeline Start -->
+  <div class="mb-5">
+    <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#entertainmentTimeline">
+      <p class="mb-0">Entertainment Timeline</p>
+      <div>
+        <i class="fas fa-trash text-danger mr-2"></i>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div id="entertainmentTimeline" class="collapse in pt-3">
+      <div>
+        <div class="row">
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-12 col-sm-2 align-self-center">
+            <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
+          </div>
+        </div>
+        <div class="container mt-5 mt-sm-3">
+          <div class="post-content">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-2 ml-sm-3'>
+              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
+              <span>
+                <small>Food for thoughts</small>
+                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
+              </span>
+            </div>
+            <div class="ml-4 ml-sm-5 pt-sm-3">
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-2 ml-sm-3'>
+              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
+              <span>
+                <small>Food for thoughts</small>
+                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
+              </span>
+            </div>
+            <div class="ml-4 ml-sm-5 pt-sm-3">
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
+              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
+            </div>
+          </div>
+          <form class="form-inline">
+            <div class="form-group mb-2">
+              <label for="addUser" class="sr-only">Email</label>
+              <input type="text" class="form-control no-border-radius" id="addUser" placeholder="Add RSS Feed or Twitter User" size="30">
+            </div>
+            <button type="submit" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Entertainment Timeline Ends -->
+
   <div>
 
   </div>
