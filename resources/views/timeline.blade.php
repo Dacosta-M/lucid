@@ -281,67 +281,144 @@ $location = 'timeline';
 <!-- Begin content -->
 <!-- Timeline Page -->
 <div>
-    <!-- <h4 class="ml-4 mb-3 pl-1">Explore Lucid</h4> -->
-    <!-- Begin content -->
-    <div class="page-tab ml-4 mb-3">
-      <ul class="nav nav-tabs navbar-light" id="follow-tabs" role="tablist">
-        <li class="nav-item" onclick="feeds()">
-            <a href="#timeline" class="nav-link tab-link active" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-              <h6 class="mb-0">Timeline</h6>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#timeline" class="nav-link tab-link" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-              <h6 class="mb-0">Tech</h6>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#timeline" class="nav-link tab-link" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-              <h6 class="mb-0">Health</h6>
-            </a>
-        </li>
-      </ul>
+  <!-- <h4 class="ml-4 mb-3 pl-1">Explore Lucid</h4> -->
+  <!-- Begin content -->
+  <div class="page-tab mb-3">
+    <ul class="nav nav-tabs navbar-light" id="follow-tabs" role="tablist">
+      <li class="nav-item" onclick="feeds()">
+        <a href="#timeline" class="nav-link tab-link active pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
+          <h6 class="mb-0">Timeline</h6>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
+          <h6 class="mb-0">Tech</h6>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
+          <h6 class="mb-0">Health</h6>
+        </a>
+      </li>
+      <a href="" class="pt-1"><i class="fas fa-plus-circle text-secondary"></i></a>
+    </ul>
+  </div>
+  <h5 class="font-weight-bold mb-5">Manage Your Timeline on the Page</h5>
+
+  <!-- Main Timeline Start -->
+  <div>
+    <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#mainTimeline">
+      <p class="mb-0">Main Timeline</p>
+      <i class="fas fa-chevron-up"></i>
     </div>
+    <div id="mainTimeline" class="collapse in show pt-3">
+      <div>
+        <div class="row">
+          <div class="col-2 text-center">
+            <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-2 text-center">
+            <img src="{{ asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
+            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
+            <small>
+              <p>2k Followers</p>
+            </small>
+          </div>
+          <div class="col-12 col-sm-2 align-self-center">
+            <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
+          </div>
+        </div>
+        <div class="container mt-3">
+          <div class="d-flex">
+            <img src="{{ asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
+            <div class='ml-3'>
+              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
+              <span>
+                <small>Food for thoughts</small>
+                <button class="btn btn-secondary timeline-rss-btn"><small>RSS</small></button>
+              </span>
+            </div>
+            <a href="" class="text-muted ml-5">Edit</a>
+            <a href="" class="text-danger ml-3">Remove</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Main Timeline Ends -->
 
-<div id='feeds'>  <div class="" style="text-align: -webkit-center">
- <div class="spinner" style="    position: inherit;"></div></div></div>
-<script>
-   
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-  //console.log(xmlhttp.responseText);
-                document.getElementById("feeds").innerHTML = xmlhttp.responseText;
-            }
-        };
-        xmlhttp.open("GET","/{{ $user->username }}/feeds",true);
-        xmlhttp.send();
+  <div>
+
+  </div>
+  <div>
+
+  </div>
+
+  <div id='feeds'>
+    <div class="" style="text-align: -webkit-center">
+      <div class="spinner" style="    position: inherit;"></div>
+    </div>
+  </div>
+  <script>
+    if (window.XMLHttpRequest) {
+      // code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      // code for IE6, IE5
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        //console.log(xmlhttp.responseText);
+        document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+      }
+    };
+    xmlhttp.open("GET", "/{{ $user->username }}/feeds", true);
+    xmlhttp.send();
 
 
-function feeds() {
-  if (window.XMLHttpRequest) {
-              // code for IE7+, Firefox, Chrome, Opera, Safari
-              xmlhttp = new XMLHttpRequest();
-          } else {
-              // code for IE6, IE5
-              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-          }
-          xmlhttp.onreadystatechange = function() {
-              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                  document.getElementById("feeds").innerHTML = xmlhttp.responseText;
-              }
-          };
-          xmlhttp.open("GET","/{{ $user->username }}/feeds",true);
-          xmlhttp.send();
-     
-}
+    function feeds() {
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+        }
+      };
+      xmlhttp.open("GET", "/{{ $user->username }}/feeds", true);
+      xmlhttp.send();
 
-</script>
+    }
+  </script>
 
-@endsection
+  @endsection

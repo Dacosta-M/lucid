@@ -32,6 +32,10 @@ header {
 .text-secondary {
     color: var(--secondary-color) !important;
 }
+.btn-secondary {
+    background-color: var(--secondary-color) !important;
+    color: white !important;
+}
 .bg-main {
     background-color: var(--primary-color) !important;
 }
@@ -40,6 +44,9 @@ header {
 }
 .border-main {
     border-color: var(--primary-color) !important;
+}
+.border-secondary {
+    border-color: var(--secondary-color) !important;
 }
 .dropdown-toggle::after {
     margin-left: -5px !important;
@@ -424,4 +431,7 @@ ul.footer-links li a {
 
 .lh-1 {
     line-height: 1;
+}
+.timeline-rss-btn {
+    border-radius: 20px !important;
 }
