@@ -27,17 +27,23 @@
             <h4>Welcome back!</h4>
             <p class="text-muted my-4">New to Lucid? <a href="/register" class="text-secondary font-weight-bold">Sign Up</a></p>
         </div>
+        
         <div class="d-inline-block w-custom">
+            @if(session('success'))
+            <div class="border-main text-main  my-3 w-100">{{session('success')}}</div>
+            @endif
             <a href="@if($isLocal) {{ url('/login/google') }} @else {{ secure_url('/login/google') }} @endif" class="btn border-main text-main my-3 w-100"><i class="icon ion-logo-google p-1"></i> Continue with Google</a>
-            <form class="mt-3">
+            <form class="mt-3" method="post" action="{{ route('sendMagicLink') }}">
+            @csrf
                 <div class="form-group">
-                    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your email address">
+                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Your email address">
+                @if($errors->has('email'))
+                    <span class="text-danger" style="font-size:12px;">{{ $errors->first('email') }}</span>
+                @endif
                 </div>
+                
                 <button type="submit" class="btn bg-alt text-white w-100">Continue with Email</button>
             </form>
-            <div class="text-right mt-2">
-                <a href="" class="text-left text-secondary">Forgot Password?</a>
-            </div>
         </div>
 
     </div>
