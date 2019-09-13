@@ -315,7 +315,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
               @guest
-              <a class="dropdown-item" href="{{ secure_url('/login') }}">{{ __('Login') }}</a>
+              <a class="dropdown-item" href="@if($isLocal)   {{ url('/login') }} @else{{ secure_url('/login')   }} @endif">{{ __('Login') }}</a>
               @else
  <!--              <a class="dropdown-item changeHref border-bottom note" href="/{{ Auth::user()->username}}">Home</a> -->
               <a href="/{{ $user->username}}/settings" class="dropdown-item note changeHref border-bottom">Settings</a>
