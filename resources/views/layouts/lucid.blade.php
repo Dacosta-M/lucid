@@ -149,11 +149,11 @@
     <div class="spinner"></div>
   </div>
   <section id="main-content" class="container pt-0">
-    <div class="row">
+    <div class="row mt-3">
 
       @section('sidebar')
       <!-- Beginning of Sidebar -->
-      <div class="col-10 col-sm-4 pb-0 mb-0 pt-2 d-none d-lg-block" id="sidebar">
+      <div class="col-10 col-sm-4 pb-0 mb-0 d-none d-lg-block" id="sidebar">
         <a class="d-lg-none" id="sidebarDismiss"><i class="icon ion-md-close-circle" style="font-size: 1.8em"></i></a>
         <a href="/{{ $user->username}}" class="changeHref"><img id="user-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="img-fluid mt-3" /></a>
         <a href="/{{ $user->username}}" class="no-decoration changeHref">
@@ -208,7 +208,7 @@
           </div>
           <div class="d-inline-block">
             @if (empty($fcount))
-            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0 <small class="text-muted">Followers</small></a>
+            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0 <small class="text-muted d-block">Followers</small></a>
             @else
             <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
             @endif
