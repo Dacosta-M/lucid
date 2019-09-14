@@ -93,12 +93,13 @@ $location= 'contact';
           </div>
         </div>
         <div class="form-group mt-4 col-md-8 col-sm-12">
-        <label for="message">Message</label>
+        <label for="message">Message *</label>
 
         <textarea name="message" id="message" rows="5" class="form-control" placeholder="Enter Message"></textarea>
         <span class="text-danger" id="msgError" style="display:none;"></span>
         <button type="submit" name="sendMail" class="btn bg-alt text-white col-sm-12 col-md-12 mt-5" id="sendEmailBtn"> <i class="fas fa-paper-plane mr-2"></i> Send Message</button>
         </div>
+        <p class="ml-5">* Required fields</p>
     </form>
     @endif
 
