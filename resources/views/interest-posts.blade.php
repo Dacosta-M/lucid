@@ -16,16 +16,27 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   @if($isLocal)
-  <!-- <link rel="short icon" type="image/png" sizes="16x16" href="{{ asset('img/lucid-logo.svg') }}"> -->
-  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/main-style.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/tabletcss.css') }}" rel="stylesheet">
-  @else
-  <!-- <link rel="short icon" type="image/png" sizes="16x16" href="{{ secure_asset('img/lucid-logo.svg') }}"> -->
-  <link href="{{ secure_asset('css/style.css') }}" rel="stylesheet">
-  <link href="{{ secure_asset('css/main-style.css') }}" rel="stylesheet">
-  <link href="{{ secure_asset('css/tabletcss.css') }}" rel="stylesheet">
-  @endif
+    <!-- <link rel="short icon" type="image/png" sizes="16x16" href="{{ asset('img/lucid-logo.svg') }}"> -->
+    <link rel="stylesheet" href="{{ asset('css/main-style.css') }}" />
+    <link href="{{ asset('css/tabletcss.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('favicon/safari-pinned-tab.svg') }}" color="#b805fc"> 
+   
+    @else
+    <!-- <link rel="short icon" type="image/png" sizes="16x16" href="{{ secure_asset('img/lucid-logo.svg') }}"> -->
+    <link rel="stylesheet" href="{{ secure_asset('css/main-style.css') }}" />
+    <link rel="stylesheet" href="{{ secure_asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ secure_asset('css/tabletcss.css') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ secure_asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ secure_asset('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ secure_asset('favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ secure_asset('favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ secure_asset('favicon/safari-pinned-tab.svg') }}" color="#b805fc">
+    @endif
   <title>Explore</title>
 
   <style>
