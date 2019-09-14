@@ -3,6 +3,7 @@
 namespace Lucid;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class UserEmailLoginToken extends Model
 {
@@ -10,11 +11,21 @@ class UserEmailLoginToken extends Model
 
     protected $fillable = ['token'];
 
+    const TOKEN_EXPIRY = 10;
+
     public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function  getRouteKeyName() {
         return 'token';
+    }
+
+    public function isExpired() {
+        return $this->created_at->diffInSeconds(Carbon::now()) > self::TOKEN_EXPIRY;
+    }
+
+    public function belongsToEmail($email) {
+        return (bool) ($this->user->where('email',$email)->count()===1);
     }
 }

@@ -46,6 +46,8 @@
         <div class="d-inline-block w-custom">
             @if(session('success'))
             <div class="border-main text-main  my-3 w-100">{{session('success')}}</div>
+            @elseif(session('error'))
+            <div class="border-main text-main  my-3 w-100">{{session('error')}}</div>
             @endif
             <a href="@if($isLocal) {{ url('/login/google') }} @else {{ secure_url('/login/google') }} @endif" class="btn border-main text-main my-3 w-100"><i class="icon ion-logo-google p-1"></i> Continue with Google</a>
             <form class="mt-3" method="post" action="{{ route('sendMagicLink') }}">
