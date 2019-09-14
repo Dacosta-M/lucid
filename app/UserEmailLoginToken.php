@@ -11,7 +11,7 @@ class UserEmailLoginToken extends Model
 
     protected $fillable = ['token'];
 
-    const TOKEN_EXPIRY = 10;
+    const TOKEN_EXPIRY = 130;
 
     public function user() {
         return $this->belongsTo(User::class);
