@@ -59,7 +59,7 @@
                 @endif
                 </div>
                 
-                <button type="submit" class="btn bg-alt text-white w-100">Continue with Email</button>
+                <button type="submit" class="btn bg-alt text-white w-100">Continue with Email hdhd</button>
             </form>
         </div>
 
