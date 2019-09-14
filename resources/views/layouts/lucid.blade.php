@@ -200,18 +200,18 @@
 
         <div class="user-stats text-center mt-3 pb-0">
           <div class="d-inline-block">
-            @if (empty($count))
-            <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">0 <small class="text-muted d-block">Following</small></a>
-            @else
+            @php
+            $fcount = DB::table('following')->where('follower_id', $user->id)->count();
+            $count = DB::table('following')->where('my_id', $user->id)->count();
+            @endphp
+
             <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">{{$count}} <small class="text-muted d-block">Following</small></a>
-            @endif
+
           </div>
           <div class="d-inline-block">
-            @if (empty($fcount))
-            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0 <small class="text-muted d-block">Followers</small></a>
-            @else
-            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
-            @endif
+
+            <a href="/{{$user->username}}/followers" class="pr-2 changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
+
           </div>
           <div class="mt-3">
             <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="@if($isLocal) {{ asset('img/lucid-logo.svg') }} @else {{ secure_asset('img/lucid-logo.svg') }} @endif" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" />

@@ -52,11 +52,142 @@ public function Feeds($username)
 }
 }
 
-    
+    public function homePage($username)
+    {
+        if(!$this->user($username)) {
+            return abort(404);
+        }
+        $user = $this->user($username);
+        if(Auth::user() && Auth::user()->username == $username){
+                $user = Auth::user();
+                $username = $user->username;
 
-    
+                $post = new \Lucid\Core\Document($username);
 
-    
+                $post = $post->MyFeeds();
+              //  dd($post);
+            //$post =[];
+                $sub = new \Lucid\Core\Subscribe($username);
+                $fcount = $sub->myfollowercount();
+                if (!empty($fcount)) {
+                    $fcount = count($fcount);
+                  }else {
+                    $fcount = "";
+                  }
+                $fcheck = $sub->followCheck($user->name);
+
+                $count = $sub->count();
+                if (!empty($count)) {
+                  $count = count($count);
+                }
+                else {
+                  $count = "";
+                }
+
+
+  //dd($likes);
+                $tabs = DB::table('interests')->get();
+                return view('timeline', [
+                  'fcheck' => $fcheck,
+                  'user'=>$user,
+                  'fcount'=>$fcount,
+                  'count' => $count]);
+
+        }else {
+
+
+            $app = new \Lucid\Core\Document($username);
+            $feed =$app->Feeds();
+          //  dd(  $feed);
+            // follower and following Count
+            $sub = new \Lucid\Core\Subscribe($username);
+            $fcount =$sub->myfollowercount();
+            $count = $sub->count();
+            //dd($fcount);
+            if (!empty($fcount)) {
+                $fcount = count($fcount);
+              }else {
+                $fcount = "";
+              }
+              if (!empty($count)) {
+                $count = count($count);
+              }else {
+                $count = "";
+              }
+
+
+              //User Follower checker
+              if(Auth::user()){
+                $check = new \Lucid\Core\Subscribe(Auth::user()->username);
+                $fcheck = $check->followCheck($user->name);
+              }
+              else {
+                $fcheck = "no";
+              }
+            //  $follower = $app->subscription();
+               //dd($follower);
+
+               $userposts=$app->getPublishedPosts($username);
+
+              return view('home', ['userposts' => $userposts,'user'=>$user,'fcheck' => $fcheck,'fcount'=>$fcount, 'count' => $count]);
+
+        }
+
+
+    }
+
+    public function getPostData($username,$postSlug) {
+      $app = new \Lucid\Core\Document($username);
+      $post=$app->getPost($username,$postSlug);
+      if(!$post){
+          return response()->json(['error'=>'post not found'],404);
+      }
+      return response()->json(['data'=>$post]);
+    }
+
+    public function singlePostPage($username,$postSlug){
+      // return $postSlug;
+        if(!$this->user($username)) {
+            return abort(404);
+        }
+        $user = $this->user($username);
+        $app  = new \Lucid\Core\Document($username);
+      //  $id = base64_decode($id);
+
+        $post=$app->getPost($username,$postSlug);
+
+        if(!$post){
+            return redirect('/'.$username.'/home');
+        }
+
+        // follower and following Count
+        $sub = new \Lucid\Core\Subscribe($username);
+        $fcount =$sub->myfollowercount();
+        $count = $sub->count();
+        //dd($fcount);
+        if (!empty($fcount)) {
+            $fcount = count($fcount);
+          }else {
+            $fcount = "";
+          }
+          if (!empty($count)) {
+            $count = count($count);
+          }else {
+            $count = "";
+          }
+
+
+          //User Follower checker
+          if(Auth::user()){
+            $check = new \Lucid\Core\Subscribe(Auth::user()->username);
+            $fcheck = $check->followCheck($user->name);
+          }
+          else {
+            $fcheck = "no";
+          }
+
+        return view('single-blog-post',compact('post','user'),['fcheck' => $fcheck, 'fcount'=>$fcount, 'count' => $count ]);
+    }
 
 
 
@@ -79,7 +210,61 @@ public function Feeds($username)
         return $string;
     }
 
-    
+    public function posts($username){
+
+            if(Auth::user() && $username == Auth::user()->username){
+
+            if(!$this->user($username)) {
+                return abort(404);
+            }
+
+            $user = $this->user($username);
+            $app  = new \Lucid\Core\Document($username);
+            $posts=$app->fetchAllRss();
+
+            //dd($posts);
+            // follower and following Count
+            $sub = new \Lucid\Core\Subscribe($username);
+            $fcount =$sub->myfollowercount();
+            $count = $sub->count();
+            //dd($fcount);
+            if (!empty($fcount)) {
+                $fcount = count($fcount);
+              }else {
+                $fcount = "";
+              }
+              if (!empty($count)) {
+                $count = count($count);
+              }else {
+                $count = "";
+              }
+
+
+              //User Follower checker
+              if(Auth::user()){
+                $check = new \Lucid\Core\Subscribe(Auth::user()->username);
+                $fcheck = $check->followCheck($user->name);
+              }
+              else {
+                $fcheck = "no";
+              }
+              $post_id = isset($post_id) ? $post_id:'';
+              $likes = DB::table('notifications')
+                      ->where('post_id',$post_id)
+                      ->where('notifications.action','=',"like")
+                      ->get();
+                    //  dd(  $like );
+            return view('post',compact('user','posts'), [
+              'fcheck' => $fcheck,
+              'fcount'=>$fcount,
+              'count' => $count,
+              'likes' => $likes
+            ]);
+        }else {
+            return redirect('/'.$username);
+        }
+
+    }
 
     public function contact($username){
         if(!$this->user($username)) {
@@ -476,9 +661,151 @@ if ($notifs->type == 'Reaction') {
     }
 
 
-  
+  public function filterPost($method) {
 
-  
+    if($method == "Recent"){
+
+      $posts = DB::table('posts')
+                ->join('users','posts.user_id','=','users.id')
+                ->select('posts.*','users.image','users.username')
+                ->orderBy('posts.id','DESC')
+                ->get();
+      if(!empty($posts)){
+
+        $allPost = [];
+      foreach($posts as $post){
+        $parsedown  = new Parsedown();
+        $postContent = $parsedown->text($post->content);
+        preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $postContent, $matches);
+        $first_img = "";
+        if (isset($matches[1])) {
+            // there are images
+            $first_img = $matches[1];
+            // strip all images from the text
+            $postContent = preg_replace("/<img[^>]+\>/i", " ", $postContent);
+        }
+        $createdAt = Carbon::parse($post->created_at);
+        $content['title'] = $post->title;
+        $content['body']  = $this->trim_words($postContent, 500);
+        $content['tags']  = $post->tags;
+        $content['slug']  = $this->clean($post->slug);
+        $content['image'] = $first_img;
+        $content['date']  =  $createdAt->format('M jS, Y h:i A');;
+        $content['id'] = $post->id;
+        $content['username'] = $post->username;
+        $content['user_img'] = $post->image;
+
+        array_push($allPost,$content);
+      }
+      return view('filtered-posts')->with(['posts'=>$allPost]);
+
+      }
+
+    }elseif($method =="Popular"){
+
+      $posts = DB::table('posts')
+                ->join('users','posts.user_id','=','users.id')
+                ->join('notifications','posts.id','=','notifications.post_id')
+                ->select('posts.*','users.image','users.username',DB::raw('count(notifications.comment) as total'))
+                ->groupBy('posts.id')
+                ->orderBy('total', 'DESC')
+                ->get();
+        if(!empty($posts)){
+
+          $allPost = [];
+        foreach($posts as $post){
+          $parsedown  = new Parsedown();
+          $postContent = $parsedown->text($post->content);
+          preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $postContent, $matches);
+          $first_img = "";
+          if (isset($matches[1])) {
+              // there are images
+              $first_img = $matches[1];
+              // strip all images from the text
+              $postContent = preg_replace("/<img[^>]+\>/i", " ", $postContent);
+          }
+          $createdAt = Carbon::parse($post->created_at);
+          $content['title'] = $post->title;
+          $content['body']  = $this->trim_words($postContent, 500);
+          $content['tags']  = $post->tags;
+          $content['slug']  = $this->clean($post->slug);
+          $content['image'] = $first_img;
+          $content['date']  =  $createdAt->format('M jS, Y h:i A');;
+          $content['id'] = $post->id;
+          $content['username'] = $post->username;
+          $content['user_img'] = $post->image;
+
+          array_push($allPost,$content);
+        }
+        return view('filtered-posts')->with(['posts'=>$allPost]);
+
+        }
+    }
+  }
+
+
+  public function explorePage(){
+    $interests = DB::table('interests')->get();
+
+    return view('explore')->with('interests',$interests);
+  }
+
+  public function interest($interest){
+    $posts = DB::table('posts')
+             ->join('users','posts.user_id','=','users.id')
+             ->select('posts.*','users.image','users.username')
+             ->where('tags','!=',NULL)->orderBy('id','DESC')->get();
+    $interestsArray = [];
+    $interestPosts=[];
+    foreach($posts as $post) {
+       $tags = explode(',',$post->tags);
+       $tags = array_filter(array_map('trim',$tags));
+       $tags = array_filter(array_map('strtolower',$tags));
+       if(in_array(strtolower($interest), $tags)) {
+
+          $parsedown  = new Parsedown();
+          $postContent = $parsedown->text($post->content);
+          preg_match('/<img[^>]+src="((\/|\w|-)+\.[a-z]+)"[^>]*\>/i', $postContent, $matches);
+          $first_img = "";
+          if (isset($matches[1])) {
+              // there are images
+              $first_img = $matches[1];
+              // strip all images from the text
+              $postContent = preg_replace("/<img[^>]+\>/i", " ", $postContent);
+          }
+          $createdAt = Carbon::parse($post->created_at);
+          $content['title'] = $post->title;
+          $content['body']  = $this->trim_words($postContent, 500);
+          $content['tags']  = $post->tags;
+          $content['slug']  = $this->clean($post->slug);
+          $content['image'] = $first_img;
+          $content['date']  =  $createdAt->format('M jS, Y h:i A');;
+          $content['id'] = $post->id;
+          $content['username'] = $post->username;
+          $content['user_img'] = $post->image;
+
+          array_push($interestPosts,$content);
+
+       }
+    }
+    return view('interest-posts')->with(['posts'=>$interestPosts,'interest'=>strtoupper($interest)]);
+  }
+
+  public function postCategories($category) {
+    $categories = explode(',',$category);
+    $posts = DB::table('posts')
+             ->join('users','posts.user_id','=','users.id')
+             ->select('posts.*','users.image','users.username')
+
+             ->where('tags','!=',NULL)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
+
+    $users = DB::table('posts')
+            ->join('users','posts.user_id','=','users.id')
+            ->select('posts.*','users.image','users.username')
+            ->where('tags','!=',NULL)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
+
+    return view('category')->with(['categories'=>array_reverse($categories),'posts'=>$posts,'pageController'=>new pageController,'users'=>$users]);
+  }
   public function sitemapUsers()
   {
 $users = DB::table('users')->get();
