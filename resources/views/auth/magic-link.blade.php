@@ -3,8 +3,6 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <meta name="viewport" content="width=device-width"/>
-        
-        
             <style type="text/css">
         
         * { margin: 0; padding: 0; font-size: 100%; font-family: "Avenir Next", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; line-height: 1.65; }
@@ -13,7 +11,7 @@
         
         body, .body-wrap { width: 100% !important; height: 100%; background: #f8f8f8; }
         
-        a { color: #ffffff; text-decoration: none; }
+        a { color: blue; text-decoration: none; }
         
         a:hover { text-decoration: underline; }
         
@@ -58,7 +56,16 @@
         .container .content.footer a { color: #888; text-decoration: none; font-weight: bold; }
         
         .container .content.footer a:hover { text-decoration: underline; }
-        
+        .btn{
+            padding:10px;
+            background:green;
+            border-radius:5px;
+            color:#fff !important;
+        }
+
+        .btn:hover{
+            text-decoration:none;
+        }
             </style>
         </head>
         <body>
@@ -73,7 +80,7 @@
         
                                 <h5>Your Magic Login Link</h5>
         
-                                <a href="">klfxc</a>
+                                <a href="{{  $loginLink  }}" class="btn btn-success">Click To Use Your Magic Link</a>
                             </td>
                         </tr>
                     </table>

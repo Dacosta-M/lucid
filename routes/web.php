@@ -25,6 +25,7 @@ Route::get('register', function () {
     return view('auth/register');
 });
 
+
 Route::prefix('explore')->group(function (){
     Route::get('/','ExploreController@explorePage');
     Route::get('/interest/{interest}','ExploreController@interest')->name('interest');
@@ -65,6 +66,7 @@ Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCall
 Route::post('login', 'LoginController@do')->name('login');
 Route::post('/login/magic','Auth\MagicLinkLoginController@sendToken')->name('sendMagicLink');
 Route::get('/login/magic/{token}','Auth\MagicLinkLoginController@validateToken');
+
 
 Route::prefix('{username}')->group(function () {
 

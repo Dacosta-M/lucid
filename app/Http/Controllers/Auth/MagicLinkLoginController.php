@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Lucid\Http\Controllers\Controller;
 use Lucid\Auth\MagicAuthentication;
 use Lucid\UserEmailLoginToken;
+use Auth;
 
 class MagicLinkLoginController extends Controller
 {
@@ -16,14 +17,14 @@ class MagicLinkLoginController extends Controller
 
         $auth->requestLink();
 
-        return redirect()->to('/login/magic')->with('success','We have sent you a magic link');
+        return redirect()->to('/login')->with('success','We have sent you a magic link');
     }
 
     public function validateToken(Request $request, UserEmailLoginToken $token){
         $token->delete();
-
+        $username=$token->username;
         Auth::login($token->user, $token->remember);
 
-        return redirect()->to('/'.$token->username);
+        return redirect()->to('/'.$username);
     }
 }
