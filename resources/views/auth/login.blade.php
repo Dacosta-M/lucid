@@ -50,7 +50,7 @@
             <div class="border-main text-main  my-3 w-100">{{session('error')}}</div>
             @endif
             <a href="@if($isLocal) {{ url('/login/google') }} @else {{ secure_url('/login/google') }} @endif" class="btn border-main text-main my-3 w-100"><i class="icon ion-logo-google p-1"></i> Continue with Google</a>
-            <form class="mt-3" method="post" action="{{ route('sendMagicLink') }}">
+            <form class="mt-3" method="POST" action="@if($isLocal) {{ url("/login/magic") }} @else {{ secure_url("/login/magic") }} @endif">
             @csrf
                 <div class="form-group">
                     <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Your email address">
