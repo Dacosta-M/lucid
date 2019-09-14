@@ -91,8 +91,8 @@
     }
 
     .spinner {
-      width: 10vw;
-      height: 10vw;
+      width: 5vw;
+      height: 5vw;
       border-radius: 50%;
       border: 4px solid;
       border-top-color: var(--main-color);
@@ -101,8 +101,8 @@
       border-right-color: transparent;
       animation: rotate .5s infinite linear;
       position: absolute;
-      top: 30%;
-      left: 42%;
+      top: 50%;
+      left: 41%;
       transform: translateX(50%);
 
     }
