@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Lucid\extfeeds;
 use Lucid\Thought;
 use Storage;
+use Image;
+use Illuminate\Support\Facades\Log;
 /**
  *	The Document class holds all properties and methods of a single page document.
  *
@@ -38,15 +40,30 @@ class Document
 
 
     public function createPost($title,$content, $tags, $image,$username, $action){
-
         if (!empty($image)) {
           $url = Auth::user()->id."/images/";
           if(is_array($image)) {
               foreach ($image as $key => $value) {
-                  $image = $value;
-                  $decoded = base64_decode($image);
-                  $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+                $decoded = base64_decode($image[$key]);
+
+                $img_path = 'public/'.Auth::user()->id."/images/".$key;
+            //  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+
+                $filenamewithextension = $key;
+
+                //get filename without extension
+                $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+                //get file extension
+                $extension = pathinfo($filenamewithextension, PATHINFO_EXTENSION);;
+
+                $image = $decoded;
+                $fullPath = $this->store($image, $filenamewithextension,$filename,$extension);
+
+                //  Log::debug($fullPath);
+
 
               }
           }
@@ -62,7 +79,7 @@ class Document
         'title'=>$title,
         'content'=>$content,
         'tags'=>$tags,
-        'image'=> $image,
+        'image'=> $fullPath,
         'slug'=> $slug,
         'action'=>$action
       ]);
@@ -74,6 +91,7 @@ class Document
     }
 
     }
+
 
     public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id) {
 
@@ -325,37 +343,12 @@ public function MyFeeds()
 
   //
 //dd($result);
-  $feed = [];
-foreach ($result as $id) {
-  $user= DB::table('users')->where(['id' => $id['follower_id'] ])->first('name');
-
-  $feeds = DB::table('extfeeds')
-  ->join('users','extfeeds.site','=','users.name')
-  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
-  ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
-  ->where('site', $user->name)->get();
-//  dd($feeds );
-    $feeds = json_decode($feeds, true);
-  array_push($feed, $feeds);
-}
-  $ex =[];
-  for ($i=0; $i < count($feed) ; $i++) {
-    for ($j=0; $j <count($feed[$i]) ; $j++) {
-       $rv=$feed[$i][$j];
-    //   krsort($rv);
-      array_push($ex, $rv);
-      //dd($ex);
-    }
-  }
-  //dd($ex);
-  usort($ex, $this->build_sorter('id'));
-
-    //arsort($ex);
-  krsort($ex);
-  //dd($ex);
-  //$feed = json_decode($feed, true);
-
-return $ex;
+  $feeds = extfeeds::query();
+  $feeds->where('user_id', 1 );
+  $feeds = $feeds->paginate(1);
+  //dd($feeds);
+compact('feeds');
+return $feeds;
 
 
 }
@@ -1221,4 +1214,67 @@ $user = Auth::user();
             return $videos;
         }
     }
+
+    public function store($image,$filenamewithextension,$filename,$extension)
+  {
+
+
+        //filename to store
+        $filenametostore = $filename.'_'.time().'.'.$extension;
+
+        //small thumbnail name
+        $smallthumbnail = $filename.'_small_'.time().'.'.$extension;
+
+        //medium thumbnail name
+        $mediumthumbnail = $filename.'_medium_'.time().'.'.$extension;
+
+        //large thumbnail name
+        $largethumbnail = $filename.'_large_'.time().'.'.$extension;
+
+        //Upload File
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/'.$filenametostore, $image);
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail, $image);
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/thumbnail/'.$mediumthumbnail, $image);
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/thumbnail/'.$largethumbnail, $image);
+
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/', $filenametostore);
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/thumbnail', $smallthumbnail);
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/thumbnail', $mediumthumbnail);
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/thumbnail', $largethumbnail);
+
+        //create small thumbnail
+        $smallthumbnailpath = public_path('storage/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail);
+        $this->createThumbnail($smallthumbnailpath, 150, 93);
+
+        //create medium thumbnail
+        $mediumthumbnailpath = public_path('storage/'.Auth::user()->id.'/images/thumbnail/'.$mediumthumbnail);
+        $this->createThumbnail($mediumthumbnailpath, 300, 185);
+
+        //create large thumbnail
+        $largethumbnailpath = public_path('storage/'.Auth::user()->id.'/images/thumbnail/'.$largethumbnail);
+        $this->createThumbnail($largethumbnailpath, 550, 340);
+
+        $imagePath ='/storage/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail;
+        Log::debug($imagePath);
+        return $imagePath;
+
+  }
+        /**
+        * Create a thumbnail of specified size
+        *
+        * @param string $path path of thumbnail
+        * @param int $width
+        * @param int $height
+        */
+        public function createThumbnail($path, $width, $height)
+        {
+        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+        $constraint->aspectRatio();
+        });
+        $img->save($path);
+
+        //$img = Image::make($path)->resize($width, $height)->save($path);
+        }
+
+
 }

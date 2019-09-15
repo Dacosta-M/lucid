@@ -42,7 +42,7 @@ class UserAccountSettingsController extends Controller
           'email' => ['required','email',
            Rule::unique('users')->ignore(Auth::user()->id),
           ],
-          'profileimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+          'profileimage' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
           'user_id' =>'required',
           'username'=>['required',
            Rule::unique('users')->ignore(Auth::user()->id),
@@ -124,6 +124,7 @@ class UserAccountSettingsController extends Controller
   public function store($image,$filenamewithextension,$filename,$extension)
 {
 
+  Log::debug($image);
 
       //filename to store
       $filenametostore = $filename.'_'.time().'.'.$extension;

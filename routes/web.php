@@ -73,15 +73,15 @@ Route::prefix('{username}')->group(function () {
 
     //get Request
     Route::get('/','FeedsController@homePage');
-    Route::get('/home','pageController@homePage');
+    Route::get('/home','PostController@homePage');
     Route::get('/contact', 'pageController@contact');
     Route::get('/logout', "Auth\LoginController@logout");
 
 
     //Feeds Controller
-    Route::get('/post/{postTitle}','pageController@singlePostPage')->name('post');
-    Route::get('/update-post-status/{post_id}/{action}','HomeController@updatePostStatus');
-    Route::get('/post-data/{id}','pageController@getPostData');
+    Route::get('/post/{postTitle}','PostController@singlePostPage')->name('post');
+    Route::get('/update-post-status/{post_id}/{action}','PostController@updatePostStatus');
+    Route::get('/post-data/{id}','PostController@getPostData');
     Route::get('/posts','FeedsController@posts');
     Route::get('/thoughts','FeedsController@thoughts');
 
@@ -111,8 +111,8 @@ Route::prefix('{username}')->group(function () {
 
 
     //post Request
-    Route::post('/save-post','HomeController@savePost');
-    Route::post('/publish','HomeController@publish');
+    Route::post('/save-post','PostController@savePost');
+    Route::post('/publish','PostController@publish');
     Route::post('/send-mail','SendEmailController@sendEmail');
     Route::post('/save_settings','UserAccountSettingsController@saveSettings');
     Route::post('/update-contact-details','HomeController@updateContactDetails');

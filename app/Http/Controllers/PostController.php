@@ -7,212 +7,147 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Parsedown;
-use URL;
-use Str;
-use Lucid\Notification;
-use Carbon\Carbon;
 use Image;
+use Lucid\User;
+use Lucid\Core\Document;
+use Lucid\Core\FOllow;
+use Illuminate\Support\Facades\Log;
 class PostController extends Controller
 {
+
+
+  /**
+      * The user repository implementation.
+      *
+      * @var User
+      */
+     protected $users;
+
+     /**
+      * Create a new controller instance.
+      *
+      * @param  User  $users
+      * @return void
+      */
+     public function __construct(User $user)
+     {
+         $this->user = $user;
+     }
+
+
+
     public function user($username) {
         $user_exists = DB::table('users')->where('name',$username)->orWhere('username',$username)->get();
-      
+
         if(!isset($user_exists[0])) {
             return false;
         }
         return $user_exists[0];
     }
 
-    public function homePage($username)
-    {
-        if(!$this->user($username)) {
-            return abort(404);
-        }
-        $user = $this->user($username);
+
+      public function homePage(Document $feeds, Follow $follow, $username)
+      {
+
+        //dd($feeds->getPublishedPosts($username));
+        $user = $this->user->where('username',$username)->firstorFail();
+
         if(Auth::user() && Auth::user()->username == $username){
                 $user = Auth::user();
                 $username = $user->username;
+                $feeds = $feeds->MyFeeds();
 
-                $post = new \Lucid\Core\Document($username);
+                return view('timeline', ['user'=>$user]);
 
-                $post = $post->MyFeeds();
-              
-                $sub = new \Lucid\Core\Subscribe($username);
-                $fcount = $sub->myfollowercount();
-                if (!empty($fcount)) {
-                    $fcount = count($fcount);
-                  }else {
-                    $fcount = "";
-                  }
-                $fcheck = $sub->followCheck($user->name);
+          }else {
 
-                $count = $sub->count();
-                if (!empty($count)) {
-                  $count = count($count);
+                //User Follower checker
+                if(Auth::user()){
+                  $fcheck = $follow->followCheck($user->name);
                 }
                 else {
-                  $count = "";
+                  $fcheck = "no";
                 }
 
+                 $userposts = $feeds->getPublishedPosts($username);
+                return view('home', ['userposts' => $userposts,
+                'user'=>$user,
+                'fcheck' => $fcheck]);
 
-  
-                $tabs = DB::table('interests')->get();
-                return view('timeline', [
-                  'fcheck' => $fcheck,
-                  'user'=>$user,
-                  'fcount'=>$fcount,
-                  'count' => $count]);
-
-        }else {
+          }
 
 
-            $app = new \Lucid\Core\Document($username);
-            $feed =$app->Feeds();
-          
-            // follower and following Count
-            $sub = new \Lucid\Core\Subscribe($username);
-            $fcount =$sub->myfollowercount();
-            $count = $sub->count();
-            //dd($fcount);
-            if (!empty($fcount)) {
-                $fcount = count($fcount);
-              }else {
-                $fcount = "";
+      }
+
+      public function posts(Document $feeds, Follow $follow,$username){
+
+
+        $user = $this->user->where('username',$username)->firstorFail();
+
+                  if(Auth::user() && $username == Auth::user()->username){
+                    $user = $this->user->where('username',$username)->firstorFail();
+
+                    $posts=$feeds->fetchAllRss($username);
+
+
+
+                    //User Follower checker
+                    if(Auth::user()){
+                      $fcheck = $follow->followCheck($user->name);
+                    }
+                    else {
+                      $fcheck = "no";
+                    }
+
+                    //  dd(  $like );
+                    return view('post',compact('user','posts'), ['fcheck' => $fcheck,
+                  ]);
+                }else {
+                  return redirect('/'.$username);
+                }
+
+      }
+
+
+
+          public function singlePostPage(Document $post, Follow $follow, $username,$postSlug){
+            // return $postSlug;
+            $user = $this->user->where('username',$username)->firstorFail();
+
+
+              $post=$post->getPost($username,$postSlug);
+
+              if(!$post){
+                  return redirect('/'.$username);
               }
-              if (!empty($count)) {
-                $count = count($count);
-              }else {
-                $count = "";
-              }
-
 
               //User Follower checker
               if(Auth::user()){
-                $check = new \Lucid\Core\Subscribe(Auth::user()->username);
-                $fcheck = $check->followCheck($user->name);
+                $fcheck = $follow->followCheck($user->name);
               }
               else {
                 $fcheck = "no";
               }
 
-               $userposts=$app->getPublishedPosts($username);
 
-              return view('home', ['userposts' => $userposts,'user'=>$user,'fcheck' => $fcheck,'fcount'=>$fcount, 'count' => $count]);
-
-        }
-
-    }
-
-    public function posts($username){
-
-        if(Auth::user() && $username == Auth::user()->username){
-
-        if(!$this->user($username)) {
-            return abort(404);
-        }
-
-        $user = $this->user($username);
-        $app  = new \Lucid\Core\Document($username);
-        $posts=$app->fetchAllRss();
-
-        //dd($posts);
-        // follower and following Count
-        $sub = new \Lucid\Core\Subscribe($username);
-        $fcount =$sub->myfollowercount();
-        $count = $sub->count();
-        //dd($fcount);
-        if (!empty($fcount)) {
-            $fcount = count($fcount);
-          }else {
-            $fcount = "";
-          }
-          if (!empty($count)) {
-            $count = count($count);
-          }else {
-            $count = "";
+              return view('single-blog-post',compact('post','user'),['fcheck' => $fcheck, ]);
           }
 
 
-          //User Follower checker
-          if(Auth::user()){
-            $check = new \Lucid\Core\Subscribe(Auth::user()->username);
-            $fcheck = $check->followCheck($user->name);
-          }
-          else {
-            $fcheck = "no";
-          }
-          $post_id = isset($post_id) ? $post_id:'';
-          $likes = DB::table('notifications')
-                  ->where('post_id',$post_id)
-                  ->where('notifications.action','=',"like")
-                  ->get();
-                //  dd(  $like );
-        return view('post',compact('user','posts'), [
-          'fcheck' => $fcheck,
-          'fcount'=>$fcount,
-          'count' => $count,
-          'likes' => $likes
-        ]);
-    }else {
-        return redirect('/'.$username);
-    }
-
-  }
-
-  public function singlePostPage($username,$postSlug){
-    // return $postSlug;
-      if(!$this->user($username)) {
-          return abort(404);
-      }
-      $user = $this->user($username);
-      $app  = new \Lucid\Core\Document($username);
-    //  $id = base64_decode($id);
-
-      $post=$app->getPost($username,$postSlug);
-
-      if(!$post){
-          return redirect('/'.$username.'/home');
-      }
-
-      // follower and following Count
-      $sub = new \Lucid\Core\Subscribe($username);
-      $fcount =$sub->myfollowercount();
-      $count = $sub->count();
-      //dd($fcount);
-      if (!empty($fcount)) {
-          $fcount = count($fcount);
-        }else {
-          $fcount = "";
-        }
-        if (!empty($count)) {
-          $count = count($count);
-        }else {
-          $count = "";
-        }
 
 
-        //User Follower checker
-        if(Auth::user()){
-          $check = new \Lucid\Core\Subscribe(Auth::user()->username);
-          $fcheck = $check->followCheck($user->name);
-        }
-        else {
-          $fcheck = "no";
-        }
+  public function getPostData(Document $post, Follow $follow, $username,$postSlug) {
 
-      return view('single-blog-post',compact('post','user'),['fcheck' => $fcheck, 'fcount'=>$fcount, 'count' => $count ]);
-  }
-
-  public function getPostData($username,$postSlug) {
-    $app = new \Lucid\Core\Document($username);
-    $post=$app->getPost($username,$postSlug);
+    $post=$post->getPost($username,$postSlug);
     if(!$post){
         return response()->json(['error'=>'post not found'],404);
     }
     return response()->json(['data'=>$post]);
   }
 
-  public function publish(Request $request,$username) {
+
+
+  public function publish(Request $request,Document $post,$username) {
       $title = isset($request->title) ? $request->title : '';
       $content = $request->postVal;
       $tags = $request->tags;
@@ -230,8 +165,8 @@ class PostController extends Controller
           // Log::debug($value);
 
       }
-      $post = new \Lucid\Core\Document($username);
-      $createPostAction = $post->createPost($title, $content, $tags, $images,$username,$action);
+
+     $createPostAction = $post->createPost($title, $content, $tags, $images,$username,$action);
 
     //  dd(  $createPost);
       if($createPostAction == "publish" ){
@@ -243,7 +178,7 @@ class PostController extends Controller
       }
   }
 
-  public function editPost(Request $request, $username) {
+  public function editPost(Request $request,Document $post, $username) {
 
       $title = isset($request->title) ? $request->title : '';
       $content = $request->postVal;
@@ -261,7 +196,7 @@ class PostController extends Controller
           $newKey = preg_replace('/_/', '.', $key);
           $images[$newKey] = $value;
       }
-      $post = new \Lucid\Core\Document($username);
+
       $updatePost = $post->saveUpdatedPost($title, $content, $tags, $images,$username,$post_id,$action);
 
       if($updatePost){

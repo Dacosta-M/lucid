@@ -3,8 +3,7 @@
     <div class="tab-pane show" role="tabpanel" id="timeline">
     <div class="row mt-5">
       <div class="col-md-12">
-        <?php $last = count($posts);
-        ?>
+
         @foreach($posts as $feeds)
         <div class="post-content">
           <!--           @if (empty($feeds['site_image']))
@@ -86,5 +85,6 @@
         @endforeach
       </div>
     </div>
+    {{ $posts->links()}}
     </div>
      <!-- End timeline Page -->
