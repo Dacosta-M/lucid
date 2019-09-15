@@ -56,7 +56,7 @@ class pageController extends Controller
 
           //User Follower checker
           if(Auth::user()){
-            $check = new \Lucid\Core\FOllow(Auth::user()->username);
+            $check = new \Lucid\Core\Follow(Auth::user()->username);
             $fcheck = $check->followCheck($user->name);
           }
           else {
@@ -97,7 +97,7 @@ class pageController extends Controller
 
 
         if(Auth::user()){
-          $check = new \Lucid\Core\FOllow(Auth::user()->username);
+          $check = new \Lucid\Core\Follow(Auth::user()->username);
           $fcheck = $check->followCheck($user->name);
         }
         else {
