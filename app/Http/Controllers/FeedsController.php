@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Lucid\User;
 use Lucid\Core\Document;
-use Lucid\Core\FOllow;
+use Lucid\Core\Follow;
 
 
 class FeedsController extends Controller
