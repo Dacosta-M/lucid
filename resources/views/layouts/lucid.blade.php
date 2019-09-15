@@ -294,8 +294,8 @@
               <h6 class="font-weight-bold mx-2">Notifications</h6>
               <div id="notif">
 
-                <div class="spinner" style=" padding: 20px;  width: 2vw;
-    height: 2vw;"></div>
+                <div class="spinner" style=" padding: 20px;  width: 1.2vw;
+    height: 1.2vw;"></div>
               </div>
               @if($isLocal)
               <a href="{{ url('under-construction') }}" class="font-weight-bold mx-2 mt-3">View all</a>

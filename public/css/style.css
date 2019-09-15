@@ -207,6 +207,18 @@ button.btn.btn-primary.pagination:hover {
     min-width: 5rem;
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.05);
 }
+.dropdown-menu::before {
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: 27px;
+    background: inherit;
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
 .dropdown-item {
     padding: 0.75rem 1.5rem;
     color: #000000;
