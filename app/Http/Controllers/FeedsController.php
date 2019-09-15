@@ -84,34 +84,6 @@ class FeedsController extends Controller
 
 
   }
-  public function posts(Document $feeds, Follow $follow,$username){
-
-
-    $user = $this->user->where('username',$username)->firstorFail();
-
-              if(Auth::user() && $username == Auth::user()->username){
-                $user = $this->user->where('username',$username)->firstorFail();
-
-                $posts=$feeds->fetchAllRss($username);
-
-
-
-                //User Follower checker
-                if(Auth::user()){
-                  $fcheck = $follow->followCheck($user->name);
-                }
-                else {
-                  $fcheck = "no";
-                }
-
-                //  dd(  $like );
-                return view('post',compact('user','posts'), ['fcheck' => $fcheck,
-              ]);
-            }else {
-              return redirect('/'.$username);
-            }
-
-  }
 
 
   public function thoughts(Document $feeds, Follow $follow,$username)

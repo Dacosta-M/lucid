@@ -100,6 +100,7 @@ return $title;
   }
   public function followCheck($value)
   {
+    $this->user = $value;
 $title = $this->followerArray();
 
 
