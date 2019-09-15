@@ -46,11 +46,11 @@ $location= 'contact';
             <div class="col-sm-12 col-md-10">
                 <div class="d-flex justify-content-between">
                 <label for="email" class="mb-2 mr-sm-2 d-block">Contact Email</label>
-                <button type="button" class="btn mb-2 text-secondary btn-border-secondary col-3">Edit</button>
+                <button id="edit-button" type="button" class="btn mb-2 text-secondary btn-border-secondary col-3">Edit</button>
                 </div>
                 <hr class="mt-0">
                 <input type="email" class="form-control mb-2 mr-sm-2" id="email" placeholder="Enter Email" name="email"
-                value="@if($contact) {{ $contact->email   }} @else {{ Auth::user()->email }} @endif ">
+                value="@if($contact) {{ $contact->email   }} @else {{ Auth::user()->email }} @endif " disabled>
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <span class="text-danger" id="emailError" style="display:none;"></span>
             </div>
@@ -58,9 +58,9 @@ $location= 'contact';
         <div class="form-group row mt-4">
           <div class="col-sm-12 col-md-10">
           <label for="message">Display Text</label>
-        <textarea name="message" id="message" rows="5" class="form-control" placeholder="Enter Display Text">@if($contact){{ $contact->display_message }}@endif</textarea>
+        <textarea name="message" id="message" rows="5" class="form-control" placeholder="Enter Display Text" disabled>@if($contact){{ $contact->display_message }}@endif</textarea>
         <span class="text-danger" id="msgError" style="display:none;"></span>
-        <button type="submit" name="editContactDetails" id="saveBtn" class="btn bg-alt text-white col-sm-12 col-md-3 mt-5">Save</button>
+        <button type="submit" name="editContactDetails" id="saveBtn" class="btn bg-alt text-white col-sm-12 col-md-3 mt-5 d-none">Save</button>
           </div>
         </div>
     </form>
@@ -88,7 +88,7 @@ $location= 'contact';
         <div class="form-group">
           <div class="col-sm-12 col-md-8">
             <label for="subject" class="mb-2 mr-sm-2"><i class="fas fa-align-justify text-secondary mr-2"></i> Subject *</label>
-            <input type="text" class="form-control mb-2 mr-sm-2" name="subject" id="subject">
+            <input type="text" class="form-control mb-2 mr-sm-2" name="subject" id="subject" placeholder="Purpose of Email">
             <span class="text-danger" id="subjectError" style="display:none;"></span>
           </div>
         </div>
@@ -112,9 +112,11 @@ $location= 'contact';
 @if($isLocal)
 <script src="{{ asset('js/contact.js') }}"></script>
 <script src="{{ asset('js/edit-contact-details.js') }}"></script>
+<script src="{{ asset('js/edit-contact-logic.js') }}"></script>
 @else
 <script src="{{ secure_asset('js/contact.js') }}"></script>
 <script src="{{ secure_asset('js/edit-contact-details.js') }}"></script>
+<script src="{{ secure_asset('js/edit-contact-logic.js') }}"></script>
 @endif
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 

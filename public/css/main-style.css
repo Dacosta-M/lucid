@@ -438,3 +438,9 @@ select:active {
 .no-border-radius {
     border-radius: 0 !important;
 }
+
+/* contact form style */
+.form-control:disabled {
+    background: none;
+    border: none;
+}

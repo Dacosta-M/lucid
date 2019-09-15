@@ -287,7 +287,7 @@
             @else
             <a href="/{{ Auth::user()->username}}" class="mr-1 pr-4 text-main"><i class="fas fa-home" style="font-size: 1.5em;"></i></a>
             @endguest
-            <a class="mr-5 pr-4 notification text-main" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
+            <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
               <span class="badge badge-danger count"></span>
               <span class="sr-only">unread notifications</span></a>
             <div class="dropdown-menu dropdown-menu-right notification-menu" aria-labelledby="dropdownNotification">
