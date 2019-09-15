@@ -42,6 +42,7 @@ Route::get('feed/{username}','HomeController@checkfeed');
 Route::get('dropfeed','HomeController@dropfeed');
 Route::get('loadfeed/{username}','HomeController@loadfeed');
 Route::get('postFixer/','HomeController@postFixer');
+Route::get('commentFixer/','HomeController@postFixer');
 //Route::get('oldfeed','HomeController@old');
 //Route::get('newfeed','HomeController@new');
 
@@ -85,7 +86,7 @@ Route::prefix('{username}')->group(function () {
     Route::get('/thoughts','FeedsController@thoughts');
 
     //Settings Controller
-    Route::get('/settings', 'HomeController@settings');
+    Route::get('/settings', 'UserAccountSettingsController@settings');
 
     //follower contorller
     //get
