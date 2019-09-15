@@ -25,7 +25,6 @@ class MagicAuthentication
         $user->storeToken()->sendMagicLink([
             'remember' => 1,
             'email'    => $user->email,
-            'username' => $user->username
         ]);
     }
 

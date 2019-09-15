@@ -562,4 +562,23 @@ return response($content, 200)
 return response($content, 200)
             ->header('Content-Type', 'text/xml');
   }
+
+
+
+  public function loginPage() {
+    if(Auth::user()){
+      return redirect()->to('/'.Auth::user()->username);
+    }
+
+    return view('auth.login');
+  }
+
+
+  public function registerPage() {
+    if(Auth::user()){
+      return redirect()->to('/'.Auth::user()->username);
+    }
+
+    return view('auth.register');
+  }
 }

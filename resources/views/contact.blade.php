@@ -46,7 +46,7 @@ $location= 'contact';
             <div class="col-sm-12 col-md-10">
                 <div class="d-flex justify-content-between">
                 <label for="email" class="mb-2 mr-sm-2 d-block">Contact Email</label>
-                <button class="btn mb-2 text-secondary btn-border-secondary col-3">Edit</button>
+                <button type="button" class="btn mb-2 text-secondary btn-border-secondary col-3">Edit</button>
                 </div>
                 <hr class="mt-0">
                 <input type="email" class="form-control mb-2 mr-sm-2" id="email" placeholder="Enter Email" name="email"
@@ -66,7 +66,7 @@ $location= 'contact';
     </form>
 
     @else
-    <h4 class="font-weight-bold mb-4">Contact {name}</h4>
+    <h4 class="font-weight-bold mb-4" style="text-transform:capitalize;">Contact {{ $user->name }}</h4>
     <p>
         @if($contact) {{ $contact->display_message  }} @endif
     </p>
@@ -88,7 +88,7 @@ $location= 'contact';
         <div class="form-group">
           <div class="col-sm-12 col-md-8">
             <label for="subject" class="mb-2 mr-sm-2"><i class="fas fa-align-justify text-secondary mr-2"></i> Subject *</label>
-            <input type="text" class="form-control mb-2 mr-sm-2" id="subject">
+            <input type="text" class="form-control mb-2 mr-sm-2" name="subject" id="subject">
             <span class="text-danger" id="subjectError" style="display:none;"></span>
           </div>
         </div>

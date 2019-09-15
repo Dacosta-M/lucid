@@ -20,6 +20,7 @@ class SendEmailController extends Controller
         $validator=Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|email',
+            'subject'=> 'required',
             'message'=>'required'
         ]);
 
@@ -30,6 +31,7 @@ class SendEmailController extends Controller
         $data = [
             'name' =>$request->name,
             'email'=>$request->email,
+            'subject'=>$request->subject,
             'message'=>$request->message
         ];
 

@@ -74,6 +74,19 @@ let j = jQuery.noConflict();
                     emailErrorContainer.style.display='none';
                     emailErrorContainer.innerHTML = '';
                   }
+
+                  if(res.subject)
+                  {
+                    const subjectErrorContainer=document.querySelector('#subjectError');
+                    subjectErrorContainer.style.display='block';
+                    subjectErrorContainer.innerHTML = res.subject;
+                  }
+                  else
+                  {
+                    const subjectErrorContainer=document.querySelector('#subjectError');
+                    subjectErrorContainer.style.display='none';
+                    subjectErrorContainer.innerHTML = '';
+                  }
     
     
                   if(res.message)
