@@ -91,8 +91,8 @@
     }
 
     .spinner {
-      width: 10vw;
-      height: 10vw;
+      width: 5vw;
+      height: 5vw;
       border-radius: 50%;
       border: 4px solid;
       border-top-color: var(--main-color);
@@ -101,8 +101,8 @@
       border-right-color: transparent;
       animation: rotate .5s infinite linear;
       position: absolute;
-      top: 30%;
-      left: 42%;
+      top: 50%;
+      left: 41%;
       transform: translateX(50%);
 
     }
@@ -149,11 +149,11 @@
     <div class="spinner"></div>
   </div>
   <section id="main-content" class="container pt-0">
-    <div class="row">
+    <div class="row mt-3">
 
       @section('sidebar')
       <!-- Beginning of Sidebar -->
-      <div class="col-10 col-sm-4 pb-0 mb-0 pt-2 d-none d-lg-block" id="sidebar">
+      <div class="col-10 col-sm-4 pb-0 mb-0 d-none d-lg-block" id="sidebar">
         <a class="d-lg-none" id="sidebarDismiss"><i class="icon ion-md-close-circle" style="font-size: 1.8em"></i></a>
         <a href="/{{ $user->username}}" class="changeHref"><img id="user-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="img-fluid mt-3" /></a>
         <a href="/{{ $user->username}}" class="no-decoration changeHref">
@@ -200,18 +200,18 @@
 
         <div class="user-stats text-center mt-3 pb-0">
           <div class="d-inline-block">
-            @if (empty($count))
-            <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">0 <small class="text-muted d-block">Following</small></a>
-            @else
+            @php
+            $fcount = DB::table('following')->where('follower_id', $user->id)->count();
+            $count = DB::table('following')->where('my_id', $user->id)->count();
+            @endphp
+
             <a href="/{{$user->username}}/following" class="pr-2 changeHref d-block" style="line-height: 15px;">{{$count}} <small class="text-muted d-block">Following</small></a>
-            @endif
+
           </div>
           <div class="d-inline-block">
-            @if (empty($fcount))
-            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">0 <small class="text-muted">Followers</small></a>
-            @else
-            <a href="/{{$user->username}}/followers" class="changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
-            @endif
+
+            <a href="/{{$user->username}}/followers" class="pr-2 changeHref d-block" style="line-height: 15px;">{{$fcount}} <small class="text-muted d-block">Followers</small></a>
+
           </div>
           <div class="mt-3">
             <a href="https://lucid.blog"> <small class="text-muted d-flex justify-content-center"><img src="@if($isLocal) {{ asset('img/lucid-logo.svg') }} @else {{ secure_asset('img/lucid-logo.svg') }} @endif" alt="Lucid" class="img-fluid" style="filter: grayscale(100%); height: 20px;" />

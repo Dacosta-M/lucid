@@ -166,79 +166,7 @@ public function extract($url)
 
 
 
-  public function subc($url)
-  {
-    $rss = new \DOMDocument();
-
-
-        $rss->load(trim($url));
-        foreach ($rss->getElementsByTagName('channel') as $r) {
-          $title = $r->getElementsByTagName('title')->item(0)->nodeValue;
-          $link = $r->getElementsByTagName('link')->item(0)->nodeValue;
-          $description = $r->getElementsByTagName('description')->item(0)->nodeValue;
-          if (is_null($r->getElementsByTagName('image')->item(0)->nodeValue)) {
-          $image ="resources/themes/ghost/secure_asset/img/bubbles.png";
-        }else {
-          $image = $r->getElementsByTagName('url')->item(0)->nodeValue;
-
-        }
-
-        }
-
-
-                $db = "storage/rss/subscriber.json";
-
-                $file = FileSystem::read($db);
-                $data=json_decode($file, true);
-                unset($file);
-
-                if (count($data) >= 1) {
-
-                foreach ($data as $key => $value) {
-                   if ($value["name"] == $title) {
-
-                     $message= "false";
-
-                     break;
-                   }else {
-                     $message= "true";
-
-                   }
-
-
-                }
-                if ($message == "true") {
-
-                //  $db_json = file_get_contents("storage/rss/subscriber.json");
-
-                  $time = date("Y-m-d h:i:sa");
-                    $img = $image;
-                    $sub[] = array('name'=> $title, 'rss'=>$url,'desc'=>$description, 'link'=>$link, 'img'=> $image, 'time' => $time);
-
-                    $json_db = "storage/rss/subscriber.json";
-                    $file = file_get_contents($db);
-                    $prev_sub = json_decode($file);
-                    $new =array_merge($sub, $prev_sub);
-                    $new = json_encode($new);
-                    $doc = FileSystem::write($json_db, $new);
-  }
-                }else {
-                $time = date("Y-m-d h:i:sa");
-                $img = $image;
-                $sub[] = array('name'=> $title, 'rss'=>$url,'desc'=>$description, 'link'=>$link, 'img'=> $image, 'time' => $time);
-
-                $json_db = "storage/rss/subscriber.json";
-                $file = file_get_contents($db);
-                $prev_sub = json_decode($file);
-
-                $new = array_merge($sub, $prev_sub);
-                $new = json_encode($new);
-                $doc = FileSystem::write($json_db, $new);
-
-
-            }
-            //header("loaction: /subscriptions");
-    }
+  
   public function unfollow($del)
   {
 $fuser= DB::table('users')->where('name', $del)->get('id')->first();
@@ -307,34 +235,4 @@ $fuser = [];
 
 
   }
-  public function followerArray()
-  {
-    //$user= DB::table('users')->where('username', $value)->get();
-
-    $check = new Subscribe(Auth::user()->username);
-    //dd(Auth::user()->username);
-    $title = [];
-    if (!is_null($check->count())) {
-
-    foreach($check->count() as $key => $fuser){
-    //  dd($fuser);
-    array_push($title , $fuser);
-  }
-//dd($title );
-}
-return $title;
-
-  }
-  public function followCheck($value)
-  {
-$title = $this->followerArray();
-
-
-                      if (in_array($value, $title)) {
-                        $fcheck = "yes";
-                      }else {
-                        $fcheck = "no";
-                      }
-                    return $fcheck;
-    }
 }

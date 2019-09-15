@@ -12,6 +12,7 @@ use DB;
 use Storage;
 use Parsedown;
 use Image;
+use Lucid\Core\Follow;
 
 class UserAccountSettingsController extends Controller
 {
@@ -19,33 +20,18 @@ class UserAccountSettingsController extends Controller
         $user = Auth::user();
         $username = $user['username'];
         // follower and following Count
-        $sub = new \Lucid\Core\Subscribe($username);
-        $fcount =$sub->myfollowercount();
-        $count = $sub->count();
-        //dd($fcount);
-        if (!empty($fcount)) {
-            $fcount = count($fcount);
-          }else {
-            $fcount = "";
-          }
-          if (!empty($count)) {
-            $count = count($count);
-          }else {
-            $count = "";
-          }
-  
-  
+
           //User Follower checker
           if(Auth::user()){
-            $check = new \Lucid\Core\Subscribe(Auth::user()->username);
+            $check = new \Lucid\Core\Follow(Auth::user()->username);
             $fcheck = $check->followCheck($user->name);
           }
           else {
             $fcheck = "no";
           }
-  
-        return view('settings', ['fcheck' => $fcheck,'user'=>$user,'fcount' => $fcount , 'count' => $count ]);
-  
+
+        return view('settings', ['fcheck' => $fcheck,'user'=>$user]);
+
       }
 
 
@@ -189,5 +175,5 @@ class UserAccountSettingsController extends Controller
 
       //$img = Image::make($path)->resize($width, $height)->save($path);
       }
-      
+
 }

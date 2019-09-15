@@ -38,7 +38,9 @@ $location= 'post';
     border: 0 !important;
   }
 
-
+  .m-edit {
+    margin-top: 4rem;
+    }
 
   .form-check-label {
     padding-right: 10px;
@@ -220,6 +222,9 @@ $location= 'post';
       align-items: flex-start !important;
     }
 
+    .m-edit {
+      margin-top: 1rem ; 
+    }
     .textarea-control {
       align-items: flex-start !important;
       margin-top: 1rem !important;
@@ -307,7 +312,7 @@ $location= 'post';
           </div>
         </div>
       </div>
-      <div class="col-12 mt-3">
+      <div class="col-12 m-edit">
         <div class="row form-row flex-row-reverse">
           <div class="col-3 col-sm-3 col-md-2">
             <input type="submit" class="form-control btn-sm btn btn-primary save-draft" value="Draft" />
