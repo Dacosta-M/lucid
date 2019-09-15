@@ -35,7 +35,7 @@ class EmailMagicLoginLinkRequested extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your Magic Login Link')->view('auth.magic-link')->with([
+        return $this->from('lucid.social@gmail.com')->subject('Your Magic Login Link')->view('auth.magic-link')->with([
             'loginLink' =>$this->buildLink(),
         ]);
 

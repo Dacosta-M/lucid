@@ -33,9 +33,9 @@ class MagicLinkLoginController extends Controller
         }
 
 
-        $username=$token->username;
+        
         Auth::login($token->user, $token->remember);
-
-        return redirect()->to('/'.$username);
+       
+        return redirect()->to('/'.Auth::user()->username);
     }
 }
