@@ -46,7 +46,7 @@ $location= 'contact';
             <div class="col-sm-12 col-md-10">
                 <div class="d-flex justify-content-between">
                 <label for="email" class="mb-2 mr-sm-2 d-block">Contact Email</label>
-                <button class="btn mb-2 text-secondary btn-border-secondary col-3">Edit</button>
+                <button type="button" class="btn mb-2 text-secondary btn-border-secondary col-3">Edit</button>
                 </div>
                 <hr class="mt-0">
                 <input type="email" class="form-control mb-2 mr-sm-2" id="email" placeholder="Enter Email" name="email"
