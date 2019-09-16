@@ -290,10 +290,18 @@
             <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
               <span class="badge badge-danger count"></span>
               <span class="sr-only">unread notifications</span></a>
-            <div class="dropdown-menu dropdown-menu-right notification-menu" aria-labelledby="dropdownNotification">
-              <h6 class="font-weight-bold mx-2">Notifications</h6>
+            <div class="dropdown-menu dropdown-menu-right notification-menu pt-0" aria-labelledby="dropdownNotification">
+              <section class="p-3 bg-main d-flex justify-content-between">
+              <div >
+              <h6 class="text-white m-0 " style="border-radius: .25em .25em 0 0">Notifications <span class="badge badge-danger rounded-circle">3</span></h6>
+              </div>
+              <div class="d-flex align-items-center text-white">
+              <p class="mb-0 mr-3">Read all</p>
+              <i class="fa fa-check-square-o mr-3" style="font-size: 1em;"   ></i>
+              <i class="fa fa-cog" style="font-size: 1em;"></i>
+              </div>
+              </section>
               <div id="notif">
-
                 <div class="spinner" style=" padding: 20px;  width: 1.2vw;
     height: 1.2vw;"></div>
               </div>
