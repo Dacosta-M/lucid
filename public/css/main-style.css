@@ -36,6 +36,18 @@ header {
     background-color: var(--secondary-color) !important;
     color: white !important;
 }
+.btn-main {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.text-gray {
+    color: #979797;
+}
 .btn-border-secondary {
     border: 1.2px solid var(--secondary-color);
 }

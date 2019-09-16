@@ -288,12 +288,12 @@
             <a href="/{{ Auth::user()->username}}" class="mr-1 pr-4 text-main"><i class="fas fa-home" style="font-size: 1.5em;"></i></a>
             @endguest
             <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
-              <span class="badge badge-danger count"></span>
+              <span class="badge highlight"></span>
               <span class="sr-only">unread notifications</span></a>
-            <div class="dropdown-menu dropdown-menu-right notification-menu pt-0" aria-labelledby="dropdownNotification">
+            <div class="dropdown-menu dropdown-menu-right notification-menu pt-0 text-center pb-3" aria-labelledby="dropdownNotification">
               <section class="p-3 bg-main d-flex justify-content-between">
               <div >
-              <h6 class="text-white m-0 " style="border-radius: .25em .25em 0 0">Notifications <span class="badge badge-danger rounded-circle">3</span></h6>
+              <h6 class="text-white m-0 " style="border-radius: .25em .25em 0 0">Notifications <span class="badge badge-danger count rounded-circle">1</span></h6>
               </div>
               <div class="d-flex align-items-center text-white">
               <p class="mb-0 mr-3">Read all</p>
@@ -301,14 +301,14 @@
               <i class="fa fa-cog" style="font-size: 1em;"></i>
               </div>
               </section>
-              <div id="notif">
+              <div id="notif" class="text-left">
                 <div class="spinner" style=" padding: 20px;  width: 1.2vw;
     height: 1.2vw;"></div>
               </div>
               @if($isLocal)
-              <a href="{{ url('under-construction') }}" class="font-weight-bold mx-2 mt-3">View all</a>
+              <a href="{{ url('under-construction') }}" class="font-weight-bold mx-2 mt-3 text-gray">View All Activities</a>
               @else
-              <a href="{{ secure_url('under-construction') }}" class="font-weight-bold mx-2 mt-3">View all</a>
+              <a href="{{ secure_url('under-construction') }}" class="font-weight-bold mx-2 mt-3 text-gray">View All Activities</a>
               @endif
             </div>
           </div>

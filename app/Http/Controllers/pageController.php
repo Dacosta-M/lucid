@@ -224,8 +224,9 @@ class pageController extends Controller
             <div class="post-content border p-3 d-flex align-items-center">
               <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
               <div class="post-content-body">
-                <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> commented on your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
+                <a class="m-0 font-weight-bold text-capitalize" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> commented on your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>.<span class="text-gray">45m</span>
               </div>
+              <img src="" class="img-fluid img-thumb no-border-radius" alt="user" />
             </div>';
 
           //}
@@ -234,11 +235,12 @@ class pageController extends Controller
   if ($notif->action == 'Replied') {
     //  foreach ($notif as $notifs) {
           $output .='
-          <div class="post-content border p-3">
+          <div class="post-content border p-3 align-items-center">
             <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
             <div class="post-content-body">
-              <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> Replied your comment on <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
+              <a class="m-0 font-weight-bold text-capitalize" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> replied your comment on <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>.<span class="text-gray">45m</span>
             </div>
+            <img src="" class="img-fluid img-thumb no-border-radius" alt="user" />
           </div>';
 
         //}
@@ -249,11 +251,12 @@ class pageController extends Controller
       $user= DB::table('users')->where('id', $notifs->sender_id)->first();
 
             $output .='
-            <div class="post-content border p-3">
+            <div class="post-content border p-3 align-items-center">
               <img src="'.$user->image.'" class="img-fluid img-thumb" alt="user" />
               <div class="post-content-body">
-                <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$user->username.'">'.$user->username.'</a> is now Following you
+                <a class="m-0 font-weight-bold text-capitalize" href="'.secure_url('/').'/'.$user->username.'">'.$user->username.'</a> followed you. <span class="text-gray">45m</span>
               </div>
+              <button class="btn-main p-1 px-2">Follow</button>
             </div>';
 }
 if ($notifs->type == 'Reaction') {
@@ -270,11 +273,12 @@ if ($notifs->type == 'Reaction') {
 
 
         $output .='
-        <div class="post-content border p-3">
+        <div class="post-content border p-3 align-items-center">
           <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
           <div class="post-content-body">
-            <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> Liked your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
+            <a class="m-0 font-weight-bold text-capitalize" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> liked your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>. <span class="text-gray">45m</span>
           </div>
+          <img src="" class="img-fluid img-thumb no-border-radius" alt="user" />
         </div>';
 
       }
@@ -288,11 +292,12 @@ if ($notifs->type == 'Reaction') {
                     ->orderBy('notifications.id','DESC')
                     ->first();
             $output .='
-            <div class="post-content border p-3">
+            <div class="post-content border p-3 align-items-center">
               <img src="'.$notif->image.'" class="img-fluid img-thumb" alt="user" />
               <div class="post-content-body">
-                <a class="m-0 font-weight-bold" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> Love your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>
+                <a class="m-0 font-weight-bold text-capitalize" href="'.secure_url('/').'/'.$notif->username.'">'.$notif->username.'</a> loves your post <a href="'.secure_url('/').'/'.Auth::user()->username.'/post/'.$notif->slug.'" class="font-weight-bold">'.$notif->title.'</a>. <span class="text-gray">45m</span>
               </div>
+              <img src="" class="img-fluid img-thumb no-border-radius" alt="user" />
             </div>';
 
           }
