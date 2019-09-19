@@ -456,3 +456,16 @@ select:active {
     background: none;
     border: none;
 }
+
+.fit-cover {
+    object-fit: cover !important;
+}
+
+#navbar-avatar {
+    border-radius: 50%;
+    height: 30px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

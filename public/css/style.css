@@ -19,9 +19,7 @@ body {
     margin-right: auto;
 }
 
-#lucid-dropdown {
-    position: absolute;
-    right: 0;
+#user-dropdown {
 }
 
 #main-content {

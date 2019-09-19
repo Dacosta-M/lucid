@@ -148,6 +148,75 @@
   <div class="preloader-wrapper">
     <div class="spinner"></div>
   </div>
+  <section>
+    <!-- Beginning of Navbar -->
+    <div class="container-fluid p-0 m-0 mb-5 d-flex justify-content-between bg-light border-bottom border-info">
+      <!-- Sidebar toggle for small viewport -->
+      <div class="d-flex mt-2">
+        <a class="d-lg-none mt-1 ml-3 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
+        <a class="ml-3" href="/{{ Auth::user()->username}}">
+          @if($isLocal)
+          <img src="{{ asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
+          @else
+          <img src="{{ secure_asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
+          @endif
+        </a>
+      </div>
+
+      <div class="d-flex">
+        <!-- Dropdown with user name and picture -->
+        <div class="dropdown pt-2" id="user-dropdown">
+          <a class="nav-link dropdown-toggle p-0 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block" />
+            <p class="mx-1 font-weight-bold d-inline-block">{{ $user->name}}</p>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
+            @guest
+            <a class="dropdown-item" href="@if($isLocal)   {{ url('/login') }} @else{{ secure_url('/login')   }} @endif">{{ __('Login') }}</a>
+            @else
+            <a href="/{{ Auth::user()->username}}" class="dropdown-item note changeHref border-bottom">Home</a>
+            <a href="/{{ $user->username}}/settings" class="dropdown-item note changeHref border-bottom">Settings</a>
+            <a class="dropdown-item note changeHref" href="/{{ $user->username}}/logout">
+              {{ __('Logout') }}
+            </a>
+            @endguest
+          </div>
+        </div>
+        <!-- End Dropdown -->
+
+        <!-- Notification -->
+        <div class="dropdown mt-2 ml-4">
+          <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
+            <span class="badge highlight"></span>
+            <span class="sr-only">unread notifications</span></a>
+          <div class="dropdown-menu dropdown-menu-right notification-menu pt-0 text-center pb-3" aria-labelledby="dropdownNotification">
+            <section class="p-3 bg-main d-flex justify-content-between">
+              <div>
+                <h6 class="text-white m-0 " style="border-radius: .25em .25em 0 0">Notifications <span class="badge badge-danger count rounded-circle">1</span></h6>
+              </div>
+              <div class="d-flex align-items-center text-white">
+                <p class="mb-0 mr-3">Read all</p>
+                <i class="fa fa-check-square-o mr-3" style="font-size: 1em;"></i>
+                <i class="fa fa-cog" style="font-size: 1em;"></i>
+              </div>
+            </section>
+            <div id="notif" class="text-left">
+              <div class="spinner" style=" padding: 20px;  width: 1.2vw;
+    height: 1.2vw;"></div>
+            </div>
+            @if($isLocal)
+            <a href="{{ url('under-construction') }}" class="font-weight-bold mx-2 mt-3 text-gray">View All Activities</a>
+            @else
+            <a href="{{ secure_url('under-construction') }}" class="font-weight-bold mx-2 mt-3 text-gray">View All Activities</a>
+            @endif
+          </div>
+        </div>
+        <!-- End Notification -->
+      </div>
+    </div>
+    <!-- End of Navbar -->
+
+  </section>
   <section id="main-content" class="container pt-0">
     <div class="row mt-3">
 
@@ -277,65 +346,6 @@
       @show
       <div class="col-lg-8 pb-0">
 
-          <!-- Beginning of Navbar -->
-          <div class="container-fluid p-0 m-0 mb-5 d-flex justify-content-between justify-content-lg-end">
-          <a class="d-lg-none pt-3 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
-          @guest
-          @else
-          <div class="dropdown pt-3">
-            @guest
-            @else
-            <a href="/{{ Auth::user()->username}}" class="mr-1 pr-4 text-main"><i class="fas fa-home" style="font-size: 1.5em;"></i></a>
-            @endguest
-            <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
-              <span class="badge highlight"></span>
-              <span class="sr-only">unread notifications</span></a>
-            <div class="dropdown-menu dropdown-menu-right notification-menu pt-0 text-center pb-3" aria-labelledby="dropdownNotification">
-              <section class="p-3 bg-main d-flex justify-content-between">
-              <div >
-              <h6 class="text-white m-0 " style="border-radius: .25em .25em 0 0">Notifications <span class="badge badge-danger count rounded-circle">1</span></h6>
-              </div>
-              <div class="d-flex align-items-center text-white">
-              <p class="mb-0 mr-3">Read all</p>
-              <i class="fa fa-check-square-o mr-3" style="font-size: 1em;"   ></i>
-              <i class="fa fa-cog" style="font-size: 1em;"></i>
-              </div>
-              </section>
-              <div id="notif" class="text-left">
-                <div class="spinner" style=" padding: 20px;  width: 1.2vw;
-    height: 1.2vw;"></div>
-              </div>
-              @if($isLocal)
-              <a href="{{ url('under-construction') }}" class="font-weight-bold mx-2 mt-3 text-gray">View All Activities</a>
-              @else
-              <a href="{{ secure_url('under-construction') }}" class="font-weight-bold mx-2 mt-3 text-gray">View All Activities</a>
-              @endif
-            </div>
-          </div>
-          @endguest
-          <div class="dropdown pt-2" id="lucid-dropdown">
-            <a class="nav-link dropdown-toggle pt-1 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @if($isLocal)
-            <img src="{{ asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
-            @else
-              <img src="{{ secure_asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
-            @endif
-            </a>
-            <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
-              @guest
-              <a class="dropdown-item" href="@if($isLocal)   {{ url('/login') }} @else{{ secure_url('/login')   }} @endif">{{ __('Login') }}</a>
-              @else
- <!--              <a class="dropdown-item changeHref border-bottom note" href="/{{ Auth::user()->username}}">Home</a> -->
-              <a href="/{{ $user->username}}/settings" class="dropdown-item note changeHref border-bottom">Settings</a>
-              <a class="dropdown-item note changeHref" href="/{{ $user->username}}/logout">
-                {{ __('Logout') }}
-              </a>
-
-              @endguest
-            </div>
-          </div>
-        </div>
-        <!-- End of Navbar -->
 
         <!-- Beginning of Post Content -->
         @yield('content')
@@ -362,14 +372,17 @@
     // $(`a[href="${anchor}"]`).tab('show')
   </script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-147415822-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147415822-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-147415822-1');
-</script>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-147415822-1');
+  </script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
