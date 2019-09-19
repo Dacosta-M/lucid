@@ -150,7 +150,7 @@
   </div>
   <section>
     <!-- Beginning of Navbar -->
-    <div class="container-fluid p-0 m-0 mb-5 d-flex justify-content-between bg-light border-bottom border-info">
+    <div class="container-fluid p-0 m-0 mb-1 d-flex justify-content-between bg-light border-bottom border-info">
       <!-- Sidebar toggle for small viewport -->
       <div class="d-flex mt-2">
         <a class="d-lg-none mt-1 ml-3 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
@@ -218,8 +218,7 @@
 
   </section>
   <section id="main-content" class="container pt-0">
-    <div class="row mt-3">
-
+    <div class="row mt-0">
       @section('sidebar')
       <!-- Beginning of Sidebar -->
       <div class="col-10 col-sm-4 pb-0 mb-0 d-none d-lg-block" id="sidebar">
@@ -344,7 +343,7 @@
       <!-- End FOllow  Modal -->
 
       @show
-      <div class="col-lg-8 pb-0">
+      <div class="col-lg-8 pb-0 mt-4">
 
 
         <!-- Beginning of Post Content -->
