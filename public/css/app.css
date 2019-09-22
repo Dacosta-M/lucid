@@ -4964,6 +4964,7 @@ input[type=submit].btn-block {
     background-color: #e3342f;
     position: relative;
     left: -.5rem;
+
 }
 
 .badge-danger[href]:focus,
@@ -4995,6 +4996,19 @@ input[type=submit].btn-block {
     color: #fff;
     text-decoration: none;
     background-color: #1d2124
+}
+.highlight {
+    position: absolute !important;
+    background-color: #c51f1a !important;
+    width: 10px !important;
+    height: 10px !important;
+    left: 47%;
+    top: 40%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 .jumbotron {
