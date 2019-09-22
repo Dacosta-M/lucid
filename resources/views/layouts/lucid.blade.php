@@ -167,7 +167,7 @@
         </a>
       </div>
 
-      <div class="d-flex">
+      <div class="d-flex mr-5">
         <!-- Dropdown with user name and picture -->
         <div class="dropdown pt-2" id="user-dropdown">
           <a class="nav-link dropdown-toggle p-0 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -193,6 +193,8 @@
         <!-- End Dropdown -->
 
         <!-- Notification -->
+        @guest
+        @else
         <div class="dropdown mt-2 ml-4">
           <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
             <span class="badge highlight"></span>
@@ -219,6 +221,7 @@
             @endif
           </div>
         </div>
+        @endguest
         <!-- End Notification -->
       </div>
     </div>
