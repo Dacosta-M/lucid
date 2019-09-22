@@ -14,7 +14,7 @@ class AddThemeToUserSettingsTable extends Migration
     public function up()
     {
         Schema::table('user_settings', function (Blueprint $table) {
-          $table->text('theme')->default("default");
+          $table->string('theme')->default("default");
         });
     }
 
