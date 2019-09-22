@@ -290,6 +290,7 @@ $location = 'timeline';
           <h6 class="mb-0">Timeline</h6>
         </a>
       </li>
+      @if($tabs)
       @foreach($tabs as $tab)
       <li class="nav-item" onclick="tabfeeds('{{$tab}}')">
         <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
@@ -297,7 +298,7 @@ $location = 'timeline';
         </a>
       </li>
       @endforeach
-
+      @endif
       <a href="#"  class="pt-1"><i onclick="settings()" class="fas fa-plus-circle text-secondary"></i></a>
     </ul>
   </div>

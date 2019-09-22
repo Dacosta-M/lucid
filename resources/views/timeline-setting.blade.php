@@ -69,6 +69,7 @@
   </div>
 </div>
 <!-- Main Timeline Ends -->
+@if($tabs)
   @forelse($tabs as $tab)
 <!-- {{$tab}} Timeline Start -->
 <div class="mb-5">
@@ -163,3 +164,4 @@
 @empty
 <!-- {{$tab}} Timeline Ends -->
   @endforelse
+@endif
