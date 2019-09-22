@@ -283,333 +283,47 @@ $location = 'timeline';
 <div>
   <!-- <h4 class="ml-4 mb-3 pl-1">Explore Lucid</h4> -->
   <!-- Begin content -->
-  <div class="page-tab mb-3">
-    <ul class="nav nav-tabs navbar-light" id="follow-tabs" role="tablist">
+  <div id ='nav-tab' class="page-tab mb-3">
+    <ul class="nav nav-tabs navbar-light" id="nav-feed" role="tablist">
       <li class="nav-item" onclick="feeds()">
         <a href="#timeline" class="nav-link tab-link active pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
           <h6 class="mb-0">Timeline</h6>
         </a>
       </li>
-      <li class="nav-item">
+      @foreach($tabs as $tab)
+      <li class="nav-item" onclick="feed({{$tab}})">
         <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-          <h6 class="mb-0">Tech</h6>
+          <h6 class="mb-0">{{$tab}}</h6>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-          <h6 class="mb-0">Health</h6>
-        </a>
-      </li>
-      <a href="" class="pt-1"><i class="fas fa-plus-circle text-secondary"></i></a>
+      @endforeach
+
+      <a href="#"  class="pt-1"><i onclick="settings()" class="fas fa-plus-circle text-secondary"></i></a>
     </ul>
   </div>
-  <h5 class="font-weight-bold mb-5">Manage Your Timeline on the Page</h5>
 
-  <!-- Main Timeline Start -->
-  <div class="mb-5">
-    <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#mainTimeline">
-      <p class="mb-0">Main Timeline</p>
-      <i class="fas fa-chevron-up"></i>
-    </div>
-    <div id="mainTimeline" class="collapse in show pt-3">
-      <div>
-        <div class="row">
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-12 col-sm-2 align-self-center">
-            <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
-          </div>
-        </div>
-        <div class="container mt-5 mt-sm-3">
-          <div class="post-content">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-2 ml-sm-3'>
-              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
-              <span>
-                <small>Food for thoughts</small>
-                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
-              </span>
-            </div>
-            <div class="ml-4 ml-sm-5 pt-sm-3">
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
-            </div>
-          </div>
 
-          <div class="post-content">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-2 ml-sm-3'>
-              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
-              <span>
-                <small>Food for thoughts</small>
-                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
-              </span>
-            </div>
-            <div class="ml-4 ml-sm-5 pt-sm-3">
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
-            </div>
-          </div>
-          <form class="form-inline">
-            <div class="form-group mb-2">
-              <label for="addUser" class="sr-only">Email</label>
-              <input type="text" class="form-control no-border-radius" id="addUser" placeholder="Add RSS Feed or Twitter User" size="30">
-            </div>
-            <button type="submit" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Main Timeline Ends -->
+    @if(count($posts) > 0)
+    <div class="tab-pane show" role="tabpanel" id="timeline">
+      <div class="row mt-5">
+        <div class="col-md-12">
+<section id="feeds" class="feeds">
 
-  <!-- Technology Timeline Start -->
-  <div class="mb-5">
-    <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#technologyTimeline">
-      <p class="mb-0">Technology Timeline</p>
-      <div>
-        <i class="fas fa-trash text-danger mr-2"></i>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-    </div>
-    <div id="technologyTimeline" class="collapse in pt-3">
-      <div>
-        <div class="row">
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-12 col-sm-2 align-self-center">
-            <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
-          </div>
-        </div>
-        <div class="container mt-5 mt-sm-3">
-          <div class="post-content">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-2 ml-sm-3'>
-              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
-              <span>
-                <small>Food for thoughts</small>
-                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
-              </span>
-            </div>
-            <div class="ml-4 ml-sm-5 pt-sm-3">
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
-            </div>
-          </div>
+      <!-- timeline page -->
+  <div id="load">
+  @include('feeds')
 
-          <div class="post-content">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-2 ml-sm-3'>
-              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
-              <span>
-                <small>Food for thoughts</small>
-                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
-              </span>
-            </div>
-            <div class="ml-4 ml-sm-5 pt-sm-3">
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
-            </div>
-          </div>
-          <form class="form-inline">
-            <div class="form-group mb-2">
-              <label for="addUser" class="sr-only">Email</label>
-              <input type="text" class="form-control no-border-radius" id="addUser" placeholder="Add RSS Feed or Twitter User" size="30">
-            </div>
-            <button type="submit" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Technology Timeline Ends -->
+</div>
+</section>
+</div>
+</div>
+</div>
+  @endif
 
-  <!-- Entertainment Timeline Start -->
-  <div class="mb-5">
-    <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#entertainmentTimeline">
-      <p class="mb-0">Entertainment Timeline</p>
-      <div>
-        <i class="fas fa-trash text-danger mr-2"></i>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-    </div>
-    <div id="entertainmentTimeline" class="collapse in pt-3">
-      <div>
-        <div class="row">
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-3.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-2 text-center">
-            <img src="{{ secure_asset('img/mb-2.png') }}" class="img-fluid" alt="user" />
-            <small><a href="" class="d-block mb-0 text-main font-weight-bold">Angel Roberts</a></small>
-            <small>
-              <p>2k Followers</p>
-            </small>
-          </div>
-          <div class="col-12 col-sm-2 align-self-center">
-            <a href="" class="font-weight-bold text-secondary">and 37 more users</a>
-          </div>
-        </div>
-        <div class="container mt-5 mt-sm-3">
-          <div class="post-content">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-2 ml-sm-3'>
-              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
-              <span>
-                <small>Food for thoughts</small>
-                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
-              </span>
-            </div>
-            <div class="ml-4 ml-sm-5 pt-sm-3">
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
-            </div>
-          </div>
 
-          <div class="post-content">
-            <img src="{{ secure_asset('img/mb-1.png') }}" class="img-fluid" alt="user" />
-            <div class='ml-2 ml-sm-3'>
-              <a href="" class="d-block mb-0 text-dark font-weight-bold">Angel Roberts</a>
-              <span>
-                <small>Food for thoughts</small>
-                <button class="btn btn-secondary btn-sm p-0 timeline-rss-btn"><small>RSS</small></button>
-              </span>
-            </div>
-            <div class="ml-4 ml-sm-5 pt-sm-3">
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-success ml-sm-3">Edit</a>
-              <a href="" class="d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3">Remove</a>
-            </div>
-          </div>
-          <form class="form-inline">
-            <div class="form-group mb-2">
-              <label for="addUser" class="sr-only">Email</label>
-              <input type="text" class="form-control no-border-radius" id="addUser" placeholder="Add RSS Feed or Twitter User" size="30">
-            </div>
-            <button type="submit" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Entertainment Timeline Ends -->
+  <input type="hidden" value="{{ $user->username }}" id="username">
 
-  <div>
-
-  </div>
-
-  <div id='feeds'>
-    <div class="" style="text-align: -webkit-center">
-      <div class="spinner" style="    position: inherit;"></div>
-    </div>
-  </div>
-  <script>
-    if (window.XMLHttpRequest) {
-      // code for IE7+, Firefox, Chrome, Opera, Safari
-      xmlhttp = new XMLHttpRequest();
-    } else {
-      // code for IE6, IE5
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        //console.log(xmlhttp.responseText);
-        document.getElementById("feeds").innerHTML = xmlhttp.responseText;
-      }
-    };
-    xmlhttp.open("GET", "/{{ $user->username }}/feeds", true);
-    xmlhttp.send();
-
+<script>
 
     function feeds() {
       if (window.XMLHttpRequest) {
@@ -625,6 +339,23 @@ $location = 'timeline';
         }
       };
       xmlhttp.open("GET", "/{{ $user->username }}/feeds", true);
+      xmlhttp.send();
+
+    }
+    function settings() {
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+        }
+      };
+      xmlhttp.open("GET", "/{{ $user->username }}/timeline-settings", true);
       xmlhttp.send();
 
     }

@@ -113,7 +113,87 @@ $location= 'settings';
 
     <!-- account tab -->
     <div class="tab-pane fade" id="account" role="tabpanel">
-      <h3 class="mt-5">Account page coming soon...</h3>
+      <h3 class="mt-5">Account Settings</h3>
+      <div class="form-group col-sm-12 col-md-6 pb-0 mb-0">
+
+
+
+<form action="#" class="mt-4" name="AccountForm" autocomplete="off" id="AccountForm">
+        <div class="form-group">
+    <label for="Link" class="form-label">Your Lucid Url</label>
+
+      <input type="url" readonly class="form-control-plaintext" id="Link" value="{{secure_url('/').'/'.Auth::user()->username}}">
+
+  </div>
+
+  <div class="form-group">
+<label for="theme" class="form-label">Installed Theme</label>
+<input type="text" readonly class="form-control-plaintext" id="theme" value="Default">
+</div>
+<div class="form-group">
+<label for="View" class="form-label">Preferred View</label>
+
+  <div class="form-group">
+     <select class="custom-select" name="view" required>
+       <option value="">Select View</option>
+       <option @if($set->view == "Timeline") selected @endif value="Timeline">Timeline</option>
+       <option @if($set->view == "Post") selected @endif value="Post">Post</option>
+       <option @if($set->view == "Thoughts") selected @endif value="Thoughts">Thoughts</option>
+     </select>
+   </div>
+
+</div>
+<div class="form-group">
+<label for="View" class="form-label">Guest Preferred View</label>
+
+  <div class="form-group">
+     <select class="custom-select" name="pubView" required>
+       <option value="">Select View</option>
+       <option @if($set->public_view == "Home") selected @endif value="Home">Home</option>
+       <option @if($set->public_view == "Thoughts") selected @endif value="Thoughts">Thoughts</option>
+     </select>
+   </div>
+
+</div>
+
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" @if(in_array("Technology", $tabs)) checked @endif name="tags[]" value="Technology"  id="Technology">
+          <label class="custom-control-label" for="Technology">Technology</label>
+          </div>
+       <div class="custom-control custom-switch">
+         <input type="checkbox" class="custom-control-input" @if(in_array("Entertainment", $tabs)) checked @endif name="tags[]" value="Entertainment"  id="Entertainment">
+         <label class="custom-control-label" for="Entertainment">Entertainment</label>
+          </div>
+         <div class="custom-control custom-switch">
+
+           <input type="checkbox" class="custom-control-input" @if(in_array("Blog", $tabs)) checked @endif name="tags[]" value="Blog"  id="Blog">
+           <label class="custom-control-label" for="Blog">Blog</label>
+           </div>
+       <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" @if(in_array("Health", $tabs)) checked @endif name="tags[]" value="Health"  id="Health">
+          <label class="custom-control-label" for="Health">Health</label>
+          </div>
+      <div class="custom-control custom-switch">
+
+         <input type="checkbox" class="custom-control-input" name="tags[]"  @if(in_array("Lifestyle", $tabs )) checked @endif value="Lifestyle"  id="Lifestyle">
+         <label class="custom-control-label" for="Lifestyle">Lifestyle</label>
+         </div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input"  @if(in_array("Gist", $tabs)) checked @endif name="tags[]" value="Gist"  id="Gist">
+        <label class="custom-control-label" for="Gist">Gist</label>
+        </div>
+        <div class="custom-control custom-switch">
+       <input type="checkbox" class="custom-control-input"  @if(in_array("Politics", $tabs)) checked @endif name="tags[]" value="Politics"  id="Politics">
+        <label class="custom-control-label" for="Politics">Politics</label>
+        </div>
+        </div>
+
+
+
+        <button type="submit" class="btn col-sm-12 col-md-3 mt-3" name="updateAccount">Update Account</button>
+
+      </form>
+</div>
     </div>
     <!-- links tab -->
     <div class="tab-pane fade" id="links" role="tabpanel">
@@ -136,6 +216,34 @@ $location= 'settings';
 <!-- convert to markdown script ends -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+const link = "@if($isLocal){{ url($user->username.'/account_settings')  }}@else{{ secure_url($user->username.'/account_settings')  }}@endif"
+
+document.querySelector('button[name="updateAccount"]').addEventListener('click',function (event){
+  event.preventDefault();
+  const formData = document.AccountForm;
+ var myform = $(formData).serialize();
+//console.log(myform);
+
+  j.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+  j.ajax({
+        type: "POST",
+        url : link,
+        data:myform,
+        beforeSend:function(){
+          document.querySelector('button[name="updateAccount"]').innerHTML = 'Saving changes...';
+        },
+        success : function (response) {
+          document.querySelector('button[name="updateAccount"]').innerHTML = 'Update Account';
+        }
+      });
+    });
+</script>
 @if($isLocal)
 <script src="{{ asset('js/settings.js') }}"></script>
 @else

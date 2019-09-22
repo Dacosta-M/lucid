@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Validator;
 use DB;
 use Storage;
 use Parsedown;
 use Image;
+use Lucid\user_settings;
 use Lucid\Core\Follow;
 
 class UserAccountSettingsController extends Controller
@@ -29,8 +31,10 @@ class UserAccountSettingsController extends Controller
           else {
             $fcheck = "no";
           }
-
-        return view('settings', ['fcheck' => $fcheck,'user'=>$user]);
+        $user_settings = user_settings::where('user_id', Auth::user()->id)->first();
+      $tabs = unserialize($user_settings->tabs);
+  
+        return view('settings', ['fcheck' => $fcheck,'user'=>$user,'set'=>$user_settings , 'tabs' => $tabs]);
 
       }
 
@@ -124,7 +128,7 @@ class UserAccountSettingsController extends Controller
   public function store($image,$filenamewithextension,$filename,$extension)
 {
 
-  Log::debug($image);
+  //Log::debug($image);
 
       //filename to store
       $filenametostore = $filename.'_'.time().'.'.$extension;
@@ -175,6 +179,22 @@ class UserAccountSettingsController extends Controller
       $img->save($path);
 
       //$img = Image::make($path)->resize($width, $height)->save($path);
+      }
+
+
+      public function AccountSetting(Request $request)
+      {
+       $tags =  serialize($request->tags);
+    //    Log::debug($tags);
+
+        $site_settings=
+        DB::table('user_settings')
+        ->where('user_id', Auth::user()->id)
+        ->update([
+          'tabs' => $tags,
+          'view' => $request->view,
+          'public_view' => $request->pubView
+        ]);
       }
 
 }

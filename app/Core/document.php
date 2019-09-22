@@ -40,8 +40,8 @@ class Document
 
 
     public function createPost($title,$content, $tags, $image,$username, $action){
+
         if (!empty($image)) {
-          $url = Auth::user()->id."/images/";
           if(is_array($image)) {
               foreach ($image as $key => $value) {
 
@@ -93,46 +93,58 @@ class Document
     }
 
 
-    public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id) {
+    public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id,$action) {
 
-        if (!empty($image)) {
-            $url = Auth::user()->id."/images/";
-            if(is_array($image)) {
-                foreach ($image as $key => $value) {
-                    $image = $value;
-                    $decoded = base64_decode($image);
+    //  Log::debug($image);
+      if (!empty($image)) {
+        if(is_array($image)) {
+            foreach ($image as $key => $value) {
 
-                    $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                  $image = Storage::disk('local')->put( $img_path, $decoded);
+              $decoded = base64_decode($image[$key]);
 
-                }
+              $img_path = 'public/'.Auth::user()->id."/images/".$key;
+          //  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+
+              $filenamewithextension = $key;
+
+              //get filename without extension
+              $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+              //get file extension
+              $extension = pathinfo($filenamewithextension, PATHINFO_EXTENSION);;
+
+              $image = $decoded;
+             $fullPath = $this->store($image, $filenamewithextension,$filename,$extension);
+
+
+
             }
-        }else {
-          $image = null;
         }
+    }else {
+      $fullPath = NULL;
+    }
+
 
         $slug = Str::slug($title);
         $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
         //$slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
         $oldpost = DB::table('posts')->where('id',$post_id)->first('title');
       //  dd($oldpost->title);
-        $updateFeeds = DB::table('extfeeds')->where('title',$oldpost->title)
-        ->update([
-          'title'=>$title,
-          'des'=>$content,
-          'tags'=>$tags,
-          'image'=> $image,
-          'link'=> '/post/'.$slug
-
-        ]);
-        $updatePosts = DB::table('posts')->where('id',$post_id)->update([
-          'user_id'=>Auth::user()->id,
-          'title'=>$title,
-          'content'=>$content,
-          'tags'=>$tags,
-          'image'=> $image,
-          'slug'=> $slug
-        ]);
+      if($fullPath == NULL){
+        $feedupdate = ['title'=>$title,'des'=>$content,'tags'=>$tags,'link'=> '/post/'.$slug];
+      }else {
+        $feedupdate = ['title'=>$title,'des'=>$content,'image'=> $fullPath,'tags'=>$tags,'link'=> '/post/'.$slug];
+      }
+      if($fullPath == NULL){
+        $postupdate = ['user_id'=>Auth::user()->id,'title'=>$title,'content'=>$content,'tags'=>$tags,'slug'=> $slug];
+          }else {
+        $postupdate = ['user_id'=>Auth::user()->id,'title'=>$title,'content'=>$content,'tags'=>$tags,'image'=> $fullPath,'slug'=> $slug];
+          }
+        $updateFeeds = DB::table('extfeeds')->where(['title' => $oldpost->title, 'user_id' => Auth::user()->id])
+        ->update($feedupdate);
+        $updatePosts = DB::table('posts')->where('id',$post_id)
+        ->update($postupdate);
 
         //dd($updateFeeds);
         if ($updatePosts) {
@@ -1220,16 +1232,16 @@ $user = Auth::user();
 
 
         //filename to store
-        $filenametostore = $filename.'_'.time().'.'.$extension;
+        $filenametostore = $filename.'_.'.$extension;
 
         //small thumbnail name
-        $smallthumbnail = $filename.'_small_'.time().'.'.$extension;
+        $smallthumbnail = $filename.'_small_.'.$extension;
 
         //medium thumbnail name
-        $mediumthumbnail = $filename.'_medium_'.time().'.'.$extension;
+        $mediumthumbnail = $filename.'_medium_.'.$extension;
 
         //large thumbnail name
-        $largethumbnail = $filename.'_large_'.time().'.'.$extension;
+        $largethumbnail = $filename.'_large_.'.$extension;
 
         //Upload File
         Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/'.$filenametostore, $image);
@@ -1255,7 +1267,7 @@ $user = Auth::user();
         $this->createThumbnail($largethumbnailpath, 550, 340);
 
         $imagePath ='/storage/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail;
-        Log::debug($imagePath);
+      //  Log::debug($imagePath);
         return $imagePath;
 
   }
