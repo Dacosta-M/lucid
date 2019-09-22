@@ -153,12 +153,16 @@
     <div class="container-fluid p-0 m-0 mb-1 d-flex justify-content-between bg-light border-bottom border-info">
       <!-- Sidebar toggle for small viewport -->
       <div class="d-flex mt-2">
-        <a class="d-lg-none mt-1 ml-3 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
+        <a class="d-lg-none mt-1 ml-5 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
+        @guest
+        <a class="ml-3" href="/{{ $user->username}}">
+        @else
         <a class="ml-3" href="/{{ Auth::user()->username}}">
+        @endguest
           @if($isLocal)
-          <img src="{{ asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
+          <img src="{{ asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid ml-3" width="40px" />
           @else
-          <img src="{{ secure_asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
+          <img src="{{ secure_asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid ml-3" width="40px" />
           @endif
         </a>
       </div>
@@ -167,8 +171,12 @@
         <!-- Dropdown with user name and picture -->
         <div class="dropdown pt-2" id="user-dropdown">
           <a class="nav-link dropdown-toggle p-0 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block" />
+            @guest
+            <p class="mx-1 font-weight-bold d-inline-block">Guest</p>
+            @else
+            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block fit-cover" style="border-radius:50%;" alt="{{ $user->name}}" height="25" />
             <p class="mx-1 font-weight-bold d-inline-block">{{ $user->name}}</p>
+            @endguest
           </a>
           <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
             @guest
