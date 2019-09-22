@@ -291,7 +291,7 @@ $location = 'timeline';
         </a>
       </li>
       @foreach($tabs as $tab)
-      <li class="nav-item" onclick="feed({{$tab}})">
+      <li class="nav-item" onclick="tabfeeds('{{$tab}}')">
         <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
           <h6 class="mb-0">{{$tab}}</h6>
         </a>
@@ -339,6 +339,23 @@ $location = 'timeline';
         }
       };
       xmlhttp.open("GET", "/{{ $user->username }}/feeds", true);
+      xmlhttp.send();
+
+    }
+    function tabfeeds(id) {
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+        }
+      };
+      xmlhttp.open("GET", "/{{ $user->username }}/feeds?tags="+id, true);
       xmlhttp.send();
 
     }

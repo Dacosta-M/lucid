@@ -44,6 +44,7 @@ class extfeeds extends Model
     ->through([
       \Lucid\Core\FeedFilters\Sort::class,
       \Lucid\Core\FeedFilters\Myfollower::class,
+      \Lucid\Core\FeedFilters\Tags::class,
     ])
     ->thenReturn()
     ->simplePaginate(5);
