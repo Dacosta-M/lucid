@@ -11,6 +11,7 @@ use Lucid\User;
 use Lucid\Core\Document;
 use Lucid\Core\Follow;
 use Lucid\extfeeds;
+use Illuminate\Support\Str;
 
 
 class FeedsController extends Controller
@@ -75,6 +76,9 @@ else {
     $user_settings = user_settings::where('user_id', $user->id)->first();
 
 
+    $view = Str::snake($user_settings->view);
+    $pview = Str::snake($user_settings->public_view);
+
     if(Auth::user() && Auth::user()->username == $username){
             $user = Auth::user();
             $username = $user->username;
@@ -83,9 +87,11 @@ else {
                     if ($request->ajax()) {
                       return view('feeds', ['user'=>$user,'posts' => $posts])->render();
                   }
-//dd($user_settings->tabs);
 
-          return view($user_settings->view, ['posts' => $posts,'user'=>$user,
+
+//dd($converted);
+
+          return view($view, ['posts' => $posts,'user'=>$user,
           'tabs' => unserialize($user_settings->tabs)
         ]);
 
@@ -100,15 +106,16 @@ else {
             else {
               $fcheck = "no";
             }
-            if($user_settings->public_view == "Home"){
+            if($pview  == "home"){
               $userposts = $feeds->getPublishedPosts($username);
               return view('home', ['userposts' => $userposts,
               'user'=>$user,
               'fcheck' => $fcheck]);
 
             }else {
+              $posts = extfeeds::userFeeds($username);
 
-              return view($user_settings->view, ['posts' => $posts,'user'=>$user]);
+              return view($view, ['posts' => $posts,'user'=>$user,'fcheck' => $fcheck]);
 
 
             }

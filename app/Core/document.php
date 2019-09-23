@@ -416,6 +416,84 @@ return $ex;
 
 }
 
+public function FetchPublicRss()
+{
+
+  // $chechurl =  @file_get_contents($url);
+  // if ($chechurl === false) {
+  //   return false;
+  // }else {
+  //
+  //   $feed = [];
+  //           $rss = new \DOMDocument();
+  //           $user = Auth::user();
+  //           $data= ext_rss::get();
+  //           //$data=[];
+  //          $urlArray = json_decode($data, true);
+  //
+  //         //  $result = array_merge($urlArray, $urlArray2);
+  //           foreach ($urlArray as $url) {
+  //
+  //             $rss->load($url['url']);
+  //             $user = Auth::user();
+  //             foreach ($rss->getElementsByTagName('item') as $node) {
+  //               $feeds = ext_rss::->where()count();
+  //                  if (count($rss->getElementsByTagName('item')) == count($feeds)) {
+  //               return false;
+  //             }else{
+  //               if (!isset($node->getElementsByTagName('image')->item(0)->nodeValue)) {
+  //                 $item = array(
+  //                   'user_id'          => $user['id'],
+  //                   'site'  => $url['title'],
+  //                   'site_image'  => $url['image'],
+  //                   'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+  //                   'des'  => isset( $node->getElementsByTagName('description')->item(0)->nodeValue) ?
+  //                   $node->getElementsByTagName('description')->item(0)->nodeValue : '',
+  //                   //'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+  //                   'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
+  //                   'date'  => date("F j, Y, g:i a", strtotime(isset($node->getElementsByTagName('pubDate')->item(0)->nodeValue) ?
+  //                   $node->getElementsByTagName('pubDate')->item(0)->nodeValue : '')),
+  //                   'image'  => "",
+  //                 );
+  //               } else {
+  //                 $item = array(
+  //                   'user_id'          => $user['id'],
+  //                   'site'  => $url['title'],
+  //                   'site_image'  => $url['image'],
+  //                   'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+  //                   'des'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
+  //                   'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
+  //                   'date'  => date("F j, Y, g:i a", strtotime($node->getElementsByTagName('pubDate')->item(0)->nodeValue)),
+  //                   'image'  => $node->getElementsByTagName('image')->item(0)->nodeValue,
+  //                 );
+  //               }
+  //               //}
+  //             }
+  //             array_push($feed, $item);
+  //             }
+  //           }
+  //                 krsort($feed);
+  //             //  dd($feed);
+  //               //  print_r($feed);
+  //                 foreach ($feed as $key => $value) {
+  //                 if (ExtFeedBanks::where('title', $value["title"])->orWhere('link',$value['link'])->doesntExist()== 1) {
+  //                   $feedId[]  = DB::table('ext_feed_banks')->insert([
+  //                       'site'             => $value['site'],
+  //                       'site_image'       => $value['site_image'],
+  //                       'title'            => strip_tags($value['title']),
+  //                       'des'             => strip_tags($value['des']),
+  //                       'link'             => strip_tags($value['link' ]),
+  //                       'date'    => date("F j, Y, g:i a", strtotime($value['date'])),
+  //                       'image'   => $value['image'],
+  //                     ]);
+  //                 }
+  //                 };
+  //               return true;
+  //             } else {
+  //                 return false;
+  //             }
+  //           }
+}
 
 
     public function fetchAllRss($user)

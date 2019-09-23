@@ -33,6 +33,8 @@ class UserAccountSettingsController extends Controller
           }
         $user_settings = user_settings::where('user_id', Auth::user()->id)->first();
       $tabs = unserialize($user_settings->tabs);
+  if(!$tabs)
+  $tabs =[];
   
         return view('settings', ['fcheck' => $fcheck,'user'=>$user,'set'=>$user_settings , 'tabs' => $tabs]);
 

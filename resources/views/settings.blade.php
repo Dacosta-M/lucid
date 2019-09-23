@@ -157,33 +157,33 @@ $location= 'settings';
 </div>
 
         <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" @if(in_array("Technology", $tabs)) checked @endif name="tags[]" value="Technology"  id="Technology">
+          <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Technology", $tabs)) checked @endif name="tags[]" value="Technology"  id="Technology">
           <label class="custom-control-label" for="Technology">Technology</label>
           </div>
        <div class="custom-control custom-switch">
-         <input type="checkbox" class="custom-control-input" @if(in_array("Entertainment", $tabs)) checked @endif name="tags[]" value="Entertainment"  id="Entertainment">
+         <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Entertainment", $tabs)) checked @endif name="tags[]" value="Entertainment"  id="Entertainment">
          <label class="custom-control-label" for="Entertainment">Entertainment</label>
           </div>
          <div class="custom-control custom-switch">
 
-           <input type="checkbox" class="custom-control-input" @if(in_array("Blog", $tabs)) checked @endif name="tags[]" value="Blog"  id="Blog">
+           <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Blog", $tabs)) checked @endif name="tags[]" value="Blog"  id="Blog">
            <label class="custom-control-label" for="Blog">Blog</label>
            </div>
        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" @if(in_array("Health", $tabs)) checked @endif name="tags[]" value="Health"  id="Health">
+          <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Health", $tabs)) checked @endif name="tags[]" value="Health"  id="Health">
           <label class="custom-control-label" for="Health">Health</label>
           </div>
       <div class="custom-control custom-switch">
 
-         <input type="checkbox" class="custom-control-input" name="tags[]"  @if(in_array("Lifestyle", $tabs )) checked @endif value="Lifestyle"  id="Lifestyle">
+         <input type="checkbox" class="custom-control-input" name="tags[]"  @if(isset($tabs) && in_array("Lifestyle", $tabs )) checked @endif value="Lifestyle"  id="Lifestyle">
          <label class="custom-control-label" for="Lifestyle">Lifestyle</label>
          </div>
       <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input"  @if(in_array("Gist", $tabs)) checked @endif name="tags[]" value="Gist"  id="Gist">
+        <input type="checkbox" class="custom-control-input"  @if(isset($tabs) && in_array("Gist", $tabs)) checked @endif name="tags[]" value="Gist"  id="Gist">
         <label class="custom-control-label" for="Gist">Gist</label>
         </div>
         <div class="custom-control custom-switch">
-       <input type="checkbox" class="custom-control-input"  @if(in_array("Politics", $tabs)) checked @endif name="tags[]" value="Politics"  id="Politics">
+       <input type="checkbox" class="custom-control-input"  @if(isset($tabs) && in_array("Politics", $tabs)) checked @endif name="tags[]" value="Politics"  id="Politics">
         <label class="custom-control-label" for="Politics">Politics</label>
         </div>
         </div>
