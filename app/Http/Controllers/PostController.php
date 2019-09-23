@@ -10,7 +10,7 @@ use Parsedown;
 use Image;
 use Lucid\User;
 use Lucid\Core\Document;
-use Lucid\Core\FOllow;
+use Lucid\Core\Follow;
 use Illuminate\Support\Facades\Log;
 class PostController extends Controller
 {
