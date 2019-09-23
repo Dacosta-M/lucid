@@ -91,7 +91,7 @@ class FeedsController extends Controller
     $user = $this->user->where('username',$username)->firstorFail();
 
 
-    $post = $feeds->Thoughts($username);
+    $posts = $feeds->Thoughts($username);
     // follower and following Count
 
     if(Auth::user()){
@@ -100,8 +100,22 @@ class FeedsController extends Controller
     else {
       $fcheck = "no";
     }
+    $hashTag = "#";
+    $postArr=[];
+    foreach($posts as $post ) {
+      $stringArr  = explode(" ", $post['body']);
+      for($i=0; $i<count($stringArr);$i++) {
+        if(substr($stringArr[$i],0,1)===$hashTag) {
+          $text = $stringArr[$i];
+          $text = preg_replace('#[^0-9a-z]#i','',$text);
+          $stringArr[$i] = '<a href="#" class="text-main text-alt">'.$stringArr[$i].'</a>';
+        }
+      }
+      $post['body'] = implode(' ', $stringArr);
+      $postArr[] = $post;
+    }
 
-    return view('thoughts', ['fcheck' => $fcheck,'posts' => $post,'user'=>$user]);
+    return view('thoughts', ['fcheck' => $fcheck,'posts' => $postArr,'user'=>$user]);
 
   }
 

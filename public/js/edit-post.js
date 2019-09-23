@@ -1,6 +1,6 @@
 let newtoolbarOptions = [
     ['bold', 'italic'],
-    ['blockquote','code-block'],
+    ['blockquote','code-block','code'],
     [{
       'list': 'ordered'
     }, {
@@ -17,7 +17,6 @@ let newtoolbarOptions = [
     ['link', 'image'],
     ['clean']
   ];
-
   let newquill = new Quill('#editPostEditor', {
     theme: 'snow',
     modules: {
@@ -58,8 +57,7 @@ function editPost(post_id){
         url:"post-data/"+post_id,
         success:function (data) {
          j('#post-title').val(data.data.title)
-         const editor = document.getElementsByClassName('ql-editor');
-         editor[1].innerHTML = data.data.body
+          newquill.clipboard.dangerouslyPasteHTML(data.data.body);
          if(data.data.tags !=null) {
           j('#tag').tokenfield('setTokens',data.data.tags)
          }else{
@@ -88,6 +86,12 @@ if(saveBtn !=null){
     const editTurndownService = new TurndownService({
       codeBlockStyle: 'fenced'
     });
+    editTurndownService.addRule('strikethrough', {
+      filter: ['pre'],
+      replacement: function (content) {
+        return '```\n' + content + '\n```'
+      }
+    })
 
     const gfm = turndownPluginGfm.gfm;
     editTurndownService.use(gfm);
@@ -153,7 +157,7 @@ if(saveBtn !=null){
           contentType: false,
           processData: false,
           beforeSend:function(){
-            j('.savePostBtn').text('Saving...');
+            j('.savePostBtn').val('Saving...');
           },
           success : function (res) {
             // console.log(JSON.stringify(res));

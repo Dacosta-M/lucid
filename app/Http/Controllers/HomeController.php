@@ -34,21 +34,7 @@ class HomeController extends Controller
 
 
 
-    public function savePost(Request $request)
-    {
-      $request->validate([
-        'body'=>'required'
-      ]);
-
-      $title = '';
-      $body = $request->body;
-      // filter out non-image data
-      $user = Auth::user();
-      $username = $user->username;
-      $post = new \Lucid\Core\Document($username);
-      $result = $post->createThough($body);
-      return redirect($username.'/thoughts')->with('msg', 'Post Published');
-    }
+    
 
     public function subscribe()
     {

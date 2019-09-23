@@ -129,7 +129,6 @@ class PostController extends Controller
                 $fcheck = "no";
               }
 
-
               return view('single-blog-post',compact('post','user'),['fcheck' => $fcheck, ]);
           }
 
@@ -240,6 +239,37 @@ class PostController extends Controller
   }else{
     return response()->json(['success'=>false],200);
   }
+}
+
+public function saveThoughts(Request $request)
+{
+  $request->validate([
+    'body'=>'required'
+  ]);
+
+  $title = '';
+  $body = $request->body;
+  // filter out non-image data
+  $user = Auth::user();
+  $username = $user->username;
+  $post = new \Lucid\Core\Document($username);
+  $result = $post->createThought($body);
+  return redirect($username.'/thoughts')->with('msg', 'Post Published');
+}
+
+public function test($hashtag){
+  $posts = DB::table('thoughts')->orderby('ID','DESC')->get();
+    $hashTag = "#".$hashtag;
+    $postArr=[];
+    foreach($posts as $post ) {
+      $stringArr  = explode(" ", $post->content);
+      for($i=0; $i<count($stringArr);$i++) {
+        if( $stringArr[$i] === $hashTag) {
+          $postArr[] = $post;
+        }
+      }
+    }
+  return $postArr;
 }
 
 }

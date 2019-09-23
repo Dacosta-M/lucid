@@ -292,7 +292,7 @@ $location= 'post';
                 </div>
                 <div class="col-12">
                   <div id="editor" >
-                    <input type="text" name="body">
+                    <input type="hidden" name="body" >
                   </div>
                 </div>
 
@@ -318,7 +318,7 @@ $location= 'post';
             <input type="submit" class="form-control btn-sm btn btn-primary save-draft" value="Draft" />
           </div>
           <div class="col-3 col-sm-3 col-md-2">
-            <input type="submit" class="form-control btn-sm btn btn-primary publish-post publishBtn" value="Publish">
+            <input type="submit" class="form-control btn-sm btn btn-primary publish-post publishBtn" id="pubBtn" value="Publish">
             <input type="hidden" class="form-control btn-sm btn btn-primary publish-post" value="Save Draft">
           </div>
           <div class="col-3 col-sm-3 col-md-2">
@@ -341,7 +341,7 @@ $location= 'post';
 <div class="post-content">
   @if($post['image'] !== '')
   <div class="post-image d-none d-lg-flex d-xl-flex d-md-flex">
-    <img src="{{$post['image']}}" class="img-fluid post-img" alt="What I think of Donald Glover’s New Video" />
+    <img src="{{$post['image']}}" class="img-fluid post-img" alt="" />
   </div>
   @endif
   <div class="post-content-body row">
@@ -416,7 +416,7 @@ $location= 'post';
             </div>
             <div class="form-group">
             <div id="editPostEditor">
-              <input type="text" name="body">
+              <input type="hidden" name="body">
             </div>
             </div>
             <div class="row">
@@ -483,6 +483,7 @@ $location= 'post';
 <script src="{{ secure_asset('js/posts.js') }}" type="text/javascript"></script>
 <script src="{{ secure_asset('js/edit-post.js') }}" type="text/javascript"></script>
 @endif
+
 <script>
   function deletePost(post_id) {
     j('#deleteBtn').on('click',function(e){

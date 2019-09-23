@@ -17,7 +17,7 @@ class MagicLinkLoginController extends Controller
 
         $auth->requestLink();
 
-        return redirect()->to('/login')->with('success','We have sent you a magic link');
+        return redirect()->to('/login')->with('success','We have sent you a magic link to the email address entered');
     }
 
     public function validateToken(Request $request, UserEmailLoginToken $token){
@@ -25,11 +25,11 @@ class MagicLinkLoginController extends Controller
 
         if($token->isExpired()) {
             
-            return redirect()->to('/login')->with('error','That magic link has expired.');
+            return redirect()->to('/login')->with('error','Opps! magic link has expired.');
         }
 
         if(!$token->belongsToEmail($request->email)) {
-            return redirect()->to('/login')->with('error','Invalid Magic Link.');
+            return redirect()->to('/login')->with('error','The magic link is invalid.');
         }
 
 

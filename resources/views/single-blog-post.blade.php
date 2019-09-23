@@ -51,6 +51,11 @@ $location= 'singlePost';
         font-size: 12px !important;
 
     }
+    blockquote{
+        border-left:5px solid #ccc2c4;
+        padding-left:20px;
+        margin-top:10px;
+    }
 </style>
 <div class="post-content">
     <div class="post-content-body m-0">
@@ -64,7 +69,7 @@ $location= 'singlePost';
             {{ \Illuminate\Support\Str::title($post['title']) }}
         </h3>
 
-        <div class="blog-content">
+        <div class="blog-content" id="#contai">
             {!! $post['body'] !!}
         </div>
     </div>
@@ -184,6 +189,7 @@ $ccount = \Lucid\Notification::where(['post_id' => $post['id'],'action' => "Comm
         </div>
     </form>
 </div>
+
 <hr style="padding-top:20px">
 <div class="">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -2,20 +2,21 @@ let j = jQuery.noConflict();
 
   var toolbarOptions = [
     ['bold', 'italic','underline', 'strike'],
-    ['blockquote', 'code-block'],
- [{ 'list': 'ordered'}, { 'list': 'bullet' }],
- [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
- [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    ['blockquote', 'code-block','code'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
 
- [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
- [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
- [{ 'font': [] }],
- [{ 'align': [] }],
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'font': [] }],
+    [{ 'align': [] }],
     ['link', 'image'],
     ['clean']
   ];
 
+  
   var quill = new Quill('#editor', {
     theme: 'snow',
     modules: {
@@ -24,7 +25,7 @@ let j = jQuery.noConflict();
     placeholder: 'Compose an epic...'
   });
   j(".ql-toolbar").css("display", "block");
-
+  
   var form = document.querySelector('.timeline-editor');
 
   // handle creating new post
@@ -38,20 +39,24 @@ let j = jQuery.noConflict();
     let currentPage = window.localStorage.getItem('page');
     const formData = new FormData(document.querySelector('#editor-form'));
     const blogBody = document.querySelector('.ql-editor').innerHTML;
-
-
-
-
+console.log(blogBody)
     const title = document.querySelector("#new-post-title").value;
 
 
     // convert to markdown
     const turndownService = new TurndownService({
-      codeBlockStyle: 'fenced'
+      codeBlockStyle: 'fenced',
     });
+    turndownService.addRule('strikethrough', {
+      filter: ['pre'],
+      replacement: function (content) {
+        return '```\n' + content + '\n```'
+      }
+    })
     const gfm = turndownPluginGfm.gfm;
     turndownService.use(gfm);
     let markdown = turndownService.turndown(blogBody);
+    // console.log(markdown)
     if (markdown !== "" && title !== "") {
       formData.set('title', title);
       // check if the form is being submitted
@@ -117,7 +122,8 @@ let j = jQuery.noConflict();
             contentType: false,
             processData: false,
             beforeSend:function(){
-              j('.publishBtn').text('Publishing...');
+              document.querySelector('#pubBtn').value = "Publishing..."
+              document.querySelector('#pubBtn').setAttribute('disabled','');
             },
             success : function (res) {
               // console.log(JSON.stringify(res));
@@ -132,8 +138,20 @@ let j = jQuery.noConflict();
                 }
             },
             error:function(error){
-              j('.publishBtn').text('Publish');
-              console.log(error.statusText);
+              document.querySelector('#pubBtn').value = "Publish"
+              document.querySelector('#pubBtn').removeAttribute('disabled');
+              swal({
+                text: "Sorry,We encountered some issues while publishing your post",
+                icon: "info",
+                button: {
+                  text: "OK",
+                  value: true,
+                  visible: true,
+                  className: "standard-color",
+                  closeModal: true,
+              },
+              });
+             //s console.log(error.statusText);
             }
         });
 

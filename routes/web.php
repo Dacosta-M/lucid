@@ -63,7 +63,7 @@ Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCall
 Route::post('login', 'LoginController@do')->name('login');
 Route::post('/login/magic','Auth\MagicLinkLoginController@sendToken')->name('sendMagicLink');
 Route::get('/login/magic/{token}','Auth\MagicLinkLoginController@validateToken');
-
+Route::get('/l/{hashtag}','PostController@test');
 
 Route::prefix('{username}')->group(function () {
 
@@ -78,7 +78,7 @@ Route::prefix('{username}')->group(function () {
     Route::get('/post/{postTitle}','PostController@singlePostPage')->name('post');
     Route::get('/update-post-status/{post_id}/{action}','PostController@updatePostStatus');
     Route::get('/post-data/{id}','PostController@getPostData');
-    Route::get('/posts','FeedsController@posts');
+    Route::get('/posts','PostController@posts');
     Route::get('/thoughts','FeedsController@thoughts');
 
     //Settings Controller
@@ -107,7 +107,7 @@ Route::prefix('{username}')->group(function () {
 
 
     //post Request
-    Route::post('/save-post','PostController@savePost');
+    Route::post('/save-post','PostController@saveThoughts')->middleware('auth');
     Route::post('/publish','PostController@publish');
     Route::post('/send-mail','SendEmailController@sendEmail');
     Route::post('/save_settings','UserAccountSettingsController@saveSettings');

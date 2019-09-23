@@ -60,7 +60,7 @@ class Document
                 $extension = pathinfo($filenamewithextension, PATHINFO_EXTENSION);;
 
                 $image = $decoded;
-                $fullPath = $this->store($image, $filenamewithextension,$filename,$extension);
+                $image = $this->store($image, $filenamewithextension,$filename,$extension);
 
                 //  Log::debug($fullPath);
 
@@ -79,7 +79,7 @@ class Document
         'title'=>$title,
         'content'=>$content,
         'tags'=>$tags,
-        'image'=> $fullPath,
+        'image'=> $image,
         'slug'=> $slug,
         'action'=>$action
       ]);
@@ -145,7 +145,7 @@ class Document
 
     }
 
-    public function createThough($content){
+    public function createThought($content){
 
 
       $insertPosts = DB::table('thoughts')->insert([
