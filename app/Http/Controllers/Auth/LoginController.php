@@ -2,13 +2,17 @@
 
 namespace Lucid\Http\Controllers\Auth;
 
-use Lucid\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
 use Storage;
 use Socialite;
-use Auth;
+
 use Lucid\User;
 use Lucid\user_settings;
+use Lucid\Facades\TelexService;
+use Lucid\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -53,41 +57,51 @@ class LoginController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-      $userSocial =   Socialite::driver($provider)->stateless()->user();
-      $users       =   $this->findOrCreateUser($userSocial, $provider);
+        $userSocial =   Socialite::driver($provider)->stateless()->user();
+        $user       =   $this->findOrCreateUser($userSocial, $provider);
 
-          Auth::login($users, true);
-          $user_id = $users->id;
-          $username = $users->username;
-      //    dd(  $email);
-          $path = trim($user_id).'/';
-          Storage::makeDirectory($user_id);
-          Storage::makeDirectory('public/'.$user_id);
-          $this->store_settings($path, $users->id);
-          $rss = new \Lucid\Core\Document($user_id);
-            $rss->DemoRSS();
-          return redirect()->to("/{$username}");
-    }
+        if ($user->exists) {
+            TelexService::sendEvent('login', $user->toArray(), [ 'name' => $user->name ]);
+        } else {
+            $user->save();
+            TelexService::sendEvent('signup', $user->toArray(), [ 'name' => $user->name ]);
+        }
+
+        Auth::login($user, true);
+        
+        $user_id = $user->id;
+        $username = $user->username;
+        
+        $path = trim($user_id).'/';
+        Storage::makeDirectory($user_id);
+        Storage::makeDirectory('public/'.$user_id);
+        $this->store_settings($path, $user->id);
+        $rss = new \Lucid\Core\Document($user_id);
+        $rss->DemoRSS();
+        return redirect()->to("/{$username}");
+}
 
 
 public function findOrCreateUser($user, $provider){
-    $users       =   User::where('provider_id', $user->id)->first();
-    if($users){
-        return $users;
+    $user = User::firstOrNew([ 'provider_id' => $user->id ]);
+    
+    if ($user->exists) {
+        return $user;
     }
+
     $email = $user->email;
     $username = strstr($email, '@', true);
 
-        return User::create([
-            'name'          => $user->name,
-            'email'         => $user->email,
-            'username'      => $username,
-            'image'         => $user->avatar,
-            'provider_id'   => $user->id,
-            'provider'      => $provider,
-        ]);
+    $user->fill([
+        'name'          => $user->name,
+        'email'         => $email,
+        'username'      => $username,
+        'image'         => $user->avatar,
+        'provider_id'   => $user->id,
+        'provider'      => $provider,
+    ]);
 
-        return $user;
+    return $user;
 }
 
 public function store_settings($path, $user_id)
