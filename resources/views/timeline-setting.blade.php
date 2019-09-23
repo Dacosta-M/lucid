@@ -16,7 +16,7 @@
           <img src="{{$follow['img']}}" class="fit-cover border-radius-50 user-avatar" alt="user" />
           <small><a href="" class="d-block mb-0 text-main font-weight-bold">{{$follow['name']}}</a></small>
           <small>
-            <p>{{$fcount}}</p>
+            <p>{{$fcount}} followers</p>
           </small>
         </div>
       @endforeach
