@@ -161,7 +161,8 @@ return [
         Lucid\Providers\RouteServiceProvider::class,
         Lucid\Providers\CoreServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Lucid\Providers\TelexServiceProvider::class,
 
     ],
 
