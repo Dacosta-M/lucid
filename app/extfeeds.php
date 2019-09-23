@@ -3,6 +3,7 @@
 namespace Lucid;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pipeline\Pipeline;
 
 class extfeeds extends Model
 {
@@ -22,4 +23,46 @@ class extfeeds extends Model
     'date',
     'image'
   ];
+  public static function allFeeds()
+  {
+
+    return $posts = app(Pipeline::class)
+    ->send(extfeeds::query())
+    ->through([
+      \Lucid\Core\FeedFilters\UserId::class,
+      \Lucid\Core\FeedFilters\Sort::class,
+      //\Lucid\Core\FeedFilters\Myfollower::class,
+    ])
+    ->thenReturn()
+    ->paginate(5);
+  }
+
+  public static function myFeeds()
+  {
+    return $posts = app(Pipeline::class)
+    ->send(extfeeds::query())
+    ->through([
+      \Lucid\Core\FeedFilters\Sort::class,
+      \Lucid\Core\FeedFilters\Myfollower::class,
+      \Lucid\Core\FeedFilters\Tags::class,
+    ])
+    ->thenReturn()
+    ->simplePaginate(5);
+  }
+  public static function userFeeds($username)
+  {
+    return $posts = app(Pipeline::class)
+    ->send(extfeeds::query())
+    ->through([
+      \Lucid\Core\FeedFilters\Sort::class,
+    new  \Lucid\Core\FeedFilters\userFeeds($username),
+    ])
+    ->thenReturn()
+    ->simplePaginate(5);
+  }
+
+  public function user()
+  {
+    $this->belongsTo(User::class);
+  }
 }

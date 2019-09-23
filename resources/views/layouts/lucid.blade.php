@@ -126,10 +126,10 @@
   <script>
     window.fbAsyncInit = function() {
       FB.init({
-        appId: '{your-app-id}',
+        appId: '517404062134205',
         cookie: true,
         xfbml: true,
-        version: '{api-version}'
+        version: 'v4.0'
       });
 
       FB.AppEvents.logPageView();
@@ -158,22 +158,30 @@
     <div class="container-fluid p-0 m-0 mb-1 d-flex justify-content-between bg-light border-bottom border-info">
       <!-- Sidebar toggle for small viewport -->
       <div class="d-flex mt-2">
-        <a class="d-lg-none mt-1 ml-3 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
+        <a class="d-lg-none mt-1 ml-5 text-main" id="sidebarToggle"><i class="fas fa-bars" style="font-size: 1.5em"></i></a>
+        @guest
+        <a class="ml-3" href="/{{ $user->username}}">
+        @else
         <a class="ml-3" href="/{{ Auth::user()->username}}">
+        @endguest
           @if($isLocal)
-          <img src="{{ asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
+          <img src="{{ asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid ml-3" width="40px" />
           @else
-          <img src="{{ secure_asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid" width="40px" />
+          <img src="{{ secure_asset('img/lucid-logo.svg') }}" alt="The Lucid Logo" class="img-fluid ml-3" width="40px" />
           @endif
         </a>
       </div>
 
-      <div class="d-flex">
+      <div class="d-flex mr-5">
         <!-- Dropdown with user name and picture -->
         <div class="dropdown pt-2" id="user-dropdown">
           <a class="nav-link dropdown-toggle p-0 cursor-pointer" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block" />
-            <p class="mx-1 font-weight-bold d-inline-block">{{ $user->name}}</p>
+            @guest
+            <p class="mx-1 font-weight-bold d-inline-block">Guest</p>
+            @else
+            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',Auth::user()->image) }}" class="d-inline-block fit-cover border-radius-50" alt="{{ Auth::user()->name}}" />
+            <p class="img-fluid mx-1 font-weight-bold d-inline-block">{{ Auth::user()->name}}</p>
+            @endguest
           </a>
           <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
             @guest
@@ -190,6 +198,8 @@
         <!-- End Dropdown -->
 
         <!-- Notification -->
+        @guest
+        @else
         <div class="dropdown mt-2 ml-4">
           <a class="mr-5 pr-4 notification text-main cursor-pointer" id="load" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell" style="font-size: 1.5em;"></i>
             <span class="badge highlight"></span>
@@ -216,6 +226,7 @@
             @endif
           </div>
         </div>
+        @endguest
         <!-- End Notification -->
       </div>
     </div>
@@ -307,9 +318,9 @@
                 <br>
                 <h4 class="text-main">Unfollow {{$user->name}}</h4>
                 <p class="small"><em>Are you sure you want to Unfollow {{$user->name}} and miss out interesting post?<br /> Click the button below to unfollow</em></p>
-                <form method="POST" action="@if($isLocal) {{url('/')}}/{{$user->username}}/unfollow @else {{secure_url('/')}}/{{$user->username}}/unfollow @endif">
+                <form method="POST" action="@if($isLocal){{url('/')}}/{{$user->username}}/unfollow@else{{secure_url('/')}}/{{$user->username}}/unfollow @endif">
                   @csrf
-                  <input type="hidden" name="rss" value="{{$user->name}}">
+                  <input type="hidden" name="rss" value="{{$user->username}}">
                   <button type="submit" class="btn btn-primary">UnFollow</button>
                 </form>
               </div>
@@ -330,7 +341,7 @@
                 <br>
                 <h4 class="text-main">Follow {{$user->name}}</h4>
                 <p class="small"><em>Do you have or would love to have Lucid installed on your domain?<br /> Click the button below to follow me</em></p>
-                <form method="POST" action="@if($isLocal) {{url('/')}}/{{$user->username}}/addrss @else {{secure_url('/')}}/{{$user->username}}/addrss @endif">
+                <form method="POST" action="@if($isLocal){{url('/')}}/{{$user->username}}/addrss @else{{secure_url('/')}}/{{$user->username}}/addrss @endif">
                   @csrf
                   <input type="hidden" name="rss" value="{{$user->username}}">
                   <button type="submit" class="btn btn-primary">Follow me on Lucid</button>
@@ -361,7 +372,13 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script>
+  const $ = jQuery.noConflict();
+  $(document).ready(function(){
 
+
+  });
+  </script>
   <script>
     const anchor = window.location.hash;
     $(`a[href="${anchor}"]`).tab('show')
@@ -441,7 +458,10 @@
     function changeUrl(e) {
       history.pushState(null, null, `/${document.getElementById("username").value+'/'+e}`)
     }
+
+
   </script>
+
   <script>
     $(document).ready(function() {
       $('#sidebarDismiss,.overlay, [data-toggle="modal"]').on('click', function() {
@@ -548,6 +568,130 @@
 
     })
   </script>
+<script>
+const rssLink = "@if($isLocal){{ url($user->username.'/extrss')  }}@else{{ secure_url($user->username.'/extrss')  }}@endif"
+
+function rssAdd(loc,tag) {
+
+//s(document).on('click', '#SubmitRss', function() {
+ // document.querySelector(loc);
+  // event.preventDefault();
+  const data = document.querySelector('form[name='+loc+']');
+
+  var rss = $(data).serialize();
+  //const rss = data.value;
+
+  console.log(rss);
+
+  s.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': s('meta[name="csrf-token"]').attr('content')
+      }
+  })
+  s.ajax({
+      url: rssLink,
+      method: "POST",
+      data: rss,
+      dataType: "json",
+      beforeSend:function(){
+        k('#rssloader'+tag).show();
+      },
+    })
+    .then(
+      function(data) {
+        //console.log(data +"in");
+          if (data) {
+           //console.log("true");
+            k('#rssloader'+tag).remove();
+              k('.preAdd'+tag).append(
+              "<div id='RssId"+data.id+"' class='post-content'>"+
+                "<img src='"+ data.image +"' class='img-fluid' alt='user' />"+
+                "<div class='ml-2 ml-sm-3'>"+
+                  "<a href='' class='d-block mb-0 text-dark font-weight-bold'>"+data.title+"</a>"+
+                "  <span>"+
+                    "<small>"+data.description+"</small>"+
+                    "<button class='btn btn-secondary btn-sm p-0 timeline-rss-btn'><small>RSS</small></button>"+
+                "  </span>"+
+              "  </div>"+
+                "<div class='ml-4 ml-sm-5 pt-sm-3'>"+
+                "  <button id='DeleteRss"+data.id+"' onclick='DeleteRss("+data.id+")'class='d-block d-sm-inline-block font-weight-bold text-danger ml-sm-3'>Remove</button>"+
+                "</div>"+
+            "  </div>"
+              );
+          }else {
+            //  console.log();
+              k('#rssloader'+tag).remove();
+                k('.preAdd'+tag).append(
+                "<p class='post-content'>"+
+
+              "Error Adding Your Rss Link, Please use a valid xml link thanks </p>"
+                );
+          }
+
+      })
+    .catch(function(err) {
+    //  console.log(err);
+    });
+
+}
+function DeleteRss(id) {
+
+  url = "@if($isLocal){{ url($user->username.'/deleteRss')  }}@else{{ secure_url($user->username.'/deleteRss')  }}@endif";
+  //  console.log(action);
+   k.ajax({
+      url: url,
+      type: "Get",
+      data:{
+       id: id
+     },
+     beforeSend:function(){
+         document.querySelector("#RssId"+id).innerHTML = 'Deleting...';
+       },
+       success : function (response) {
+         document.querySelector("#RssId"+id).remove();
+       }
+    })
+}
+//document.getElementById("my-element").remove();
+</script>
+
+  @if($location ==  'timeline')
+  <script>
+const k = jQuery.noConflict();
+
+
+    function getArticles(url) {
+        k.ajax({
+            url : url,
+            beforeSend:function(){
+                k('.load-more').show();
+                k('#pagination').remove();
+            },
+        }).done(function (data) {
+          k('.load-more').remove();
+            k('.feeds').append(data);
+        }).fail(function () {
+            alert('Feeds could not be loaded.');
+        });
+    }
+    k(window).scroll(function(){
+
+      const link = document.querySelector('[rel = next]');
+
+      //  console.log(link);
+      if (link !== null) {
+      const url = link.href;
+      if((k(window).scrollTop() + k(window).height() >= k(document).height())&& (url != null)){
+        getArticles(url);
+      }
+
+    }
+  });
+
+
+
+</script>
+@endif
   @endguest
 </body>
 

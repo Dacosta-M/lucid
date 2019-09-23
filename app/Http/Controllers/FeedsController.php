@@ -3,10 +3,15 @@
 namespace Lucid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Auth;
+use DB;
+use Lucid\user_settings;
 use Lucid\User;
 use Lucid\Core\Document;
 use Lucid\Core\Follow;
+use Lucid\extfeeds;
+use Illuminate\Support\Str;
 
 
 class FeedsController extends Controller
@@ -36,34 +41,61 @@ class FeedsController extends Controller
 
     $user = $this->user->where('username',$username)->firstorFail();
 
-    if(Auth::user() && Auth::user()->username == $username){
-            $user = Auth::user();
-            $username = $user->username;
-            $feeds = $feeds->MyFeeds($username);
-          //  dd($feeds);
+   if(Auth::user() && Auth::user()->username == $username){
 
-    return view('feeds', ['posts' => $feeds]);
 
-    }else {
+            $posts = extfeeds::myFeeds();
 
-        $feeds = $feeds->Feeds($username);
+    return view('feeds', compact('posts'));
 
-      return view('feeds', ['posts' => $feeds]);
+  }else {
+          $posts = extfeeds::userFeeds($username);
+
+      return view('feeds', ['posts' => $posts]);
   }
   }
 
-  public function homePage(Document $feeds, Follow $follow, $username)
+public function ViewManager($username)
+{
+  if(Auth::user() && Auth::user()->username == $username){
+
+  $user_settings = user_settings::where('user_id', Auth::user()->id)->first();
+
+  return route('home',[$username]);
+}
+else {
+    $user_settings = user_settings::where('user_id', Auth::user()->id)->first();
+}
+}
+
+  public function homePage(Document $feeds, Follow $follow,Request $request, $username)
   {
-
     //dd($feeds->getPublishedPosts($username));
     $user = $this->user->where('username',$username)->firstorFail();
 
+    $user_settings = user_settings::where('user_id', $user->id)->first();
+
+
+    $view = Str::snake($user_settings->view);
+    $pview = Str::snake($user_settings->public_view);
+
     if(Auth::user() && Auth::user()->username == $username){
             $user = Auth::user();
             $username = $user->username;
-            $feeds = $feeds->MyFeeds();
+              $posts = extfeeds::myFeeds();
 
-            return view('timeline', ['user'=>$user]);
+                    if ($request->ajax()) {
+                      return view('feeds', ['user'=>$user,'posts' => $posts])->render();
+                  }
+
+
+//dd($converted);
+
+          return view($view, ['posts' => $posts,'user'=>$user,
+          'tabs' => unserialize($user_settings->tabs)
+        ]);
+
+
 
       }else {
 
@@ -74,11 +106,20 @@ class FeedsController extends Controller
             else {
               $fcheck = "no";
             }
+            if($pview  == "home"){
+              $userposts = $feeds->getPublishedPosts($username);
+              return view('home', ['userposts' => $userposts,
+              'user'=>$user,
+              'fcheck' => $fcheck]);
 
-             $userposts = $feeds->getPublishedPosts($username);
-            return view('home', ['userposts' => $userposts,
-            'user'=>$user,
-            'fcheck' => $fcheck]);
+            }else {
+              $posts = extfeeds::userFeeds($username);
+
+              return view($view, ['posts' => $posts,'user'=>$user,'fcheck' => $fcheck]);
+
+
+            }
+
 
       }
 
@@ -119,5 +160,36 @@ class FeedsController extends Controller
 
   }
 
+  public function Settings(Document $feeds, Follow $follow, $username)
+  {
+    $user = $this->user->where('username',$username)->firstorFail();
+    $following = $follow->subscription($username);
+    $user_settings = user_settings::where('user_id', $user->id)->first();
+
+
+    if(Auth::user()){
+
+      $myfollower = $follow->followerArray();
+      $fcheck = $follow->followCheck($user->name);
+    }
+    else {
+      $fcheck = "no";
+    }
+$rss = DB::table('ext_rsses')->where(['user_id' => Auth::user()->id, 'category' => 'main'])->get();
+$users = DB::table('posts')
+        ->join('users','posts.user_id','=','users.id')
+        ->select('posts.*','users.image','users.username','users.name')
+        ->where('tags','!=',NULL)->where('action','publish')->orWhere('action',NULL)->orderBy('id','DESC')->get();
+
+    return view('timeline-setting', ['fcheck' => $fcheck,
+    'followerArray' =>$myfollower,
+      'following' =>$following,
+      'rss' => $rss,
+      'users' => $users,
+      'user'=>$user,
+      'tabs' => unserialize($user_settings->tabs)
+    ]);
+
+  }
 
 }

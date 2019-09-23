@@ -88,7 +88,7 @@ console.log(blogBody)
           let stillMatching = true;
           while (stillMatching) {
             if (markdown.includes(fullURI)) {
-              markdown = markdown.replace(fullURI, `/storage/${username}/images/${newImgName}`);
+              markdown = markdown.replace(fullURI, `/storage/${username}/images/thumbnail/img-${id}_large_.${ext}`);
             } else {
               stillMatching = false;
             }

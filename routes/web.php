@@ -69,7 +69,7 @@ Route::prefix('{username}')->group(function () {
 
     //get Request
     Route::get('/','FeedsController@homePage');
-    Route::get('/home','PostController@homePage');
+    Route::get('/home','FeedsController@homePage')->name('home');
     Route::get('/contact', 'pageController@contact');
     Route::get('/logout', "Auth\LoginController@logout");
 
@@ -92,9 +92,11 @@ Route::prefix('{username}')->group(function () {
     //post
     Route::post('/addrss','ExtRssController@addRss');
     Route::post('/extrss','ExtRssController@addExtRss');
+    Route::get('/deleteRss','ExtRssController@delete');
     Route::post('/unfollow','ExtRssController@unfollow');
 
     Route::get('/feeds','FeedsController@Feeds');
+    Route::get('/timeline-settings','FeedsController@Settings');
 
     //Reaction Controller
     Route::get('/like','ReactionsController@like');
@@ -110,7 +112,10 @@ Route::prefix('{username}')->group(function () {
     Route::post('/save-post','PostController@saveThoughts')->middleware('auth');
     Route::post('/publish','PostController@publish');
     Route::post('/send-mail','SendEmailController@sendEmail');
+
     Route::post('/save_settings','UserAccountSettingsController@saveSettings');
+    Route::post('/account_settings','UserAccountSettingsController@AccountSetting');
+
     Route::post('/update-contact-details','HomeController@updateContactDetails');
     Route::post('/delete-post','PostController@deletePost')->name('deletePost')->middleware('auth');
     Route::post('/save-comment','HomeController@saveComment')->name('save-comment');

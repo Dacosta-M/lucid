@@ -1,9 +1,4 @@
 
-    <!-- timeline page -->
-    <div class="tab-pane show" role="tabpanel" id="timeline">
-    <div class="row mt-5">
-      <div class="col-md-12">
-
         @foreach($posts as $feeds)
         <div class="post-content">
           <!--           @if (empty($feeds['site_image']))
@@ -83,8 +78,11 @@
         </div>
 
         @endforeach
-      </div>
-    </div>
-    {{ $posts->links()}}
+
+        <div id='pagination' style="display:none">
+      {{ $posts->appends(request()->input())->links()}}
     </div>
      <!-- End timeline Page -->
+     <div class="load-more" style="text-align: -webkit-center; display:none">
+       <div class="spinner" style="    position: inherit;"></div>
+     </div>

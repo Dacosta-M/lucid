@@ -63,7 +63,7 @@ function editPost(post_id){
          }else{
           j('#tag').tokenfield('setTokens',[])
          }
-          
+
           j('#post_id').val(data.data.id)
         },
         error:function (error){
@@ -128,7 +128,7 @@ if(saveBtn !=null){
           let stillMatching = true;
           while (stillMatching) {
             if (editMarkdown.includes(fullURI)) {
-              editMarkdown = editMarkdown.replace(fullURI, `/storage/${username}/images/${newImgName}`);
+              editMarkdown = editMarkdown.replace(fullURI, `/storage/${username}/images/thumbnail/img-${id}_large_.${ext}`);
             } else {
               stillMatching = false;
             }
@@ -166,7 +166,7 @@ if(saveBtn !=null){
                 window.localStorage.setItem('update', 'success');
                 window.location = '/'+j('meta[name="username"]').attr('content')+'/posts';
 
-              } 
+              }
           },
           error:function (error){
             j('.savePostBtn').text('Save');
@@ -193,7 +193,7 @@ if(saveBtn !=null){
 
 j(document).ready(function() {
   const updated = window.localStorage.getItem('update');
- 
+
   if (updated == 'success') {
     window.localStorage.removeItem('update');
     swal({

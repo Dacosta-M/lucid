@@ -12,6 +12,8 @@ class user_settings extends Model
  * @var string
  */
 protected $fillable = [
-  'user_id', 'user_path', 'setting_path'
+  'user_id', 'user_path', 'setting_path','tabs',
+  'view','theme','public_view',
+
 ];
 }

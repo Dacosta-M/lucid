@@ -4,6 +4,8 @@ use Auth;
 use Storage;
 use Lucid\Following;
 use DB;
+use Lucid\ext_rss;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -106,17 +108,24 @@ public function extract($url)
 
   }
 
-  public function extractPub($url)
+  public function extractPub($request)
   {
+
     $rss = new \DOMDocument();
+    $url = $request->Addrss;
+    $tags = $request->tags;
 
-    //if (!$url = file_get_contents($url)) {
-    //  return false;
-      //  } else {
+    $chechurl =  @file_get_contents($url);
+   //Log::debug($chechurl);
+    // $headers = get_headers($url);
+    //
+    // $stat = substr($headers[0], 9, 3);
 
-          //$url = storage_path('app/'.$url."/rss/rss.xml");
+    if ($chechurl === false) {
+      return false;
+        }
+        else {
 
-        echo ($url);
         $rss->load(trim($url));
         foreach ($rss->getElementsByTagName('channel') as $r) {
           $title = $r->getElementsByTagName('title')->item(0)->nodeValue;
@@ -139,17 +148,20 @@ public function extract($url)
                 $this->setSubImg($image);
                 $this->setSubLink($link);
 
-                  $this->findOrCreateRss(
+          $data =   $this->findOrCreateExRss(
                     $this->name,
                     $url,
                     $this->desc,
                     $this->link,
                     $this->img,
+                    $tags,
                     $lastbuild
 
                   );
 
-              //  }
+          return $data;
+        }
+
     }
 
   public function findOrCreateRss($me, $them, $stat){
@@ -163,14 +175,37 @@ public function extract($url)
       ]);
 
   }
+  public function findOrCreateExRss($name, $url, $desc, $link, $img,$tags,$lastbuild){
+    $user = Auth::user();
+       $rss       =   ext_rss::where(['user_id' => $user['id'], 'title' => $name,'category' => $tags])->first();
+       if($rss){
+           return $rss;
+       }
+          $rss = ext_rss::insert([
+               'user_id'          => $user['id'],
+               'title'            => $name,
+               'url'              => $url,
+               'description'      => $desc,
+               'image'            => $img,
+               'link'             => $link,
+               'category'         => $tags,
+               'lastBuildDate'    => $lastbuild
+           ]);
+           if ($rss) {
+             $rss       =   ext_rss::where(['user_id' => $user['id'], 'title' => $name,'category' => $tags])->first();
+             return $rss;
+             }
+           else {
+             return false;
+           }
+   }
 
 
 
-  
   public function unfollow($del)
   {
 $fuser= DB::table('users')->where('name', $del)->get('id')->first();
-
+dd($fuser);
 $user = Auth::user();
 
   $file= DB::table('following')->where('my_id', $user->id)->where('follower_id', $fuser->id)->delete();

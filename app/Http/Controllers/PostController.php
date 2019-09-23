@@ -189,13 +189,17 @@ class PostController extends Controller
         $initial_images = array_filter($request->all(), function ($key) {
           return preg_match('/^img-\w*$/', $key);
       }, ARRAY_FILTER_USE_KEY);
-
-      $images = [];
+      if (empty($initial_images)) {
+        $images ="";
+      }else {
+      //  Log::debug('out');
+        $images = [];
       foreach ($initial_images as $key => $value) {
           $newKey = preg_replace('/_/', '.', $key);
           $images[$newKey] = $value;
       }
 
+    }
       $updatePost = $post->saveUpdatedPost($title, $content, $tags, $images,$username,$post_id,$action);
 
       if($updatePost){

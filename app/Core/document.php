@@ -40,8 +40,8 @@ class Document
 
 
     public function createPost($title,$content, $tags, $image,$username, $action){
+
         if (!empty($image)) {
-          $url = Auth::user()->id."/images/";
           if(is_array($image)) {
               foreach ($image as $key => $value) {
 
@@ -93,46 +93,58 @@ class Document
     }
 
 
-    public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id) {
+    public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id,$action) {
 
-        if (!empty($image)) {
-            $url = Auth::user()->id."/images/";
-            if(is_array($image)) {
-                foreach ($image as $key => $value) {
-                    $image = $value;
-                    $decoded = base64_decode($image);
+    //  Log::debug($image);
+      if (!empty($image)) {
+        if(is_array($image)) {
+            foreach ($image as $key => $value) {
 
-                    $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                  $image = Storage::disk('local')->put( $img_path, $decoded);
+              $decoded = base64_decode($image[$key]);
 
-                }
+              $img_path = 'public/'.Auth::user()->id."/images/".$key;
+          //  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+
+              $filenamewithextension = $key;
+
+              //get filename without extension
+              $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+              //get file extension
+              $extension = pathinfo($filenamewithextension, PATHINFO_EXTENSION);;
+
+              $image = $decoded;
+             $fullPath = $this->store($image, $filenamewithextension,$filename,$extension);
+
+
+
             }
-        }else {
-          $image = null;
         }
+    }else {
+      $fullPath = NULL;
+    }
+
 
         $slug = Str::slug($title);
         $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
         //$slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
         $oldpost = DB::table('posts')->where('id',$post_id)->first('title');
       //  dd($oldpost->title);
-        $updateFeeds = DB::table('extfeeds')->where('title',$oldpost->title)
-        ->update([
-          'title'=>$title,
-          'des'=>$content,
-          'tags'=>$tags,
-          'image'=> $image,
-          'link'=> '/post/'.$slug
-
-        ]);
-        $updatePosts = DB::table('posts')->where('id',$post_id)->update([
-          'user_id'=>Auth::user()->id,
-          'title'=>$title,
-          'content'=>$content,
-          'tags'=>$tags,
-          'image'=> $image,
-          'slug'=> $slug
-        ]);
+      if($fullPath == NULL){
+        $feedupdate = ['title'=>$title,'des'=>$content,'tags'=>$tags,'link'=> '/post/'.$slug];
+      }else {
+        $feedupdate = ['title'=>$title,'des'=>$content,'image'=> $fullPath,'tags'=>$tags,'link'=> '/post/'.$slug];
+      }
+      if($fullPath == NULL){
+        $postupdate = ['user_id'=>Auth::user()->id,'title'=>$title,'content'=>$content,'tags'=>$tags,'slug'=> $slug];
+          }else {
+        $postupdate = ['user_id'=>Auth::user()->id,'title'=>$title,'content'=>$content,'tags'=>$tags,'image'=> $fullPath,'slug'=> $slug];
+          }
+        $updateFeeds = DB::table('extfeeds')->where(['title' => $oldpost->title, 'user_id' => Auth::user()->id])
+        ->update($feedupdate);
+        $updatePosts = DB::table('posts')->where('id',$post_id)
+        ->update($postupdate);
 
         //dd($updateFeeds);
         if ($updatePosts) {
@@ -404,6 +416,84 @@ return $ex;
 
 }
 
+public function FetchPublicRss()
+{
+
+  // $chechurl =  @file_get_contents($url);
+  // if ($chechurl === false) {
+  //   return false;
+  // }else {
+  //
+  //   $feed = [];
+  //           $rss = new \DOMDocument();
+  //           $user = Auth::user();
+  //           $data= ext_rss::get();
+  //           //$data=[];
+  //          $urlArray = json_decode($data, true);
+  //
+  //         //  $result = array_merge($urlArray, $urlArray2);
+  //           foreach ($urlArray as $url) {
+  //
+  //             $rss->load($url['url']);
+  //             $user = Auth::user();
+  //             foreach ($rss->getElementsByTagName('item') as $node) {
+  //               $feeds = ext_rss::->where()count();
+  //                  if (count($rss->getElementsByTagName('item')) == count($feeds)) {
+  //               return false;
+  //             }else{
+  //               if (!isset($node->getElementsByTagName('image')->item(0)->nodeValue)) {
+  //                 $item = array(
+  //                   'user_id'          => $user['id'],
+  //                   'site'  => $url['title'],
+  //                   'site_image'  => $url['image'],
+  //                   'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+  //                   'des'  => isset( $node->getElementsByTagName('description')->item(0)->nodeValue) ?
+  //                   $node->getElementsByTagName('description')->item(0)->nodeValue : '',
+  //                   //'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue . "?d=" . base64_encode(SITE_URL),
+  //                   'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
+  //                   'date'  => date("F j, Y, g:i a", strtotime(isset($node->getElementsByTagName('pubDate')->item(0)->nodeValue) ?
+  //                   $node->getElementsByTagName('pubDate')->item(0)->nodeValue : '')),
+  //                   'image'  => "",
+  //                 );
+  //               } else {
+  //                 $item = array(
+  //                   'user_id'          => $user['id'],
+  //                   'site'  => $url['title'],
+  //                   'site_image'  => $url['image'],
+  //                   'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+  //                   'des'  => $node->getElementsByTagName('description')->item(0)->nodeValue,
+  //                   'link'  => $node->getElementsByTagName('link')->item(0)->nodeValue,
+  //                   'date'  => date("F j, Y, g:i a", strtotime($node->getElementsByTagName('pubDate')->item(0)->nodeValue)),
+  //                   'image'  => $node->getElementsByTagName('image')->item(0)->nodeValue,
+  //                 );
+  //               }
+  //               //}
+  //             }
+  //             array_push($feed, $item);
+  //             }
+  //           }
+  //                 krsort($feed);
+  //             //  dd($feed);
+  //               //  print_r($feed);
+  //                 foreach ($feed as $key => $value) {
+  //                 if (ExtFeedBanks::where('title', $value["title"])->orWhere('link',$value['link'])->doesntExist()== 1) {
+  //                   $feedId[]  = DB::table('ext_feed_banks')->insert([
+  //                       'site'             => $value['site'],
+  //                       'site_image'       => $value['site_image'],
+  //                       'title'            => strip_tags($value['title']),
+  //                       'des'             => strip_tags($value['des']),
+  //                       'link'             => strip_tags($value['link' ]),
+  //                       'date'    => date("F j, Y, g:i a", strtotime($value['date'])),
+  //                       'image'   => $value['image'],
+  //                     ]);
+  //                 }
+  //                 };
+  //               return true;
+  //             } else {
+  //                 return false;
+  //             }
+  //           }
+}
 
 
     public function fetchAllRss($user)
@@ -1220,16 +1310,16 @@ $user = Auth::user();
 
 
         //filename to store
-        $filenametostore = $filename.'_'.time().'.'.$extension;
+        $filenametostore = $filename.'_.'.$extension;
 
         //small thumbnail name
-        $smallthumbnail = $filename.'_small_'.time().'.'.$extension;
+        $smallthumbnail = $filename.'_small_.'.$extension;
 
         //medium thumbnail name
-        $mediumthumbnail = $filename.'_medium_'.time().'.'.$extension;
+        $mediumthumbnail = $filename.'_medium_.'.$extension;
 
         //large thumbnail name
-        $largethumbnail = $filename.'_large_'.time().'.'.$extension;
+        $largethumbnail = $filename.'_large_.'.$extension;
 
         //Upload File
         Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/'.$filenametostore, $image);
@@ -1255,7 +1345,7 @@ $user = Auth::user();
         $this->createThumbnail($largethumbnailpath, 550, 340);
 
         $imagePath ='/storage/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail;
-        Log::debug($imagePath);
+      //  Log::debug($imagePath);
         return $imagePath;
 
   }

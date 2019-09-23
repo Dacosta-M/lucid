@@ -65,8 +65,8 @@ class FollowController extends Controller
             $follower = $follow->subscriber($username);
     //User Follower checker
                 if(Auth::user()){
-                  $fcheck = $check->followCheck($user->name);
-                  $myfollower = $check->followerArray();
+                  $fcheck = $follow->followCheck($user->name);
+                  $myfollower = $follow->followerArray();
   //dd($myfollower);
                 }
                 else {
