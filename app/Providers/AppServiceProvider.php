@@ -40,9 +40,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
-        $this->app->singleton(Follow::class, function($app,$username){
-          return new Follow($username);
-        });
+       // $this->app->singleton(Follow::class, function($app,$username){
+       //   return new Follow($username);
+       // });
         $this->app->singleton(Document::class, function($app,$username){
           return new Document($username);
         });
