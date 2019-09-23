@@ -63,7 +63,7 @@ Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCall
 Route::post('login', 'LoginController@do')->name('login');
 Route::post('/login/magic','Auth\MagicLinkLoginController@sendToken')->name('sendMagicLink');
 Route::get('/login/magic/{token}','Auth\MagicLinkLoginController@validateToken');
-Route::get('/l/{hashtag}','PostController@test');
+// Route::get('/l/{hashtag}','PostController@test');
 
 Route::prefix('{username}')->group(function () {
 
