@@ -14,7 +14,7 @@
         @php $fcount = DB::table('following')->where('follower_id', $follow['id'])->count();@endphp
         <div class="col-2 text-center">
           <img src="{{$follow['img']}}" class="img-fluid" style="border-radius:100%;" alt="user" />
-          <small><a href="" class="d-block mb-0 text-main font-weight-bold">{{$follow['name']}}</a></small>
+          <small><a href="{{secure_url('/').'/'.$follow['username'] }}" class="d-block mb-0 text-main font-weight-bold">{{$follow['name']}}</a></small>
           <small>
             <p>{{$fcount}}</p>
           </small>
