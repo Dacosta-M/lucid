@@ -450,7 +450,9 @@ select:active {
 .no-border-radius {
     border-radius: 0 !important;
 }
-
+.br-100 {
+    border-radius: 100;
+}
 /* contact form style */
 .form-control:disabled {
     background: none;
@@ -468,4 +470,8 @@ select:active {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+.user-avatar {
+    height: 90 !important;
+    width: 90 !important;
 }

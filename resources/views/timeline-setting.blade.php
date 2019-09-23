@@ -13,7 +13,7 @@
         @foreach ($following as $follow)
         @php $fcount = DB::table('following')->where('follower_id', $follow['id'])->count();@endphp
         <div class="col-2 text-center">
-          <img src="{{$follow['img']}}" class="img-fluid fit-cover" style="border-radius:100%;" height="40" alt="user" />
+          <img src="{{$follow['img']}}" class="fit-cover br-100 user-avatar" alt="user" />
           <small><a href="" class="d-block mb-0 text-main font-weight-bold">{{$follow['name']}}</a></small>
           <small>
             <p>{{$fcount}}</p>
@@ -30,7 +30,7 @@
       <div class="container mt-5 mt-sm-3">
         @foreach ($rss as $rss)
         <div id="RssId{{ $rss->id}}"class="post-content">
-          <img src="{{ $rss->image }}" class="img-fluid fit-cover" style="border-radius:100%;" height="40" alt="user" />
+          <img src="{{ $rss->image }}" class="fit-cover br-100 user-avatar" alt="user" />
           <div class='ml-2 ml-sm-3'>
             <a href="{{ $rss->url}}" class="d-block mb-0 text-dark font-weight-bold">{{ $rss->title}}</a>
             <span>
