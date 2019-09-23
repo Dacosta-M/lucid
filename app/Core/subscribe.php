@@ -205,7 +205,7 @@ public function extract($url)
   public function unfollow($del)
   {
 $fuser= DB::table('users')->where('name', $del)->get('id')->first();
-
+dd($fuser);
 $user = Auth::user();
 
   $file= DB::table('following')->where('my_id', $user->id)->where('follower_id', $fuser->id)->delete();

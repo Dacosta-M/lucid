@@ -69,7 +69,7 @@ Route::prefix('{username}')->group(function () {
 
     //get Request
     Route::get('/','FeedsController@homePage');
-    Route::get('/home','PostController@homePage')->name('home');
+    Route::get('/home','FeedsController@homePage')->name('home');
     Route::get('/contact', 'pageController@contact');
     Route::get('/logout', "Auth\LoginController@logout");
 

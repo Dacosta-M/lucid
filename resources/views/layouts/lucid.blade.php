@@ -174,8 +174,8 @@
             @guest
             <p class="mx-1 font-weight-bold d-inline-block">Guest</p>
             @else
-            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block fit-cover border-radius-50" alt="{{ $user->name}}" />
-            <p class="img-fluid mx-1 font-weight-bold d-inline-block">{{ $user->name}}</p>
+            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',Auth::user()->image) }}" class="d-inline-block fit-cover border-radius-50" alt="{{ Auth::user()->name}}" />
+            <p class="img-fluid mx-1 font-weight-bold d-inline-block">{{ Auth::user()->name}}</p>
             @endguest
           </a>
           <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
@@ -313,9 +313,9 @@
                 <br>
                 <h4 class="text-main">Unfollow {{$user->name}}</h4>
                 <p class="small"><em>Are you sure you want to Unfollow {{$user->name}} and miss out interesting post?<br /> Click the button below to unfollow</em></p>
-                <form method="POST" action="@if($isLocal) {{url('/')}}/{{$user->username}}/unfollow @else {{secure_url('/')}}/{{$user->username}}/unfollow @endif">
+                <form method="POST" action="@if($isLocal){{url('/')}}/{{$user->username}}/unfollow@else{{secure_url('/')}}/{{$user->username}}/unfollow @endif">
                   @csrf
-                  <input type="hidden" name="rss" value="{{$user->name}}">
+                  <input type="hidden" name="rss" value="{{$user->username}}">
                   <button type="submit" class="btn btn-primary">UnFollow</button>
                 </form>
               </div>
@@ -336,7 +336,7 @@
                 <br>
                 <h4 class="text-main">Follow {{$user->name}}</h4>
                 <p class="small"><em>Do you have or would love to have Lucid installed on your domain?<br /> Click the button below to follow me</em></p>
-                <form method="POST" action="@if($isLocal) {{url('/')}}/{{$user->username}}/addrss @else {{secure_url('/')}}/{{$user->username}}/addrss @endif">
+                <form method="POST" action="@if($isLocal){{url('/')}}/{{$user->username}}/addrss @else{{secure_url('/')}}/{{$user->username}}/addrss @endif">
                   @csrf
                   <input type="hidden" name="rss" value="{{$user->username}}">
                   <button type="submit" class="btn btn-primary">Follow me on Lucid</button>
