@@ -174,8 +174,8 @@
             @guest
             <p class="mx-1 font-weight-bold d-inline-block">Guest</p>
             @else
-            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block fit-cover" style="border-radius:50%;" alt="{{ $user->name}}" height="25" />
-            <p class="mx-1 font-weight-bold d-inline-block">{{ $user->name}}</p>
+            <img id="navbar-avatar" src="{{\Illuminate\Support\Str::replaceFirst('_small_', '_large_',$user->image) }}" class="d-inline-block fit-cover border-radius-50" alt="{{ $user->name}}" />
+            <p class="img-fluid mx-1 font-weight-bold d-inline-block">{{ $user->name}}</p>
             @endguest
           </a>
           <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="navbarDropdown">

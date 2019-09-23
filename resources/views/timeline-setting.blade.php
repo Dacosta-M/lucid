@@ -16,7 +16,7 @@
           <img src="{{$follow['img']}}" class="img-fluid" style="border-radius:100%;" alt="user" />
           <small><a href="{{secure_url('/').'/'.$follow['username'] }}" class="d-block mb-0 text-main font-weight-bold">{{$follow['name']}}</a></small>
           <small>
-            <p>{{$fcount}}</p>
+            <p>{{$fcount}} followers</p>
           </small>
         </div>
       @endforeach
@@ -30,7 +30,7 @@
       <div class="container mt-5 mt-sm-3">
         @foreach ($rss as $rss)
         <div id="RssId{{ $rss->id}}"class="post-content">
-          <img src="{{ $rss->image }}" class="img-fluid" alt="user" />
+          <img src="{{ $rss->image }}" class="fit-cover border-radius-50 user-avatar" alt="user" />
           <div class='ml-2 ml-sm-3'>
             <a href="{{ $rss->url}}" class="d-block mb-0 text-dark font-weight-bold">{{ $rss->title}}</a>
             <span>
