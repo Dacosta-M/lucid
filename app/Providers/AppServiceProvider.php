@@ -24,12 +24,12 @@ class AppServiceProvider extends ServiceProvider
         //URL::forceScheme('https');
         $isLocal = App::environment('local') ? true : false;
         View::share('isLocal', $isLocal);
-       // if($isLocal){
-      //  }
-      //  else{
-      //    $this->app['request']->server->set('HTTPS', true);
+        if($isLocal){
+        }
+        else{
+          $this->app['request']->server->set('HTTPS', true);
 
-        //}
+        }
     }
 
     /**

@@ -15,7 +15,7 @@ class AddViewToUserSettingsTable extends Migration
     {
         Schema::table('user_settings', function (Blueprint $table) {
 
-          $table->string('view')->default("Timeline");
+          $table->string('view')->nullable("Timeline");
 
         });
     }

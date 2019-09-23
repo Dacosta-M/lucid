@@ -14,7 +14,7 @@ class AddPublicViewToUserSettingsTable extends Migration
     public function up()
     {
         Schema::table('user_settings', function (Blueprint $table) {
-          $table->string('public_view')->default("Home");
+          $table->string('public_view')->nullable("Home");
         });
     }
 

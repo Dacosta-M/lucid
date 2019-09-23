@@ -12,6 +12,7 @@ use Lucid\Core\Document;
 use Lucid\Core\Follow;
 use Lucid\extfeeds;
 use Illuminate\Support\Str;
+use Lucid\Http\Controllers\Auth\LoginController;
 
 
 class FeedsController extends Controller
@@ -76,9 +77,28 @@ else {
     $user_settings = user_settings::where('user_id', $user->id)->first();
 
 
-    $view = Str::snake($user_settings->view);
-    $pview = Str::snake($user_settings->public_view);
+if($user_settings == null){
 
+  $path = trim(Auth::user()->id.'/');
+   user_settings::create([
+      'user_id' => Auth::user()->id,
+      'user_path' => $path,
+      'setting_path' =>"",]);
+$view = Null;
+$pview = NULL;
+}
+// dd($user_settings);
+else {
+  $view = Str::snake($user_settings->view);
+  $pview = Str::snake($user_settings->public_view);
+
+}
+if ($view == NULL) {
+      $view = 'timeline';
+    }
+    if ($pview == NULL) {
+      $pview = 'home';
+    }
     if(Auth::user() && Auth::user()->username == $username){
             $user = Auth::user();
             $username = $user->username;
