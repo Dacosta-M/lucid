@@ -46,7 +46,32 @@ $follower= DB::table('users')->where('id', $value['follower_id'])->get();
       return $following;
   }
   //code for returnng details of each codes
+  public function timelinesubs($user)
+  {
+    $this->user = $user;
+  //  dd($this->user);
+    //$user = Auth::user();
+  $user =   DB::table('users')->where('username', $this->user)->first();
+    $data= DB::table('following')->where('my_id', $user->id)
+    ->inRandomOrder()->take(5)->get();
+    $data = json_decode($data, true);
 
+  //  dd($data);
+      $following = [];
+      foreach ($data as $key => $value) {
+  $follower= DB::table('users')->where('id', $value['follower_id'])->get();
+        foreach($follower as $key => $follower){
+        $content['name'] = $follower->name;
+        $content['username'] = $follower->username;
+        $content['img'] = $follower->image;
+        $content['id'] = $follower->id;
+        $content['desc'] = $follower->short_bio;
+          array_push($following, $content);
+      }
+    }
+    //  dd( $following);
+      return $following;
+  }
 
   public function subscriber($user)
   {

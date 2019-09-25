@@ -68,10 +68,10 @@ class LoginController extends Controller
         }
 
         Auth::login($user, true);
-        
+
         $user_id = $user->id;
         $username = $user->username;
-        
+
         $path = trim($user_id).'/';
         Storage::makeDirectory($user_id);
         Storage::makeDirectory('public/'.$user_id);
@@ -84,7 +84,7 @@ class LoginController extends Controller
 
 public function findOrCreateUser($user, $provider){
     $user = User::firstOrNew([ 'provider_id' => $user->id ]);
-    
+
     if ($user->exists) {
         return $user;
     }
@@ -114,6 +114,9 @@ public function store_settings($path, $user_id)
         'user_id' => $user_id,
         'user_path' => $path,
         'setting_path' =>"",
+        'view' =>"timeline",
+        'theme' =>"default",
+        'public_view' =>'home'
     ]);
 }
 

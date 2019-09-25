@@ -65,6 +65,7 @@ Route::post('/login/magic','Auth\MagicLinkLoginController@sendToken')->name('sen
 Route::get('/login/magic/{token}','Auth\MagicLinkLoginController@validateToken');
 // Route::get('/l/{hashtag}','PostController@test');
 
+
 Route::prefix('{username}')->group(function () {
 
     //get Request
@@ -73,6 +74,7 @@ Route::prefix('{username}')->group(function () {
     Route::get('/contact', 'pageController@contact');
     Route::get('/logout', "Auth\LoginController@logout");
 
+    Route::get('check', 'FeedsController@ViewManager');
 
     //Feeds Controller
     Route::get('/post/{postTitle}','PostController@singlePostPage')->name('post');

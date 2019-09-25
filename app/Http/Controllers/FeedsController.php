@@ -11,6 +11,7 @@ use Lucid\User;
 use Lucid\Core\Document;
 use Lucid\Core\Follow;
 use Lucid\extfeeds;
+use Lucid\ExtFeedBanks;
 use Illuminate\Support\Str;
 use Lucid\Http\Controllers\Auth\LoginController;
 
@@ -44,10 +45,14 @@ class FeedsController extends Controller
 
    if(Auth::user() && Auth::user()->username == $username){
 
-
+// $rss = ExtFeedBanks::where("ext_feed_banks.title","!=",'');
+//compact('rss');
             $posts = extfeeds::myFeeds();
 
-    return view('feeds', compact('posts'));
+
+
+          //  dd($posts);
+return view('feeds', compact('posts'));
 
   }else {
           $posts = extfeeds::userFeeds($username);
@@ -56,18 +61,17 @@ class FeedsController extends Controller
   }
   }
 
-public function ViewManager($username)
+public function ViewManager(Document $feeds,$username)
 {
-  if(Auth::user() && Auth::user()->username == $username){
 
-  $user_settings = user_settings::where('user_id', Auth::user()->id)->first();
+  $new = $feeds->FetchPublicRss();
+  if ($new) {
+      return response()->json(['success'=>"New feeds fetched successfully"], 200);
+  }else {
+      return response()->json(['success'=>"Error"], !200);
+  }
+}
 
-  return route('home',[$username]);
-}
-else {
-    $user_settings = user_settings::where('user_id', Auth::user()->id)->first();
-}
-}
 
   public function homePage(Document $feeds, Follow $follow,Request $request, $username)
   {
@@ -83,25 +87,31 @@ if($user_settings == null){
    user_settings::create([
       'user_id' => Auth::user()->id,
       'user_path' => $path,
-      'setting_path' =>"",]);
+      'setting_path' =>"",
+      'view' =>"timeline",
+      'theme' =>"default",
+      'public_view' =>'home'
+    ]);
 $view = Null;
 $pview = NULL;
+$tabs = NULL;
 }
-// dd($user_settings);
 else {
   $view = Str::snake($user_settings->view);
   $pview = Str::snake($user_settings->public_view);
+  $tabs = $user_settings->tabs;
 
 }
-if ($view == NULL) {
-      $view = 'timeline';
-    }
-    if ($pview == NULL) {
-      $pview = 'home';
-    }
+if ($view == NULL) {$view = 'timeline';}
+if ($pview == NULL) {$pview = 'home';}
+if ($tabs == NULL) {$tabs =[];}
+else {
+  $tabs = unserialize($tabs);
+}
     if(Auth::user() && Auth::user()->username == $username){
             $user = Auth::user();
             $username = $user->username;
+            // $feeds->FetchPublicRss();
               $posts = extfeeds::myFeeds();
 
                     if ($request->ajax()) {
@@ -112,7 +122,7 @@ if ($view == NULL) {
 //dd($converted);
 
           return view($view, ['posts' => $posts,'user'=>$user,
-          'tabs' => unserialize($user_settings->tabs)
+          'tabs' => $tabs,
         ]);
 
 
@@ -183,7 +193,7 @@ if ($view == NULL) {
   public function Settings(Document $feeds, Follow $follow, $username)
   {
     $user = $this->user->where('username',$username)->firstorFail();
-    $following = $follow->subscription($username);
+    $following = $follow->timelinesubs($username);
     $user_settings = user_settings::where('user_id', $user->id)->first();
 
 

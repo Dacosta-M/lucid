@@ -136,9 +136,9 @@ $location= 'settings';
   <div class="form-group">
      <select class="custom-select" name="view" required>
        <option value="">Select View</option>
-       <option @if($set->view == "Timeline") selected @endif value="Timeline">Timeline</option>
-       <option @if($set->view == "Post") selected @endif value="Post">Post</option>
-       <option @if($set->view == "Thoughts") selected @endif value="Thoughts">Thoughts</option>
+       <option @if($set->view == "timeline") selected @endif value="timeline">Timeline</option>
+       <option @if($set->view == "post") selected @endif value="post">Post</option>
+       <option @if($set->view == "thoughts") selected @endif value="thoughts">Thoughts</option>
      </select>
    </div>
 
@@ -149,8 +149,8 @@ $location= 'settings';
   <div class="form-group">
      <select class="custom-select" name="pubView" required>
        <option value="">Select View</option>
-       <option @if($set->public_view == "Home") selected @endif value="Home">Home</option>
-       <option @if($set->public_view == "Thoughts") selected @endif value="Thoughts">Thoughts</option>
+       <option @if($set->public_view == "home") selected @endif value="home">Home</option>
+       <option @if($set->public_view == "thoughts") selected @endif value="thoughts">Thoughts</option>
      </select>
    </div>
 

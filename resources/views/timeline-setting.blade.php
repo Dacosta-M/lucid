@@ -1,5 +1,5 @@
 <h5 class="font-weight-bold mb-5">Manage Your Timeline on the Page</h5>
-
+ <p><strong>Note!</strong> click <a href="{{url('/').'/'.$user->username.'/settings#account'}}">Here</a> to add more tabs to your timeline </p>
 <!-- Main Timeline Start -->
 <div class="mb-5">
   <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#mainTimeline">
@@ -10,6 +10,7 @@
     <div>
       <div class="row">
         @php $count = DB::table('following')->where('my_id', $user->id)->count();@endphp
+
         @foreach ($following as $follow)
         @php $fcount = DB::table('following')->where('follower_id', $follow['id'])->count();@endphp
         <div class="col-2 text-center">
@@ -21,8 +22,8 @@
         </div>
       @endforeach
         <div class="col-12 col-sm-2 align-self-center">
-          @if ($count > 4)
-          <a href="" class="font-weight-bold text-secondary">{{$count - 4}}</a>
+          @if ($count > 5)
+          <a href="" class="font-weight-bold text-secondary">{{$count - 5}}</a>
           @else
           @endif
         </div>
@@ -59,9 +60,9 @@
           <div class="form-group mb-2">
             <label for="addUser" class="sr-only">Email</label>
             <input type="hidden" name="tags" value="main">
-            <input type="text" id="addRss"class="form-control no-border-radius" name="Addrss"  placeholder="Add RSS Feed or Twitter User" size="30">
+            <input type="text" id="addRss"class="form-control no-border-radius" name="Addrss"  placeholder="Add RSS Feed" size="30">
           </div>
-          <button id="SubmitRss" type="button" onclick="rssAdd('RssMain','main')" class="btn btn-secondary mb-2 no-border-radius">Add User</button>
+          <button id="SubmitRss" type="button" onclick="rssAdd('RssMain','main')" class="btn btn-secondary mb-2 no-border-radius">Add Rss</button>
 
         </form>
       </div>
@@ -106,13 +107,13 @@
             <img src="{{  $user['image'] }}" class="img-fluid" style="border-radius:100%;" alt="user" />
             <small><a href="{{secure_url('/').'/'.$user['username'] }}" class="d-block mb-0 text-main font-weight-bold">{{ $user['name'] }}</a></small>
             <small>
-              <p>{{$user['count'] }}</p>
+              <p>{{$user['count'] }} followers</p>
             </small>
           </div>
         @endforeach
           <div class="col-12 col-sm-2 align-self-center">
-            @if ($count > 4)
-            <a href="" class="font-weight-bold text-secondary">{{$count - 4}}</a>
+            @if ($count > 5)
+            <a href="" class="font-weight-bold text-secondary">{{$count - 5}}</a>
             @else
             @endif
           </div>
@@ -121,7 +122,7 @@
 
           @foreach ($rssTags as $rssTag)
           <div id='RssId{{ $rssTag->id}}'class="post-content">
-            <img src="{{ $rssTag->image }}" class="img-fluid" alt="user" />
+            <img src="{{ $rssTag->image }}" class="fit-cover border-radius-50 user-avatar" alt="user" />
             <div class='ml-2 ml-sm-3'>
               <a href="{{ $rssTag->url}}" class="d-block mb-0 text-dark font-weight-bold">{{ $rssTag->title}}</a>
               <span>
@@ -151,9 +152,9 @@
             <div class="form-group mb-2">
               <label for="addUser" class="sr-only">Email</label>
               <input type="hidden" name="tags" value="{{$tab}}">
-              <input type="text" id="addRss"class="form-control no-border-radius" name="Addrss"  placeholder="Add RSS Feed or Twitter User" size="30">
+              <input type="text" id="addRss"class="form-control no-border-radius" name="Addrss"  placeholder="Add RSS Feed" size="30">
             </div>
-            <button id="SubmitRss" type="button" onclick='rssAdd("Rss{{$tab}}","{{$tab}}")' class="btn btn-secondary mb-2 no-border-radius">Add User</button>
+            <button id="SubmitRss" type="button" onclick='rssAdd("Rss{{$tab}}","{{$tab}}")' class="btn btn-secondary mb-2 no-border-radius">Add Rss</button>
 
           </form>
         </div>

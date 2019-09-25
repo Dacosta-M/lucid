@@ -26,9 +26,9 @@ class Myfollower extends Filter
   $user= DB::table('users')->whereIn('id', Arr::flatten($result))->get('name');
 
   return $builder
-  ->join('users','extfeeds.site','=','users.name')
-  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
-  ->select('extfeeds.*','posts.id as postsID','users.username','users.email','users.image as userImage')
+  // ->join('users','extfeeds.site','=','users.name')
+  // ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
+  // ->select('extfeeds.*','posts.id as postsID','users.username','users.email','users.image as userImage')
   ->whereIn('site', Arr::pluck($user, 'name'));
 
   }

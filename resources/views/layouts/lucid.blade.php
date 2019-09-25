@@ -563,7 +563,18 @@
         load_unseen_notification('yes');
       });
 
+      const checker = "@if($isLocal){{ url($user->username.'/check')  }}@else{{ secure_url($user->username.'/check')  }}@endif"
 
+    //  s(document).on('load', function() {
+        s.ajax({
+            url: checker,
+            method: "Get",
+          })
+          .then(
+            function(data) {
+    //console.log(data);
+            });
+    //  });
 
 
     })
@@ -605,7 +616,7 @@ function rssAdd(loc,tag) {
             k('#rssloader'+tag).remove();
               k('.preAdd'+tag).append(
               "<div id='RssId"+data.id+"' class='post-content'>"+
-                "<img src='"+ data.image +"' class='img-fluid' alt='user' />"+
+                "<img src='"+ data.image +"' class='fit-cover border-radius-50 user-avatar' alt='user' />"+
                 "<div class='ml-2 ml-sm-3'>"+
                   "<a href='' class='d-block mb-0 text-dark font-weight-bold'>"+data.title+"</a>"+
                 "  <span>"+

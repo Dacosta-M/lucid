@@ -45,9 +45,9 @@ class extfeeds extends Model
       \Lucid\Core\FeedFilters\Sort::class,
       \Lucid\Core\FeedFilters\Myfollower::class,
       \Lucid\Core\FeedFilters\Tags::class,
-    ])
-    ->thenReturn()
-    ->simplePaginate(5);
+      \Lucid\Core\FeedFilters\Rss::class,
+    ])->thenReturn()
+     ->simplePaginate(5);
   }
   public static function userFeeds($username)
   {

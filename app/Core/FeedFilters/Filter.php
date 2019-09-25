@@ -13,7 +13,7 @@ abstract class Filter
   public function handle($request, Closure $next)
   {
 
-if (class_basename($this) !== "Myfollower" && class_basename($this) !== "userFeeds"){
+if (class_basename($this) !== "Myfollower" && class_basename($this) !== "userFeeds" && class_basename($this) !== "Rss"){
 
     if (! request()->has($this->filterName())){
 
