@@ -486,7 +486,7 @@ public function FetchPublicRss()
                         'link'             => strip_tags($value['link' ]),
                         'date'    => date("F j, Y, g:i a", strtotime($value['date'])),
                         'image'   => $value['image'],
-                        'tabs'   => "RSS",
+                        'tags'   => "RSS",
                       ]);
                   }
                   };
