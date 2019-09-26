@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 h1,
@@ -32,6 +32,25 @@ header {
 .text-secondary {
     color: var(--secondary-color) !important;
 }
+.btn-secondary {
+    background-color: var(--secondary-color) !important;
+    color: white !important;
+}
+.btn-main {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.text-gray {
+    color: #979797;
+}
+.btn-border-secondary {
+    border: 1.2px solid var(--secondary-color);
+}
 .bg-main {
     background-color: var(--primary-color) !important;
 }
@@ -40,6 +59,9 @@ header {
 }
 .border-main {
     border-color: var(--primary-color) !important;
+}
+.border-secondary {
+    border-color: var(--secondary-color) !important;
 }
 .dropdown-toggle::after {
     margin-left: -5px !important;
@@ -127,7 +149,7 @@ a.navbar-btn.btn.btn-primary {
 }
 .page-tab ul.nav-tabs a.nav-link {
     border: none;
-    padding: 0.5rem 0.7rem  ;
+    padding: 0.5rem 0.7rem;
     margin-right: 1rem;
 }
 .page-tab .nav-tabs a.tab-link:hover {
@@ -139,11 +161,11 @@ a.navbar-btn.btn.btn-primary {
     color: var(--secondary-color);
     border-bottom: 2px solid var(--secondary-color);
 }
-.page-tab button[type="submit"] {
+.page-tab button[type='submit'] {
     color: #ffffff;
     background-color: var(--secondary-color);
 }
-.page-tab button[type="submit"]:hover {
+.page-tab button[type='submit']:hover {
     color: #ffffff;
 }
 /* ends here */
@@ -162,11 +184,7 @@ a.navbar-btn.btn.btn-primary {
 
 .preview-section {
     background: rgb(255, 255, 255);
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 1) 50%,
-        rgba(145, 121, 239, 1) 50%
-    );
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 50%, rgba(145, 121, 239, 1) 50%);
 }
 
 .lucid-laptop {
@@ -367,61 +385,89 @@ ul.footer-links li a {
 
 /* Styles to toggle sidebar on mobile */
 .active-sidebar {
-    display: block !important; 
+    display: block !important;
     min-height: 100vh !important;
     max-height: 100vh !important;
     position: absolute;
     z-index: 1000;
     background: white !important;
-  }
+}
 .overlay {
-  display: none;
-  position: absolute;
-  top: 0 !important;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 998;
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
+    display: none;
+    position: absolute;
+    top: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 998;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
 }
 /* display .overlay when it has the .active class */
 .overlay.active {
-  display: block;
-  opacity: 1;
+    display: block;
+    opacity: 1;
 }
 
 .notification-menu {
     box-sizing: border-box;
     width: 80vw;
 }
-@media (min-width: 576px) and (max-width: 991.98px) { 
+@media (min-width: 576px) and (max-width: 991.98px) {
     .notification-menu {
         width: 60vw;
     }
- }
+}
 
- @media (min-width: 992px) { 
+@media (min-width: 992px) {
     .notification-menu {
         width: 40vw;
     }
- }
+}
 
- .timeline-img {
-     width: 50px !important;
-     height: 50px !important;
-     object-fit: cover !important;
-     border-radius: 50% !important;
- }
+.timeline-img {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+}
 
- /* remove ugly outline on select elements*/
- select:hover, select:active{
-     outline: none;
- }
- .cursor-pointer{
-     cursor: pointer;
- }
+/* remove ugly outline on select elements*/
+select:hover,
+select:active {
+    outline: none;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
 
 .lh-1 {
     line-height: 1;
+}
+.timeline-rss-btn {
+    border-radius: 4px !important;
+}
+.no-border-radius {
+    border-radius: 0 !important;
+}
+.border-radius-50 {
+    border-radius: 50px !important;
+}
+/* contact form style */
+.form-control:disabled {
+    background: none;
+    border: none;
+}
+
+.fit-cover {
+    object-fit: cover !important;
+}
+
+#navbar-avatar {
+    height: 30px !important;
+    width: 30px !important;
+}
+.user-avatar {
+    height: 90px !important;
+    width: 90px !important;
 }

@@ -11,8 +11,12 @@ use Auth;
 use DB;
 use Carbon\Carbon;
 use Lucid\extfeeds;
+use Lucid\ext_rss;
+use Lucid\ExtFeedBanks;
 use Lucid\Thought;
 use Storage;
+use Image;
+use Illuminate\Support\Facades\Log;
 /**
  *	The Document class holds all properties and methods of a single page document.
  *
@@ -23,7 +27,7 @@ class Document
     //define an instance of the symfony clss
     //define an instance of the frontMatter class
 
-    protected $user;
+    private $user;
 
     public function __construct($user)
     {
@@ -36,112 +40,32 @@ class Document
         return $this->user;
     }
 
-    //for creating markdown files
-    //kjarts code here
-    /*
-    public function createPost($title, $content, $tag="", $image, $extra, $postType="")
-    {
 
-        date_default_timezone_set("Africa/Lagos");
-        $time = date(DATE_RSS, time());
-        $unix = strtotime($time);
-
-        // Write md file
-        $document = FrontMatter::parse($content);
-        $md = new Parser();
-
-        $markdown = $md->parse($document);
-
-        $yaml = $markdown->getYAML();
-        $html = $markdown->getContent();
-
-
-        $yamlfile = new Doc();
-        if ($title != "") {
-            $yamlfile['title'] = $title;
-        }
-
-        if (!empty($image)) {
-            $url = $this->user."/images/";
-            if(is_array($image)) {
-                foreach ($image as $key => $value) {
-
-                    $decoded = base64_decode($image[$key]);
-
-                    $img_path = 'public/'.$this->user."/images/".$key;
-                    Storage::disk('local')->put( $img_path, $decoded);
-                    $yamlfile['image'] = $url.$key;
-                }
-            } else {
-
-              $path =  Storage::disk('public')->put($url, $image);
-              $yamlfile['image'] = $path;
-            }
-
-
-        }
-
-        if( $tag !== "") {
-            $yamlfile['tags'] = $tag;
-        }
-
-        if (!$extra) {
-            $yamlfile['post_dir'] =$this->user."/contents/{$unix}";
-        } else {
-            $yamlfile['post_dir'] = $this->user."/drafts/{$unix}";
-
-        }
-
-        // create slug by first removing spaces
-        $striped = str_replace(' ', '-', $title);
-
-        $striped = preg_replace("/(&#[0-9]+;)/", "", $striped);
-
-        $yamlfile['slug'] = $unix;
-        $yamlfile['timestamp'] = $time;
-        $yamlfile->setContent($content);
-        $yaml = FrontMatter::dump($yamlfile);
-        $file = $this->user;
-        $dir = '';
-        if($postType == "full-blog"){
-            $dir = $file .'/content/posts/'. $unix . ".md";
-        }elseif($postType == "micro-blog") {
-            $dir = $file .'/content/micro-blog-posts/'. $unix . ".md";
-        }
-
-
-
-
-        //return $dir; die();
-        $doc = Storage::put($dir, $yaml);
-        if (!$extra) {
-            if ($doc) {
-                $result = array("error" => false, "action"=>"publish", "message" => "Post published successfully");
-                $this->createRSS();
-            } else {
-                $result = array("error" => true, "action"=>"publish", "message" => "Fail while publishing, please try again");
-            }
-        } else {
-            if ($doc) {
-                $result = array("error" => false, "action"=>"savedToDrafts", "message" => "Draft saved successfully");
-            } else {
-                $result = array("error" => true,"action"=>"savedToDrafts", "message" => "Fail while publishing, please try again");
-            }
-        }
-
-        return $result;
-    }
-    */
     public function createPost($title,$content, $tags, $image,$username, $action){
 
         if (!empty($image)) {
-          $url = Auth::user()->id."/images/";
           if(is_array($image)) {
               foreach ($image as $key => $value) {
-                  $image = $value;
-                  $decoded = base64_decode($image);
-                  $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+                $decoded = base64_decode($image[$key]);
+
+                $img_path = 'public/'.Auth::user()->id."/images/".$key;
+            //  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+
+                $filenamewithextension = $key;
+
+                //get filename without extension
+                $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+                //get file extension
+                $extension = pathinfo($filenamewithextension, PATHINFO_EXTENSION);;
+
+                $image = $decoded;
+                $image = $this->store($image, $filenamewithextension,$filename,$extension);
+
+                //  Log::debug($fullPath);
+
 
               }
           }
@@ -170,46 +94,59 @@ class Document
 
     }
 
-    public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id) {
 
-        if (!empty($image)) {
-            $url = Auth::user()->id."/images/";
-            if(is_array($image)) {
-                foreach ($image as $key => $value) {
-                    $image = $value;
-                    $decoded = base64_decode($image);
+    public function saveUpdatedPost($title,$content, $tags, $image,$username,$post_id,$action) {
 
-                    $img_path = 'public/'.Auth::user()->id."/images/".$key;
-                  $image = Storage::disk('local')->put( $img_path, $decoded);
+    //  Log::debug($image);
+      if (!empty($image)) {
+        if(is_array($image)) {
+            foreach ($image as $key => $value) {
 
-                }
+              $decoded = base64_decode($image[$key]);
+
+              $img_path = 'public/'.Auth::user()->id."/images/".$key;
+          //  $image = Storage::disk('local')->put( $img_path, $decoded);
+
+
+              $filenamewithextension = $key;
+
+              //get filename without extension
+              $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+              //get file extension
+              $extension = pathinfo($filenamewithextension, PATHINFO_EXTENSION);;
+
+              $image = $decoded;
+             $fullPath = $this->store($image, $filenamewithextension,$filename,$extension);
+
+
+
             }
-        }else {
-          $image = null;
         }
+    }else {
+      $fullPath = NULL;
+    }
+
 
         $slug = Str::slug($title);
         $slug = $slug ."-".substr(md5(uniqid(mt_rand(), true)), 0, 3);
         //$slug = preg_replace("/(&#[0-9]+;)/", "", $slug);
         $oldpost = DB::table('posts')->where('id',$post_id)->first('title');
       //  dd($oldpost->title);
-        $updateFeeds = DB::table('extfeeds')->where('title',$oldpost->title)
-        ->update([
-          'title'=>$title,
-          'des'=>$content,
-          'tags'=>$tags,
-          'image'=> $image,
-          'link'=> '/post/'.$slug
-
-        ]);
-        $updatePosts = DB::table('posts')->where('id',$post_id)->update([
-          'user_id'=>Auth::user()->id,
-          'title'=>$title,
-          'content'=>$content,
-          'tags'=>$tags,
-          'image'=> $image,
-          'slug'=> $slug
-        ]);
+      if($fullPath == NULL){
+        $feedupdate = ['title'=>$title,'des'=>$content,'tags'=>$tags,'link'=> '/post/'.$slug];
+      }else {
+        $feedupdate = ['title'=>$title,'des'=>$content,'image'=> $fullPath,'tags'=>$tags,'link'=> '/post/'.$slug];
+      }
+      if($fullPath == NULL){
+        $postupdate = ['user_id'=>Auth::user()->id,'title'=>$title,'content'=>$content,'tags'=>$tags,'slug'=> $slug];
+          }else {
+        $postupdate = ['user_id'=>Auth::user()->id,'title'=>$title,'content'=>$content,'tags'=>$tags,'image'=> $fullPath,'slug'=> $slug];
+          }
+        $updateFeeds = DB::table('extfeeds')->where(['title' => $oldpost->title, 'user_id' => Auth::user()->id])
+        ->update($feedupdate);
+        $updatePosts = DB::table('posts')->where('id',$post_id)
+        ->update($postupdate);
 
         //dd($updateFeeds);
         if ($updatePosts) {
@@ -222,7 +159,7 @@ class Document
 
     }
 
-    public function createThough($content){
+    public function createThought($content){
 
 
       $insertPosts = DB::table('thoughts')->insert([
@@ -420,42 +357,18 @@ public function MyFeeds()
 
   //
 //dd($result);
-  $feed = [];
-foreach ($result as $id) {
-  $user= DB::table('users')->where(['id' => $id['follower_id'] ])->first('name');
-
-  $feeds = DB::table('extfeeds')
-  ->join('users','extfeeds.site','=','users.name')
-  ->join('posts',['extfeeds.title' =>'posts.title','extfeeds.user_id'=> 'posts.user_id'])
-  ->select('extfeeds.*','posts.id','users.username','users.email','users.image')
-  ->where('site', $user->name)->get();
-//  dd($feeds );
-    $feeds = json_decode($feeds, true);
-  array_push($feed, $feeds);
-}
-  $ex =[];
-  for ($i=0; $i < count($feed) ; $i++) {
-    for ($j=0; $j <count($feed[$i]) ; $j++) {
-       $rv=$feed[$i][$j];
-    //   krsort($rv);
-      array_push($ex, $rv);
-      //dd($ex);
-    }
-  }
-  //dd($ex);
-  usort($ex, $this->build_sorter('id'));
-
-    //arsort($ex);
-  krsort($ex);
-  //dd($ex);
-  //$feed = json_decode($feed, true);
-
-return $ex;
+  $feeds = extfeeds::query();
+  $feeds->where('user_id', 1 );
+  $feeds = $feeds->paginate(1);
+  //dd($feeds);
+compact('feeds');
+return $feeds;
 
 
 }
-public function Feeds()
+public function Feeds($user)
 {
+  $this->user = $user;
   $user = Auth::user();
 //  $this->FeedFixer();
   $data= DB::table('following')->where('my_id', $user['id'])->get('follower_id');
@@ -505,85 +418,32 @@ return $ex;
 
 }
 
-public function checker()
+public function FetchPublicRss()
 {
 
-
-  /////////////
-
-/*
-  $query = "SELECT * FROM notifications  WHERE status_user_id=($user_string) and sender_id !=($user_string) ORDER BY notif_id DESC";
-
-  $result = mysqli_query($con, $query);
-  $output = '';
-  if(mysqli_num_rows($result) > 0)
-  {
-
-  while($row = mysqli_fetch_array($result))
-
-  {
-  }
-
-  else{
-      $output .= '<a href="#" class="dropdown-item">No Noti Found</a>';
-  }
-
-  $status_query = "SELECT * FROM notifications WHERE status_user_id=($user_string) and sender_id !=($user_string) and comment_status=0 ";
-  $result_query = mysqli_query($con, $status_query);
-  $count = mysqli_num_rows($result_query);
-
-  $data = array(
-     'notification' => $output,
-     'unseen_notification'  => $count
-  );
-
-  echo json_encode($data);
+  //$chechurl =  @file_get_contents($url);
+  $data= ext_rss::where('user_id', Auth::user()->id)->get();
+  //$data=[];
+  $urlArray = json_decode($data, true);
 
 
-
-
-  ////////////
-  */
-
-}
-
-    public function fetchAllRss()
-    {
-    /*  if (file_exists(storage_path('app/'.$this->user."/rss/rss.xml"))) {
-                  $xml = file_get_contents(storage_path('app/'.$this->user."/rss/rss.xml"));
-                  $url = storage_path('app/'.$this->user."/rss/rss.xml");
-          } else {
-          $xml = file_get_contents(base_path("storage/rss/rss.xml"));
-          $url = base_path("storage/rss/rss.xml");
-          }
-        $url = storage_path('app/'.$this->user."/rss/rss.xml");
-        $feed = [];
-        if (strlen($xml != "")) {
+    $feed = [];
             $rss = new \DOMDocument();
 
-            $user = Auth::user();
-            //$data= ext_rss::where('user_id', $user['id'])->get();
-            //$data=[];
-          //  $urlArray = json_decode($data, true);
-            $urlArray2 = array(
-                array('title' => $user['name'], 'url' => $url, 'desc' => '', 'link' => '', 'image' => $user['image'], 'time' => ''),
-              //  array('title' => 'Stratechery by Ben Thompson',  'url' => 'http://stratechery.com/feed/' , 'desc' => 'On the business, strategy, and impact of technology.', 'link' => '', 'image' => "https://stratechery.com/wp-content/uploads/2018/03/cropped-android-chrome-512x512-1-32x32.png", 'time' => ' Fri, 12 Jul 2019 16:06:22 +0000')
-            );
           //  $result = array_merge($urlArray, $urlArray2);
-            foreach ($urlArray2 as $url) {
-            //if (extfeeds::where('site', $url["title"])->doesntExist() == 1) {
-              //  dd($url['link']);
+            foreach ($urlArray as $url) {
+
               $rss->load($url['url']);
               $user = Auth::user();
-              $feeds = DB::table('extfeeds')->where('user_id', $user['id'])->get();
               foreach ($rss->getElementsByTagName('item') as $node) {
-                   if (count($rss->getElementsByTagName('item')) == count($feeds)) {
+                $feeds = ExtFeedBanks::where('title',$url['title'])->count();
+                //dd($url['id']);
+                   if (count($rss->getElementsByTagName('item')) == $feeds) {
                 return false;
               }else{
-
                 if (!isset($node->getElementsByTagName('image')->item(0)->nodeValue)) {
                   $item = array(
-                    'user_id'          => $user['id'],
+                    'user_id' => $url['id'],
                     'site'  => $url['title'],
                     'site_image'  => $url['image'],
                     'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
@@ -594,11 +454,10 @@ public function checker()
                     'date'  => date("F j, Y, g:i a", strtotime(isset($node->getElementsByTagName('pubDate')->item(0)->nodeValue) ?
                     $node->getElementsByTagName('pubDate')->item(0)->nodeValue : '')),
                     'image'  => "",
-
                   );
                 } else {
                   $item = array(
-                    'user_id'          => $user['id'],
+                    'user_id' => $url['id'],
                     'site'  => $url['title'],
                     'site_image'  => $url['image'],
                     'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
@@ -612,10 +471,35 @@ public function checker()
               }
               array_push($feed, $item);
               }
-
             }
+                  krsort($feed);
+              //  dd($feed);
+                //  print_r($feed);
+                  foreach ($feed as $key => $value) {
+                  if (ExtFeedBanks::where('title', $value["title"])->Where('link',$value['link'])->doesntExist()== 1) {
+                    $feedId = DB::table('ext_feed_banks')->insert([
+                        'user_id'          => $value['user_id'],
+                        'site'             => $value['site'],
+                        'site_image'       => $value['site_image'],
+                        'title'            => strip_tags($value['title']),
+                        'des'             => strip_tags($value['des']),
+                        'link'             => strip_tags($value['link' ]),
+                        'date'    => date("F j, Y, g:i a", strtotime($value['date'])),
+                        'image'   => $value['image'],
+                        'tags'   => "RSS",
+                      ]);
+                  }
+                  };
+                return true;
 
-            */
+
+}
+
+
+    public function fetchAllRss($user)
+    {
+
+            $this->user = $user;
             $feed = $this->getPosts();
             $this->postFixer("posts");
 
@@ -644,9 +528,9 @@ public function checker()
 
               //}
           }
-          public function Thoughts()
+          public function Thoughts($user)
           {
-
+$this->user = $user;
                   $feed = $this->getThoughts($this->user);
                 //  $this->postFixer("micro-blog-posts");
                         krsort($feed);
@@ -831,125 +715,8 @@ $user = Auth::user();
 
     }
 
-    //RSS designed By DMAtrix;
-    public function getRss()
-    {
-        $user = file_get_contents("./src/config/auth.json");
-        $user = json_decode($user, true);
-
-        date_default_timezone_set('UTC');
-        $Feed = new RSS2;
-        // Setting some basic channel elements. These three elements are mandatory.
-        $Feed->setTitle($user['name']);
-        $Feed->setLink(SITE_URL);
-        $Feed->setDescription("");
-
-        // Image title and link must match with the 'title' and 'link' channel elements for RSS 2.0,
-        // which were set above.
-        $Feed->setImage($user['name'], '', $user['image']);
-
-        $Feed->setChannelElement('language', 'en-US');
-        $Feed->setDate(date(DATE_RSS, time()));
-        $Feed->setChannelElement('pubDate', date(\DATE_RSS, strtotime('2013-04-06')));
 
 
-        $Feed->setSelfLink(SITE_URL . 'storage/rss/rss.xml');
-        $Feed->setAtomLink('http://pubsubhubbub.appspot.com', 'hub');
-
-        $Feed->addNamespace('creativeCommons', 'http://backend.userland.com/creativeCommonsRssModule');
-        $Feed->setChannelElement('creativeCommons:license', 'http://www.creativecommons.org/licenses/by/1.0');
-
-        $Feed->addGenerator();
-
-        $finder = new Finder();
-        $finder->files()->in($this->user);
-
-        if ($finder->hasResults()) {
-            foreach ($finder as $file) {
-                $document = $file->getContents();
-                $parser = new Parser();
-                $document = $parser->parse($document);
-                $yaml = $document->getYAML();
-                $body = $document->getContent();
-
-                $parsedown  = new Parsedown();
-
-                $title = $parsedown->text($yaml['title']);
-                $slug = $parsedown->text($yaml['slug']);
-                $slug = preg_replace("/<[^>]+>/", '', $slug);
-                $bd = $parsedown->text($body);
-                $time = $parsedown->text(time());
-                $url = $parsedown->text($yaml['post_dir']);
-
-                $newItem = $Feed->createNewItem();
-                $newItem->setTitle(strip_tags($title));
-                $newItem->setLink($slug);
-                $newItem->setDescription(substr(strip_tags($bd), 0, 100));
-                $newItem->setDate("2013-04-07 00:50:30");
-
-                $newItem->setAuthor($user['name'], $user['email']);
-                $newItem->setId($url, true);
-                $newItem->addElement('source', $user['name'] . '\'s page', array('url' => SITE_URL));
-                $Feed->addItem($newItem);
-            }
-            $myFeed = $Feed->generateFeed();
-
-            $strxml = $Feed->printFeed();
-        } else {
-            return false;
-        }
-    }
-    public function subscriber()
-    {
-
-      $user =   DB::table('users')->where('username', $this->user)->first();
-
-        $data= DB::table('following')->where('follower_id', $user->id)->get();
-        $data = json_decode($data, true);
-        //  dd($data);
-
-          $follower = [];
-          foreach ($data as $key => $value) {
-
-            $follow = DB::table('users')->where('id', $value['my_id'])->get();
-
-             foreach($follow as $key => $follow){
-
-            $content['name'] = $follow->name;
-            $content['username'] = $follow->username;
-            $content['img'] = $follow->image;
-            $content['id'] = $follow->id;
-            $content['desc'] = $follow->short_bio;
-            array_push($follower, $content);
-
-        }
-          }
-          return $follower;
-    }
-    public function subscription()
-    {
-      //$user = Auth::user();
-    $user =   DB::table('users')->where('username', $this->user)->first();
-      $data= DB::table('following')->where('my_id', $user->id)->get();
-      $data = json_decode($data, true);
-
-    //  dd($data);
-        $following = [];
-        foreach ($data as $key => $value) {
-  $follower= DB::table('users')->where('id', $value['follower_id'])->get();
-          foreach($follower as $key => $follower){
-          $content['name'] = $follower->name;
-          $content['username'] = $follower->username;
-          $content['img'] = $follower->image;
-          $content['id'] = $follower->id;
-          $content['desc'] = $follower->short_bio;
-            array_push($following, $content);
-        }
-      }
-      //  dd( $following);
-        return $following;
-    }
-    //code for returnng details of each codes
     public function getEach($id)
     {
         $finder = new Finder();
@@ -982,7 +749,7 @@ $user = Auth::user();
             return $posts;
         }
     }
-    //end of get a post function
+
 
     // post
     public function tagPosts($id)
@@ -1134,8 +901,10 @@ $user = Auth::user();
 
     }
 
-    public function getPublishedPosts(){
+    public function getPublishedPosts($user){
 
+    //    $this->user = dd($user);
+      $this->user = $user;
       $user =   DB::table('users')->where('username', $this->user)->first();
       $matchThese = [['user_id',$user->id],['action','publish']];
       $orthis = [['user_id',$user->id],['action',NULL]];
@@ -1535,4 +1304,67 @@ $user = Auth::user();
             return $videos;
         }
     }
+
+    public function store($image,$filenamewithextension,$filename,$extension)
+  {
+
+
+        //filename to store
+        $filenametostore = $filename.'_.'.$extension;
+
+        //small thumbnail name
+        $smallthumbnail = $filename.'_small_.'.$extension;
+
+        //medium thumbnail name
+        $mediumthumbnail = $filename.'_medium_.'.$extension;
+
+        //large thumbnail name
+        $largethumbnail = $filename.'_large_.'.$extension;
+
+        //Upload File
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/'.$filenametostore, $image);
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail, $image);
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/thumbnail/'.$mediumthumbnail, $image);
+        Storage::disk('local')->put( 'public/'.Auth::user()->id.'/images/thumbnail/'.$largethumbnail, $image);
+
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/', $filenametostore);
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/thumbnail', $smallthumbnail);
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/thumbnail', $mediumthumbnail);
+      //  $image->storeAs('public/'.Auth::user()->id.'/images/thumbnail', $largethumbnail);
+
+        //create small thumbnail
+        $smallthumbnailpath = public_path('storage/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail);
+        $this->createThumbnail($smallthumbnailpath, 150, 93);
+
+        //create medium thumbnail
+        $mediumthumbnailpath = public_path('storage/'.Auth::user()->id.'/images/thumbnail/'.$mediumthumbnail);
+        $this->createThumbnail($mediumthumbnailpath, 300, 185);
+
+        //create large thumbnail
+        $largethumbnailpath = public_path('storage/'.Auth::user()->id.'/images/thumbnail/'.$largethumbnail);
+        $this->createThumbnail($largethumbnailpath, 550, 340);
+
+        $imagePath ='/storage/'.Auth::user()->id.'/images/thumbnail/'.$smallthumbnail;
+      //  Log::debug($imagePath);
+        return $imagePath;
+
+  }
+        /**
+        * Create a thumbnail of specified size
+        *
+        * @param string $path path of thumbnail
+        * @param int $width
+        * @param int $height
+        */
+        public function createThumbnail($path, $width, $height)
+        {
+        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+        $constraint->aspectRatio();
+        });
+        $img->save($path);
+
+        //$img = Image::make($path)->resize($width, $height)->save($path);
+        }
+
+
 }

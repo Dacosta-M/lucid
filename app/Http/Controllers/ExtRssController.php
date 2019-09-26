@@ -5,6 +5,8 @@ namespace Lucid\Http\Controllers;
 use Illuminate\Http\Request;
 use Lucid\ext_rss;
 use Auth;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 class ExtRssController extends Controller
 {
   /**
@@ -39,15 +41,17 @@ class ExtRssController extends Controller
   {
     $user = Auth::user();
     $username = $user->username;
-    $rss = $request->rss;
-  //dd($rss);
-  //$url = "https://www.feedforall.com//sample-feed.xml";
+    //Log::debug($request);
+
     $data = new \Lucid\Core\Subscribe($username);
-          $feed = $data->extractPub($rss);
-          print_r($feed);
-
-     return back()->with('rss', 'You have subscribed to '.$request.' channel' );
-
+         $feed = $data->extractPub($request);
+      //    print_r($feed);
+  if($feed){
+      return response()->json($feed, 200);
+  }
+  else {
+    return response()->json(!200);
+  }
   }
   public function unfollow(Request $request)
   {
@@ -68,5 +72,9 @@ class ExtRssController extends Controller
 
   //   return redirect($username.'/microblog')->with('rss', 'You have subscribed to '.$request.' channel' );
 
+  }
+  public function delete(Request $request)
+  {
+    $rss = \DB::table('ext_rsses')->where(['id' => $request->id ])->delete();
   }
 }

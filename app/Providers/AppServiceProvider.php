@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
+use Lucid\Core\Follow;
+use Lucid\Core\Document;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
         //URL::forceScheme('https');
         $isLocal = App::environment('local') ? true : false;
         View::share('isLocal', $isLocal);
+        if($isLocal){
+        }
+        else{
+          $this->app['request']->server->set('HTTPS', true);
+
+        }
     }
 
     /**
@@ -32,5 +40,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->singleton(Follow::class, function($app,$username){
+          return new Follow($username);
+        });
+        $this->app->singleton(Document::class, function($app,$username){
+          return new Document($username);
+        });
     }
 }

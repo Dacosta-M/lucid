@@ -281,67 +281,124 @@ $location = 'timeline';
 <!-- Begin content -->
 <!-- Timeline Page -->
 <div>
-    <!-- <h4 class="ml-4 mb-3 pl-1">Explore Lucid</h4> -->
-    <!-- Begin content -->
-    <div class="page-tab ml-4 mb-3">
-      <ul class="nav nav-tabs navbar-light" id="follow-tabs" role="tablist">
-        <li class="nav-item" onclick="feeds()">
-            <a href="#timeline" class="nav-link tab-link active" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-              <h6 class="mb-0">Timeline</h6>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#timeline" class="nav-link tab-link" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-              <h6 class="mb-0">Tech</h6>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#timeline" class="nav-link tab-link" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
-              <h6 class="mb-0">Health</h6>
-            </a>
-        </li>
-      </ul>
-    </div>
+  <!-- <h4 class="ml-4 mb-3 pl-1">Explore Lucid</h4> -->
+  <!-- Begin content -->
+  <div id ='nav-tab' class="page-tab mb-3">
+    <ul class="nav nav-tabs navbar-light" id="nav-feed" role="tablist">
+      <li class="nav-item" onclick="feeds()">
+        <a href="#timeline" class="nav-link tab-link active pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
+          <h6 class="mb-0">Timeline</h6>
+        </a>
+      </li>
+      @if($tabs)
+      @foreach($tabs as $tab)
+      <li class="nav-item" onclick="tabfeeds('{{$tab}}')">
+        <a href="#timeline" class="nav-link tab-link pl-0" data-toggle="tab" role="tab" aria-controls="category" aria-selected="">
+          <h6 class="mb-0">{{$tab}}</h6>
+        </a>
+      </li>
+      @endforeach
+      @endif
+      <a href="#"  class="pt-1"><i onclick="settings()" class="fas fa-plus-circle text-secondary"></i></a>
+    </ul>
+  </div>
 
-<div id='feeds'>  <div class="" style="text-align: -webkit-center">
- <div class="spinner" style="    position: inherit;"></div></div></div>
+
+    {{--@if(count($posts) > 0)--}}
+    <div class="tab-pane show" role="tabpanel" id="timeline">
+      <div class="row mt-5">
+        <div class="col-md-12">
+<section id="feeds" class="feeds">
+
+      <!-- timeline page -->
+  <div id="load">
+  @include('feeds')
+
+</div>
+</section>
+</div>
+</div>
+</div>
+ {{-- @endif
+--}}
+<input type="hidden" value="{{ $user->username }}" id="username">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-   
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-  //console.log(xmlhttp.responseText);
-                document.getElementById("feeds").innerHTML = xmlhttp.responseText;
-            }
-        };
-        xmlhttp.open("GET","/{{ $user->username }}/feeds",true);
-        xmlhttp.send();
+
+    function feeds() {
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+        }
+      };
+      xmlhttp.open("GET", "/{{ $user->username }}/feeds", true);
+      xmlhttp.send();
+
+    }
+    function tabfeeds(id) {
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+        }
+      };
+      xmlhttp.open("GET", "/{{ $user->username }}/feeds?tags="+id, true);
+      xmlhttp.send();
+
+    }
+    function settings() {
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+          toggleDropDown();
+        }
+      };
+      xmlhttp.open("GET", "/{{ $user->username }}/timeline-settings", true);
+      xmlhttp.send();
+
+    }
 
 
-function feeds() {
-  if (window.XMLHttpRequest) {
-              // code for IE7+, Firefox, Chrome, Opera, Safari
-              xmlhttp = new XMLHttpRequest();
-          } else {
-              // code for IE6, IE5
-              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-          }
-          xmlhttp.onreadystatechange = function() {
-              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                  document.getElementById("feeds").innerHTML = xmlhttp.responseText;
-              }
-          };
-          xmlhttp.open("GET","/{{ $user->username }}/feeds",true);
-          xmlhttp.send();
-     
-}
+    const toggleDropDown = ()=>{
+      const categories = document.querySelectorAll('.category');
+      
+      categories.forEach(category=>{
+        const categoryBtn = document.querySelector('.'+category.getAttribute('id')+' .arrow')
+          $('#'+category.getAttribute('id')).on('shown.bs.collapse', ()=> {
+            categoryBtn.classList.add('fa-chevron-up')
+            categoryBtn.classList.remove('fa-chevron-down')
+        });
 
-</script>
+        $('#'+category.getAttribute('id')).on('hidden.bs.collapse', ()=> {
+            categoryBtn.classList.add('fa-chevron-down')
+            categoryBtn.classList.remove('fa-chevron-up')
+        });
+       
+      })
+    }
+  </script>
 
-@endsection
+
+
+
+  @endsection

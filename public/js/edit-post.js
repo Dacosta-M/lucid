@@ -1,6 +1,6 @@
 let newtoolbarOptions = [
     ['bold', 'italic'],
-    ['blockquote','code-block'],
+    ['blockquote','code-block','code'],
     [{
       'list': 'ordered'
     }, {
@@ -17,7 +17,6 @@ let newtoolbarOptions = [
     ['link', 'image'],
     ['clean']
   ];
-
   let newquill = new Quill('#editPostEditor', {
     theme: 'snow',
     modules: {
@@ -58,14 +57,13 @@ function editPost(post_id){
         url:"post-data/"+post_id,
         success:function (data) {
          j('#post-title').val(data.data.title)
-         const editor = document.getElementsByClassName('ql-editor');
-         editor[1].innerHTML = data.data.body
+          newquill.clipboard.dangerouslyPasteHTML(data.data.body);
          if(data.data.tags !=null) {
           j('#tag').tokenfield('setTokens',data.data.tags)
          }else{
           j('#tag').tokenfield('setTokens',[])
          }
-          
+
           j('#post_id').val(data.data.id)
         },
         error:function (error){
@@ -88,6 +86,12 @@ if(saveBtn !=null){
     const editTurndownService = new TurndownService({
       codeBlockStyle: 'fenced'
     });
+    editTurndownService.addRule('strikethrough', {
+      filter: ['pre'],
+      replacement: function (content) {
+        return '```\n' + content + '\n```'
+      }
+    })
 
     const gfm = turndownPluginGfm.gfm;
     editTurndownService.use(gfm);
@@ -124,7 +128,7 @@ if(saveBtn !=null){
           let stillMatching = true;
           while (stillMatching) {
             if (editMarkdown.includes(fullURI)) {
-              editMarkdown = editMarkdown.replace(fullURI, `/storage/${username}/images/${newImgName}`);
+              editMarkdown = editMarkdown.replace(fullURI, `/storage/${username}/images/thumbnail/img-${id}_large_.${ext}`);
             } else {
               stillMatching = false;
             }
@@ -153,7 +157,7 @@ if(saveBtn !=null){
           contentType: false,
           processData: false,
           beforeSend:function(){
-            j('.savePostBtn').text('Saving...');
+            j('.savePostBtn').val('Saving...');
           },
           success : function (res) {
             // console.log(JSON.stringify(res));
@@ -162,7 +166,7 @@ if(saveBtn !=null){
                 window.localStorage.setItem('update', 'success');
                 window.location = '/'+j('meta[name="username"]').attr('content')+'/posts';
 
-              } 
+              }
           },
           error:function (error){
             j('.savePostBtn').text('Save');
@@ -189,7 +193,7 @@ if(saveBtn !=null){
 
 j(document).ready(function() {
   const updated = window.localStorage.getItem('update');
- 
+
   if (updated == 'success') {
     window.localStorage.removeItem('update');
     swal({

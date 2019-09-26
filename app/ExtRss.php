@@ -12,6 +12,6 @@ class ExtRss extends Model
  * @var string
  */
 protected $fillable = [
-  'user_id', 'title', 'url','description','image','link','lastBuildDate'
+  'user_id', 'title', 'url','description','image','link','lastBuildDate','tags',
 ];
 }

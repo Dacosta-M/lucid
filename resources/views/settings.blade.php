@@ -113,15 +113,97 @@ $location= 'settings';
 
     <!-- account tab -->
     <div class="tab-pane fade" id="account" role="tabpanel">
-      <h3 class="mt-5">Account page coming soon...</h3>
+      <h3 class="mt-5">Account Settings</h3>
+      <div class="form-group col-sm-12 col-md-6 pb-0 mb-0">
+
+
+
+<form action="#" class="mt-4" name="AccountForm" autocomplete="off" id="AccountForm">
+        <div class="form-group">
+    <label for="Link" class="form-label">Your Lucid Url</label>
+
+      <input type="url" readonly class="form-control-plaintext" id="Link" value="{{secure_url('/').'/'.Auth::user()->username}}">
+
+  </div>
+
+  <div class="form-group">
+<label for="theme" class="form-label">Installed Theme</label>
+<input type="text" readonly class="form-control-plaintext" id="theme" value="Default">
+</div>
+<div class="form-group">
+<label for="View" class="form-label">Preferred View</label>
+
+  <div class="form-group">
+     <select class="custom-select" name="view" required>
+       <option value="">Select View</option>
+       <option @if($set->view == "timeline") selected @endif value="timeline">Timeline</option>
+       <option @if($set->view == "post") selected @endif value="post">Post</option>
+       <option @if($set->view == "thoughts") selected @endif value="thoughts">Thoughts</option>
+     </select>
+   </div>
+
+</div>
+<div class="form-group">
+<label for="View" class="form-label">Guest Preferred View</label>
+
+  <div class="form-group">
+     <select class="custom-select" name="pubView" required>
+       <option value="">Select View</option>
+       <option @if($set->public_view == "home") selected @endif value="home">Home</option>
+       <option @if($set->public_view == "thoughts") selected @endif value="thoughts">Thoughts</option>
+     </select>
+   </div>
+
+</div>
+
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Technology", $tabs)) checked @endif name="tags[]" value="Technology"  id="Technology">
+          <label class="custom-control-label" for="Technology">Technology</label>
+          </div>
+       <div class="custom-control custom-switch">
+         <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Entertainment", $tabs)) checked @endif name="tags[]" value="Entertainment"  id="Entertainment">
+         <label class="custom-control-label" for="Entertainment">Entertainment</label>
+          </div>
+         <div class="custom-control custom-switch">
+
+           <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Blog", $tabs)) checked @endif name="tags[]" value="Blog"  id="Blog">
+           <label class="custom-control-label" for="Blog">Blog</label>
+           </div>
+       <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" @if(isset($tabs) && in_array("Health", $tabs)) checked @endif name="tags[]" value="Health"  id="Health">
+          <label class="custom-control-label" for="Health">Health</label>
+          </div>
+      <div class="custom-control custom-switch">
+
+         <input type="checkbox" class="custom-control-input" name="tags[]"  @if(isset($tabs) && in_array("Lifestyle", $tabs )) checked @endif value="Lifestyle"  id="Lifestyle">
+         <label class="custom-control-label" for="Lifestyle">Lifestyle</label>
+         </div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input"  @if(isset($tabs) && in_array("Gist", $tabs)) checked @endif name="tags[]" value="Gist"  id="Gist">
+        <label class="custom-control-label" for="Gist">Gist</label>
+        </div>
+        <div class="custom-control custom-switch">
+       <input type="checkbox" class="custom-control-input"  @if(isset($tabs) && in_array("Politics", $tabs)) checked @endif name="tags[]" value="Politics"  id="Politics">
+        <label class="custom-control-label" for="Politics">Politics</label>
+        </div>
+        </div>
+
+
+
+        <button type="submit" class="btn col-sm-12 col-md-3 mt-3" name="updateAccount">Update Account</button>
+
+      </form>
+</div>
     </div>
     <!-- links tab -->
     <div class="tab-pane fade" id="links" role="tabpanel">
       <div class="mt-3">
+      <!--
         <button class="btn border d-block my-4 w-50 text-light" style="background-color: #1da1f2;"><i class="icon ion-logo-twitter"></i> Connect to Twitter</button>
         <button class="btn border d-block my-4 w-50 text-white" style="background-color: #3b5998;"><i class="icon ion-logo-facebook"></i> Connect to Facebook</button>
         <button class="btn border d-block my-4 w-50 text-white" style="background-color: #c13584;"><i class="icon ion-logo-instagram"></i> Connect to Instagram</button>
         <button class="btn border d-block my-4 w-50 text-white" style="background-color: #0077b5;"><i class="icon ion-logo-linkedin"></i> Connect to LinkedIn</button>
+      -->
       </div>
   </div>
   <!-- security tab -->
@@ -134,10 +216,38 @@ $location= 'settings';
 <!-- convert to markdown script ends -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+const link = "@if($isLocal){{ url($user->username.'/account_settings')  }}@else{{ secure_url($user->username.'/account_settings')  }}@endif"
+
+document.querySelector('button[name="updateAccount"]').addEventListener('click',function (event){
+  event.preventDefault();
+  const formData = document.AccountForm;
+ var myform = $(formData).serialize();
+//console.log(myform);
+
+  j.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': j('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+  j.ajax({
+        type: "POST",
+        url : link,
+        data:myform,
+        beforeSend:function(){
+          document.querySelector('button[name="updateAccount"]').innerHTML = 'Saving changes...';
+        },
+        success : function (response) {
+          document.querySelector('button[name="updateAccount"]').innerHTML = 'Update Account';
+        }
+      });
+    });
+</script>
 @if($isLocal)
-<script src="{{ secure_asset('js/settings.js') }}"></script>
-@else
 <script src="{{ asset('js/settings.js') }}"></script>
+@else
+<script src="{{ secure_asset('js/settings.js') }}"></script>
 @endif
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 

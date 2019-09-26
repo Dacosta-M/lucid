@@ -47,4 +47,7 @@ return [
         'redirect'      => env('GOOGLE_URL'),
     ],
 
+    'telex' => [
+        'organization_key' => env('TELEX_ORGANIZATION_KEY')
+    ]
 ];

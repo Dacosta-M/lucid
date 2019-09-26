@@ -5,9 +5,11 @@ namespace Lucid;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Lucid\Auth\Traits\MagicallyAuthenticatable;
+
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,MagicallyAuthenticatable;
 
     /**
      * The attributes that are mass assignable.

@@ -3132,7 +3132,7 @@ input[type=submit].btn-block {
     width: 0;
     height: 0;
     margin-left: .255em;
-    vertical-align: .255em;
+    : .255em;
     content: "";
     border-top: .3em solid;
     border-right: .3em solid transparent;
@@ -3181,7 +3181,7 @@ input[type=submit].btn-block {
     width: 0;
     height: 0;
     margin-left: .255em;
-    vertical-align: .255em;
+    /* vertical-align: .255em; */
     content: "";
     border-top: 0;
     border-right: .3em solid transparent;
@@ -4964,6 +4964,7 @@ input[type=submit].btn-block {
     background-color: #e3342f;
     position: relative;
     left: -.5rem;
+
 }
 
 .badge-danger[href]:focus,
@@ -4995,6 +4996,19 @@ input[type=submit].btn-block {
     color: #fff;
     text-decoration: none;
     background-color: #1d2124
+}
+.highlight {
+    position: absolute !important;
+    background-color: #c51f1a !important;
+    width: 10px !important;
+    height: 10px !important;
+    left: 47%;
+    top: 40%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 .jumbotron {
@@ -7727,6 +7741,10 @@ button.bg-dark:hover {
     margin-left: 3rem !important
 }
 
+. {
+    margin-top: 3rem
+}
+
 .p-0 {
     padding: 0 !important
 }
@@ -8352,6 +8370,10 @@ button.bg-dark:hover {
     .ml-md-5,
     .mx-md-5 {
         margin-left: 3rem !important
+    }
+
+    .m-edit {
+        margin-top: 1rem
     }
 
     .p-md-0 {

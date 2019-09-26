@@ -18,16 +18,13 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('welcome');
 });
-Route::get('login', function () {
-    return view('auth/login');
-});
-Route::get('register', function () {
-    return view('auth/register');
-});
+Route::get('login',"pageController@loginPage");
+Route::get('register','pageController@registerPage');
+
 
 Route::prefix('explore')->group(function (){
-    Route::get('/','pageController@explorePage');
-    Route::get('/interest/{interest}','pageController@interest')->name('interest');
+    Route::get('/','ExploreController@explorePage');
+    Route::get('/interest/{interest}','ExploreController@interest')->name('interest');
 });
 Route::get('loader', function () {
     return view('preloader');
@@ -41,6 +38,7 @@ Route::get('feed/{username}','HomeController@checkfeed');
 Route::get('dropfeed','HomeController@dropfeed');
 Route::get('loadfeed/{username}','HomeController@loadfeed');
 Route::get('postFixer/','HomeController@postFixer');
+Route::get('commentFixer/','HomeController@postFixer');
 //Route::get('oldfeed','HomeController@old');
 //Route::get('newfeed','HomeController@new');
 
@@ -51,8 +49,8 @@ Route::get('microblog','HomeController@microblog');
 Route::post('save-post','HomeController@savePost');
 Route::post('save-subscription','pageController@saveSubscriptionEmail');
 
-Route::get('/category/{category}','pageController@postCategories');
-Route::get('/filter/{method}','pageController@filterPost');
+Route::get('/category/{category}','ExploreController@postCategories');
+Route::get('/filter/{method}','ExploreController@filterPost');
 
 Route::get('/sitemap_users.xml','pageController@sitemapUsers');
 Route::get('/sitemap_feeds.xml','pageController@sitemapFeeds');
@@ -63,46 +61,68 @@ Route::get('/sitemap.xml','pageController@sitemap');
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 Route::post('login', 'LoginController@do')->name('login');
+Route::post('/login/magic','Auth\MagicLinkLoginController@sendToken')->name('sendMagicLink');
+Route::get('/login/magic/{token}','Auth\MagicLinkLoginController@validateToken');
+// Route::get('/l/{hashtag}','PostController@test');
+
 
 Route::prefix('{username}')->group(function () {
 
     //get Request
+    Route::get('/','FeedsController@homePage');
+    Route::get('/home','FeedsController@homePage')->name('home');
     Route::get('/contact', 'pageController@contact');
-    Route::get('/post/{postTitle}','pageController@singlePostPage')->name('post');
-    Route::get('/post-data/{id}','pageController@getPostData');
-    Route::get('/','pageController@homePage');
-    Route::get('/home','pageController@homePage');
-    Route::get('/thoughts','pageController@thoughts');
     Route::get('/logout', "Auth\LoginController@logout");
-    Route::get('/posts','pageController@posts');
+
+    Route::get('check', 'FeedsController@ViewManager');
+
+    //Feeds Controller
+    Route::get('/post/{postTitle}','PostController@singlePostPage')->name('post');
+    Route::get('/update-post-status/{post_id}/{action}','PostController@updatePostStatus');
+    Route::get('/post-data/{id}','PostController@getPostData');
+    Route::get('/posts','PostController@posts');
+    Route::get('/thoughts','FeedsController@thoughts');
+
+    //Settings Controller
+    Route::get('/settings', 'UserAccountSettingsController@settings');
+
+    //follower contorller
+    //get
     Route::get('/subscribe','HomeController@subscribe');
-    Route::get('/settings', 'HomeController@settings');
-    Route::get('/followers','pageController@followers')->name("followers");
-    Route::get('/following','pageController@following')->name("following");
-    Route::get('/comments/{post_id}','pageController@comments')->name('comment');
-    Route::get('/notif','pageController@notification');
-    Route::get('/reply','pageController@reply');
+    Route::get('/followers','FollowController@followers')->name("followers");
+    Route::get('/following','FollowController@following')->name("following");
+    //post
+    Route::post('/addrss','ExtRssController@addRss');
+    Route::post('/extrss','ExtRssController@addExtRss');
+    Route::get('/deleteRss','ExtRssController@delete');
+    Route::post('/unfollow','ExtRssController@unfollow');
+
+    Route::get('/feeds','FeedsController@Feeds');
+    Route::get('/timeline-settings','FeedsController@Settings');
+
+    //Reaction Controller
     Route::get('/like','ReactionsController@like');
     Route::get('/love','ReactionsController@love');
-    Route::get('/feeds','pageController@Feeds');
-    Route::get('/update-post-status/{post_id}/{action}','HomeController@updatePostStatus');
+    Route::get('/reply','pageController@reply');
+    Route::get('/comments/{post_id}','pageController@comments')->name('comment');
+    Route::get('/notif','pageController@notification');
 
 
 
 
     //post Request
-    Route::post('/save-post','HomeController@savePost');
-    Route::post('/addrss','ExtRssController@addRss');
-    Route::post('/unfollow','ExtRssController@unfollow');
-    Route::post('/extrss','ExtRssController@addExtRss');
-    Route::post('/publish','HomeController@publish');
+    Route::post('/save-post','PostController@saveThoughts')->middleware('auth');
+    Route::post('/publish','PostController@publish');
     Route::post('/send-mail','SendEmailController@sendEmail');
-    Route::post('/save_settings','HomeController@saveSettings');
+
+    Route::post('/save_settings','UserAccountSettingsController@saveSettings');
+    Route::post('/account_settings','UserAccountSettingsController@AccountSetting');
+
     Route::post('/update-contact-details','HomeController@updateContactDetails');
-    Route::post('/delete-post','HomeController@deletePost')->name('deletePost');
+    Route::post('/delete-post','PostController@deletePost')->name('deletePost')->middleware('auth');
     Route::post('/save-comment','HomeController@saveComment')->name('save-comment');
     Route::post('/notif','pageController@notification');
-    Route::post('/edit-post','HomeController@editPost');
+    Route::post('/edit-post','PostController@editPost')->middleware('auth');
 
 
 

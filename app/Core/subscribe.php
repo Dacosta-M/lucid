@@ -4,6 +4,8 @@ use Auth;
 use Storage;
 use Lucid\Following;
 use DB;
+use Lucid\ext_rss;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -106,17 +108,24 @@ public function extract($url)
 
   }
 
-  public function extractPub($url)
+  public function extractPub($request)
   {
+
     $rss = new \DOMDocument();
+    $url = $request->Addrss;
+    $tags = $request->tags;
 
-    //if (!$url = file_get_contents($url)) {
-    //  return false;
-      //  } else {
+    $chechurl =  @file_get_contents($url);
+   //Log::debug($chechurl);
+    // $headers = get_headers($url);
+    //
+    // $stat = substr($headers[0], 9, 3);
 
-          //$url = storage_path('app/'.$url."/rss/rss.xml");
+    if ($chechurl === false) {
+      return false;
+        }
+        else {
 
-        echo ($url);
         $rss->load(trim($url));
         foreach ($rss->getElementsByTagName('channel') as $r) {
           $title = $r->getElementsByTagName('title')->item(0)->nodeValue;
@@ -139,17 +148,20 @@ public function extract($url)
                 $this->setSubImg($image);
                 $this->setSubLink($link);
 
-                  $this->findOrCreateRss(
+          $data =   $this->findOrCreateExRss(
                     $this->name,
                     $url,
                     $this->desc,
                     $this->link,
                     $this->img,
+                    $tags,
                     $lastbuild
 
                   );
 
-              //  }
+          return $data;
+        }
+
     }
 
   public function findOrCreateRss($me, $them, $stat){
@@ -163,86 +175,37 @@ public function extract($url)
       ]);
 
   }
+  public function findOrCreateExRss($name, $url, $desc, $link, $img,$tags,$lastbuild){
+    $user = Auth::user();
+       $rss       =   ext_rss::where(['user_id' => $user['id'], 'title' => $name,'category' => $tags])->first();
+       if($rss){
+           return $rss;
+       }
+          $rss = ext_rss::insert([
+               'user_id'          => $user['id'],
+               'title'            => $name,
+               'url'              => $url,
+               'description'      => $desc,
+               'image'            => $img,
+               'link'             => $link,
+               'category'         => $tags,
+               'lastBuildDate'    => $lastbuild
+           ]);
+           if ($rss) {
+             $rss       =   ext_rss::where(['user_id' => $user['id'], 'title' => $name,'category' => $tags])->first();
+             return $rss;
+             }
+           else {
+             return false;
+           }
+   }
 
 
 
-  public function subc($url)
-  {
-    $rss = new \DOMDocument();
-
-
-        $rss->load(trim($url));
-        foreach ($rss->getElementsByTagName('channel') as $r) {
-          $title = $r->getElementsByTagName('title')->item(0)->nodeValue;
-          $link = $r->getElementsByTagName('link')->item(0)->nodeValue;
-          $description = $r->getElementsByTagName('description')->item(0)->nodeValue;
-          if (is_null($r->getElementsByTagName('image')->item(0)->nodeValue)) {
-          $image ="resources/themes/ghost/secure_asset/img/bubbles.png";
-        }else {
-          $image = $r->getElementsByTagName('url')->item(0)->nodeValue;
-
-        }
-
-        }
-
-
-                $db = "storage/rss/subscriber.json";
-
-                $file = FileSystem::read($db);
-                $data=json_decode($file, true);
-                unset($file);
-
-                if (count($data) >= 1) {
-
-                foreach ($data as $key => $value) {
-                   if ($value["name"] == $title) {
-
-                     $message= "false";
-
-                     break;
-                   }else {
-                     $message= "true";
-
-                   }
-
-
-                }
-                if ($message == "true") {
-
-                //  $db_json = file_get_contents("storage/rss/subscriber.json");
-
-                  $time = date("Y-m-d h:i:sa");
-                    $img = $image;
-                    $sub[] = array('name'=> $title, 'rss'=>$url,'desc'=>$description, 'link'=>$link, 'img'=> $image, 'time' => $time);
-
-                    $json_db = "storage/rss/subscriber.json";
-                    $file = file_get_contents($db);
-                    $prev_sub = json_decode($file);
-                    $new =array_merge($sub, $prev_sub);
-                    $new = json_encode($new);
-                    $doc = FileSystem::write($json_db, $new);
-  }
-                }else {
-                $time = date("Y-m-d h:i:sa");
-                $img = $image;
-                $sub[] = array('name'=> $title, 'rss'=>$url,'desc'=>$description, 'link'=>$link, 'img'=> $image, 'time' => $time);
-
-                $json_db = "storage/rss/subscriber.json";
-                $file = file_get_contents($db);
-                $prev_sub = json_decode($file);
-
-                $new = array_merge($sub, $prev_sub);
-                $new = json_encode($new);
-                $doc = FileSystem::write($json_db, $new);
-
-
-            }
-            //header("loaction: /subscriptions");
-    }
   public function unfollow($del)
   {
 $fuser= DB::table('users')->where('name', $del)->get('id')->first();
-
+dd($fuser);
 $user = Auth::user();
 
   $file= DB::table('following')->where('my_id', $user->id)->where('follower_id', $fuser->id)->delete();
@@ -307,34 +270,4 @@ $fuser = [];
 
 
   }
-  public function followerArray()
-  {
-    //$user= DB::table('users')->where('username', $value)->get();
-
-    $check = new Subscribe(Auth::user()->username);
-    //dd(Auth::user()->username);
-    $title = [];
-    if (!is_null($check->count())) {
-
-    foreach($check->count() as $key => $fuser){
-    //  dd($fuser);
-    array_push($title , $fuser);
-  }
-//dd($title );
-}
-return $title;
-
-  }
-  public function followCheck($value)
-  {
-$title = $this->followerArray();
-
-
-                      if (in_array($value, $title)) {
-                        $fcheck = "yes";
-                      }else {
-                        $fcheck = "no";
-                      }
-                    return $fcheck;
-    }
 }
