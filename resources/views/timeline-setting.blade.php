@@ -2,11 +2,12 @@
  <p><strong>Note!</strong> click <a href="{{url('/').'/'.$user->username.'/settings#account'}}">Here</a> to add more tabs to your timeline </p>
 <!-- Main Timeline Start -->
 <div class="mb-5">
-  <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#mainTimeline">
+  <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary mainTimeline" 
+  data-toggle="collapse" data-target="#mainTimeline" aria-expanded="false" style="cursor:pointer;">
     <p class="mb-0">Main Timeline</p>
-    <i class="fas fa-chevron-up"></i>
+    <i class="fas fa-chevron-up arrow"></i>
   </div>
-  <div id="mainTimeline" class="collapse in show pt-3">
+  <div id="mainTimeline" class="collapse in show pt-3 category">
     <div>
       <div class="row">
         @php $count = DB::table('following')->where('my_id', $user->id)->count();@endphp
@@ -74,14 +75,14 @@
   @forelse($tabs as $tab)
 <!-- {{$tab}} Timeline Start -->
 <div class="mb-5">
-  <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary" data-toggle="collapse" data-target="#{{$tab}}Timeline">
+  <div class="pb-2 px-2 d-flex justify-content-between text-secondary font-weight-bold border-bottom border-secondary {{$tab}}Timeline" data-toggle="collapse" data-target="#{{$tab}}Timeline" aria-expanded="false" style="cursor:pointer;">
     <p class="mb-0">{{$tab}} Timeline</p>
     <div>
       <i class="fas fa-trash text-danger mr-2"></i>
-      <i class="fas fa-chevron-down"></i>
+      <i class="fas fa-chevron-down arrow"></i>
     </div>
   </div>
-  <div id="{{$tab}}Timeline" class="collapse in pt-3">
+  <div id="{{$tab}}Timeline" class="collapse in pt-3 category">
     <div>
       <div>
         <div class="row">
@@ -166,3 +167,4 @@
 <!-- {{$tab}} Timeline Ends -->
   @endforelse
 @endif
+

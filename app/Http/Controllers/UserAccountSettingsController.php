@@ -194,8 +194,8 @@ class UserAccountSettingsController extends Controller
         ->where('user_id', Auth::user()->id)
         ->update([
           'tabs' => $tags,
-          'view' => $request->view,
-          'public_view' => $request->pubView
+          'view' => isset($request->view) && !empty($request->view)?$request->view:'Timeline',
+          'public_view' => isset($request->pubView) && !empty($request->pubView)?$request->pubView:'Home'
         ]);
       }
 

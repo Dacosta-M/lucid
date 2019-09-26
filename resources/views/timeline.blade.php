@@ -304,7 +304,7 @@ $location = 'timeline';
   </div>
 
 
-    @if(count($posts) > 0)
+    {{--@if(count($posts) > 0)--}}
     <div class="tab-pane show" role="tabpanel" id="timeline">
       <div class="row mt-5">
         <div class="col-md-12">
@@ -319,11 +319,10 @@ $location = 'timeline';
 </div>
 </div>
 </div>
-  @endif
-
-
-  <input type="hidden" value="{{ $user->username }}" id="username">
-
+ {{-- @endif
+--}}
+<input type="hidden" value="{{ $user->username }}" id="username">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
     function feeds() {
@@ -371,12 +370,35 @@ $location = 'timeline';
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
           document.getElementById("feeds").innerHTML = xmlhttp.responseText;
+          toggleDropDown();
         }
       };
       xmlhttp.open("GET", "/{{ $user->username }}/timeline-settings", true);
       xmlhttp.send();
 
     }
+
+
+    const toggleDropDown = ()=>{
+      const categories = document.querySelectorAll('.category');
+      
+      categories.forEach(category=>{
+        const categoryBtn = document.querySelector('.'+category.getAttribute('id')+' .arrow')
+          $('#'+category.getAttribute('id')).on('shown.bs.collapse', ()=> {
+            categoryBtn.classList.add('fa-chevron-up')
+            categoryBtn.classList.remove('fa-chevron-down')
+        });
+
+        $('#'+category.getAttribute('id')).on('hidden.bs.collapse', ()=> {
+            categoryBtn.classList.add('fa-chevron-down')
+            categoryBtn.classList.remove('fa-chevron-up')
+        });
+       
+      })
+    }
   </script>
+
+
+
 
   @endsection
