@@ -383,6 +383,14 @@ ul.footer-links li a {
     width: 100%;
 }
 
+/* emoji styling */
+.blog-content img[alt^=':'] {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    margin-top: -10px;
+}
+
 /* Styles to toggle sidebar on mobile */
 .active-sidebar {
     display: block !important;
